@@ -1,0 +1,12 @@
+@import 'reset';
+@import 'utilities';
+
+$brand: #9f3dff;
+
+:root {
+  --white: rgb(255, 255, 255);
+  --gray-100: rgb(240, 243, 246);
+  --gray-300: rgb(232, 233, 234);
+  --border: 1px solid var(--gray-300);
+  --brand: #{$brand};
+}

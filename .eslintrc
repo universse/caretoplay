@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "react/jsx-sort-props": [
+      "warn",
+      {
+        "ignoreCase": true,
+        "reservedFirst": true
+      }
+    ],
+    "react/no-unescaped-entities": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/sort-prop-types": [
+      "warn",
+      {
+        "ignoreCase": true,
+        "requiredFirst": true,
+        "sortShapeProp": true
+      }
+    ],
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useIsomorphicLayoutEffect)"
+      }
+    ]
+  }
+}
