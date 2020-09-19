@@ -89,7 +89,7 @@ export const questionsByStage: Record<Stage, StageData> = {
           'Financial concerns',
           'Causing worry to my family',
         ],
-        canEdit: true,
+        canEdit: false,
       },
       {
         question:
@@ -100,13 +100,13 @@ export const questionsByStage: Record<Stage, StageData> = {
           'Being able to talk',
           'Being able to bathe',
         ],
-        canEdit: true,
+        canEdit: false,
       },
       {
         question:
           'If Mary was hospitalized, the person that Mary trusts the most and can rely on to make decisions for her on her behalf is...',
         options: ['Mother', 'Father', 'Spouse', 'Sibling'],
-        canEdit: true,
+        canEdit: false,
       },
     ],
   },
