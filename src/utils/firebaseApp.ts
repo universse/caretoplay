@@ -18,11 +18,7 @@ function getFirebaseApp() {
   const database = firebase.database()
 
   function createNewQuiz() {
-    const quizKey = database.ref().child('quizzes').push().key
-    const quizRef = database.ref(`quizzes/${quizKey}`)
-    quizRef.set({ done: false })
-
-    return quizKey
+    return database.ref().child('quizzes').push().key
   }
 
   function subscribeToConnectionStatus(callback) {
@@ -42,7 +38,9 @@ function getFirebaseApp() {
       callback(snapshot.val())
     })
 
-    return () => quizRef.off()
+    return () => {
+      quizRef.off()
+    }
   }
 
   function saveQuizAnswer(quizKey, stage, questionIndex, answer) {

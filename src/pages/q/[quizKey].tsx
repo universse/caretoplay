@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { createMachine, assign, spawn } from 'xstate'
+import { createMachine, assign, spawn, forwardTo } from 'xstate'
 import { useMachine } from '@xstate/react'
 
 import Options, { optionsMachine, OptionsActor } from 'components/Options'
@@ -9,6 +9,7 @@ import { firebaseApp } from 'utils/firebaseApp'
 import { allStages, questionsByStage, Stage } from 'constants/quizzes'
 
 type Quiz = {
+  done: boolean
   resultByStage: Record<
     Stage,
     { answers: { choice: number; response: string }[] }
@@ -67,11 +68,19 @@ const spawnOptionsActor = assign({
   optionsService: () => spawn(optionsMachine),
 })
 
-function subscribeToQuiz(ctx: QuizMachineContext) {
-  return function (callback: any) {
-    return firebaseApp?.subscribeToQuiz(ctx.quizKey, (quiz: Quiz) => {
-      callback({ type: 'updateQuiz', data: quiz })
+function subscribeToQuiz() {
+  return function (callback: any, onReceive: any) {
+    let unsubscribe: (() => void) | undefined
+
+    onReceive(({ quizKey }) => {
+      unsubscribe = firebaseApp?.subscribeToQuiz(quizKey, (quiz: Quiz) => {
+        callback({ type: 'updateQuiz', data: quiz })
+      })
     })
+
+    return () => {
+      unsubscribe && unsubscribe()
+    }
   }
 }
 
@@ -156,133 +165,123 @@ const quizMachine = createMachine<
     currentQuestionIndex: -1,
     optionsService: null,
   },
+  on: {
+    setQuizKey: {
+      actions: [forwardTo('subscribeToQuiz'), assignQuizKey],
+    },
+    updateQuiz: { actions: [assignQuiz] },
+  },
+  invoke: {
+    id: 'subscribeToQuiz',
+    src: subscribeToQuiz,
+  },
   states: {
     waiting: {
       on: {
-        setQuizKey: {
-          actions: [assignQuizKey],
-          target: 'ready',
-        },
+        updateQuiz: [
+          {
+            cond: (_, e) => e.data?.done,
+            actions: [assignQuiz],
+            target: 'existingQuiz',
+          },
+          { actions: [assignQuiz], target: 'newQuiz' },
+        ],
       },
     },
-    ready: {
-      initial: 'loading',
-      invoke: {
-        id: 'subscribeToQuiz',
-        src: subscribeToQuiz,
-      },
-      on: {
-        updateQuiz: { actions: [assignQuiz] },
-      },
+    newQuiz: {
+      initial: 'loaded',
       states: {
-        loading: {
+        loaded: {
           on: {
-            updateQuiz: [
-              {
-                cond: (_, e) => e.data.done,
-                actions: [assignQuiz],
-                target: 'existingQuiz',
-              },
-              { actions: [assignQuiz], target: 'newQuiz' },
+            start: {
+              target: 'nextStage',
+            },
+          },
+        },
+        nextStage: {
+          entry: [nextStage],
+          on: {
+            next: {
+              target: 'nextQuiz',
+            },
+          },
+        },
+        nextQuiz: {
+          entry: [nextQuiz, spawnOptionsActor],
+          on: {
+            answer: {
+              target: 'saveQuizAnswer',
+            },
+          },
+        },
+        saveQuizAnswer: {
+          invoke: {
+            id: 'saveQuizAnswer',
+            src: saveQuizAnswer,
+            onDone: [
+              { cond: hasNextQuiz, target: 'nextQuiz' },
+              { cond: hasNextStage, target: 'nextStage' },
+              { target: 'finishing' },
+            ],
+            onError: [
+              { cond: hasNextQuiz, target: 'nextQuiz' },
+              { cond: hasNextStage, target: 'nextStage' },
+              { target: 'finishing' },
             ],
           },
         },
-        newQuiz: {
-          initial: 'loaded',
-          states: {
-            loaded: {
-              on: {
-                start: {
-                  target: 'nextStage',
-                },
-              },
-            },
-            nextStage: {
-              entry: [nextStage],
-              on: {
-                next: {
-                  target: 'nextQuiz',
-                },
-              },
-            },
-            nextQuiz: {
-              entry: [nextQuiz, spawnOptionsActor],
-              on: {
-                answer: {
-                  target: 'saveQuizAnswer',
-                },
-              },
-            },
-            saveQuizAnswer: {
-              invoke: {
-                id: 'saveQuizAnswer',
-                src: saveQuizAnswer,
-                onDone: [
-                  { cond: hasNextQuiz, target: 'nextQuiz' },
-                  { cond: hasNextStage, target: 'nextStage' },
-                  { target: 'finishing' },
-                ],
-                onError: [
-                  { cond: hasNextQuiz, target: 'nextQuiz' },
-                  { cond: hasNextStage, target: 'nextStage' },
-                  { target: 'finishing' },
-                ],
-              },
-            },
-            finishing: {
-              invoke: {
-                id: 'finishQuiz',
-                src: finishQuiz,
-                onDone: { target: 'finished' },
-                onError: {},
-              },
-            },
-            finished: {},
+        finishing: {
+          invoke: {
+            id: 'finishQuiz',
+            src: finishQuiz,
+            onDone: { target: 'finished' },
+            onError: {},
           },
         },
-        existingQuiz: {
-          initial: 'loaded',
-          states: {
-            loaded: {
-              on: {
-                start: { target: 'nextStage' },
-              },
-            },
-            nextStage: {
-              entry: [nextStage],
-              on: {
-                next: {
-                  target: 'nextQuiz',
-                },
-              },
-            },
-            nextQuiz: {
-              entry: [nextQuiz],
-              on: {
-                guess: [
-                  { cond: isGuessCorrect, target: 'revealed.right' },
-                  { cond: isGuessSurprise, target: 'revealed.surprise' },
-                  { target: 'revealed.wrong' },
-                ],
-              },
-            },
-            revealed: {
-              states: {
-                right: {},
-                wrong: {},
-                surprise: {},
-              },
-              on: {
-                next: [
-                  { cond: hasNextQuiz, target: 'nextQuiz' },
-                  { cond: hasNextStage, target: 'nextStage' },
-                  { target: 'finished' },
-                ],
-              },
-            },
-            finished: {},
+        finished: {},
+      },
+    },
+    existingQuiz: {
+      initial: 'loaded',
+      states: {
+        loaded: {
+          on: {
+            start: { target: 'nextStage' },
           },
         },
+        nextStage: {
+          entry: [nextStage],
+          on: {
+            next: {
+              target: 'nextQuiz',
+            },
+          },
+        },
+        nextQuiz: {
+          entry: [nextQuiz],
+          on: {
+            guess: [
+              { cond: isGuessCorrect, target: 'revealed.right' },
+              { cond: isGuessSurprise, target: 'revealed.surprise' },
+              { target: 'revealed.wrong' },
+            ],
+          },
+        },
+        revealed: {
+          states: {
+            right: {},
+            wrong: {},
+            surprise: {},
+          },
+          on: {
+            next: [
+              { cond: hasNextQuiz, target: 'nextQuiz' },
+              { cond: hasNextStage, target: 'nextStage' },
+              { target: 'finished' },
+            ],
+          },
+        },
+        finished: {},
       },
     },
   },
@@ -318,18 +317,22 @@ export default function QuizPage() {
     <div>
       {matches('waiting') ||
         (matches({ ready: 'loading' }) && <div>Loading...</div>)}
-      {matches('ready.newQuiz.loaded') && (
+      {matches('newQuiz.loaded') && (
         <div>
-          <button onClick={() => send('start')}>Start Quiz</button>
+          <button type='button' onClick={() => send('start')}>
+            Start Quiz
+          </button>
         </div>
       )}
-      {matches('ready.newQuiz.nextStage') && (
+      {matches('newQuiz.nextStage') && (
         <div>
           <div>Stage {currentStage}</div>
-          <button onClick={() => send('next')}>Next</button>
+          <button type='button' onClick={() => send('next')}>
+            Next
+          </button>
         </div>
       )}
-      {matches('ready.newQuiz.nextQuiz') && (
+      {matches('newQuiz.nextQuiz') && (
         <div>
           <div>
             {
@@ -347,32 +350,49 @@ export default function QuizPage() {
           )}
         </div>
       )}
-      {matches('ready.newQuiz.saveQuizAnswer') ||
-        (matches('ready.newQuiz.finishing') && (
+      {matches('newQuiz.saveQuizAnswer') ||
+        (matches('newQuiz.finishing') && (
           <div>
             <div>Saving...</div>
           </div>
         ))}
-      {matches('ready.newQuiz.finished') && (
+      {matches('newQuiz.finished') && (
         <div>
-          <div>Done. Now refresh the page.</div>
+          <div>Done. Share with your spouse.</div>
+          <button
+            type='button'
+            onClick={() =>
+              navigator.share
+                ? navigator.share({
+                    text: 'blah blah blah',
+                    url: window.location.href,
+                  })
+                : console.log(window.location.href)
+            }
+          >
+            Share
+          </button>
         </div>
       )}
-      {matches('ready.existingQuiz.loaded') && (
+      {matches('existingQuiz.loaded') && (
         <div>
           <div>How much you know your spouse?</div>
           <div>
-            <button onClick={() => send('start')}>Start Quiz</button>
+            <button type='button' onClick={() => send('start')}>
+              Start Quiz
+            </button>
           </div>
         </div>
       )}
-      {matches('ready.existingQuiz.nextStage') && (
+      {matches('existingQuiz.nextStage') && (
         <div>
           <div>Stage {currentStage}</div>
-          <button onClick={() => send('next')}>Next</button>
+          <button type='button' onClick={() => send('next')}>
+            Next
+          </button>
         </div>
       )}
-      {matches('ready.existingQuiz.nextQuiz') && (
+      {matches('existingQuiz.nextQuiz') && (
         <div>
           <div>
             {
@@ -384,20 +404,25 @@ export default function QuizPage() {
             currentQuestionIndex
           ].options.map((option, i) => (
             <div key={i}>
-              <button onClick={() => send({ type: 'guess', response: option })}>
+              <button
+                type='button'
+                onClick={() => send({ type: 'guess', response: option })}
+              >
                 {option}
               </button>
             </div>
           ))}
         </div>
       )}
-      {matches('ready.existingQuiz.revealed.right') && (
+      {matches('existingQuiz.revealed.right') && (
         <div>
           <div>Yay correct.</div>
-          <button onClick={() => send('next')}>Next</button>
+          <button type='button' onClick={() => send('next')}>
+            Next
+          </button>
         </div>
       )}
-      {matches('ready.existingQuiz.revealed.wrong') && (
+      {matches('existingQuiz.revealed.wrong') && (
         <div>
           <div>
             Oops. Answer was{' '}
@@ -406,10 +431,12 @@ export default function QuizPage() {
                 .response
             }
           </div>
-          <button onClick={() => send('next')}>Next</button>
+          <button type='button' onClick={() => send('next')}>
+            Next
+          </button>
         </div>
       )}
-      {matches('ready.existingQuiz.revealed.surprise') && (
+      {matches('existingQuiz.revealed.surprise') && (
         <div>
           <div>
             Surprise!!! Answer was{' '}
@@ -418,10 +445,12 @@ export default function QuizPage() {
                 .response
             }
           </div>
-          <button onClick={() => send('next')}>Next</button>
+          <button type='button' onClick={() => send('next')}>
+            Next
+          </button>
         </div>
       )}
-      {matches('ready.existingQuiz.finished') && (
+      {matches('existingQuiz.finished') && (
         <div>
           <div>Done. Here's your voucher.</div>
         </div>

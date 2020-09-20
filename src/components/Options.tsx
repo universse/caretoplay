@@ -111,6 +111,7 @@ export default function Options({
             />
           ) : (
             <button
+              type='button'
               disabled={matches('editing')}
               onClick={() =>
                 send({
@@ -125,6 +126,7 @@ export default function Options({
           {question.canEdit && matches('editing') && optionIndex === i && (
             <>
               <button
+                type='button'
                 onClick={() =>
                   send({
                     type: 'answer',
@@ -134,13 +136,17 @@ export default function Options({
               >
                 Confirm
               </button>
-              <button onClick={() => send({ type: 'cancelEdit' })}>
+              <button
+                type='button'
+                onClick={() => send({ type: 'cancelEdit' })}
+              >
                 Cancel
               </button>
             </>
           )}
           {question.canEdit && matches('idle') && (
             <button
+              type='button'
               onClick={() =>
                 send({ type: 'edit', optionIndex: i, optionValue: option })
               }
