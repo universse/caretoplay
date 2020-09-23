@@ -113,31 +113,11 @@ function isGuessCorrect(
   if (e.type !== 'guess') return false
 
   return (
-    e.response.toLowerCase() ===
+    e.guess.choice ===
     quiz?.resultByStage[allStages[currentStageIndex]].answers[
       currentQuestionIndex
-    ].response.toLowerCase()
+    ].choice
   )
-}
-
-function isGuessSurprise(
-  { quiz, currentStageIndex, currentQuestionIndex }: QuizMachineContext,
-  e: QuizMachineEvent
-) {
-  if (e.type !== 'guess') return false
-
-  const currentStage = allStages[currentStageIndex]
-
-  const options =
-    questionsByStage[currentStage].questions[currentQuestionIndex].options
-
-  const response = quiz?.resultByStage[currentStage].answers[
-    currentQuestionIndex
-  ].response.toLowerCase()
-
-  if (!response) return false
-
-  return !options.map((string) => string.toLowerCase()).includes(response)
 }
 
 function hasNextQuiz({
@@ -267,7 +247,6 @@ const quizMachine = createMachine<
           on: {
             guess: [
               { cond: isGuessCorrect, target: 'revealed.right' },
-              { cond: isGuessSurprise, target: 'revealed.surprise' },
               { target: 'revealed.wrong' },
             ],
           },
@@ -278,7 +257,6 @@ const quizMachine = createMachine<
               entry: [increaseScore],
             },
             wrong: {},
-            surprise: {},
           },
           on: {
             next: [
@@ -410,16 +388,27 @@ export default function QuizPage() {
           </div>
           {questionsByStage[currentStage].questions[
             currentQuestionIndex
-          ].options.map((option, i) => (
-            <div key={i}>
-              <button
-                type='button'
-                onClick={() => send({ type: 'guess', response: option })}
-              >
-                {option}
-              </button>
-            </div>
-          ))}
+          ].options.map((option, i) => {
+            const { choice, response } = quiz.resultByStage[
+              currentStage
+            ].answers[currentQuestionIndex]
+
+            return (
+              <div key={i}>
+                <button
+                  type='button'
+                  onClick={() =>
+                    send({
+                      type: 'guess',
+                      guess: { choice: i, response: option },
+                    })
+                  }
+                >
+                  {choice === i ? response : option}
+                </button>
+              </div>
+            )
+          })}
         </div>
       )}
       {matches('existingQuiz.revealed.right') && (
@@ -434,20 +423,6 @@ export default function QuizPage() {
         <div>
           <div>
             Oops. Answer was{' '}
-            {
-              quiz.resultByStage[currentStage].answers[currentQuestionIndex]
-                .response
-            }
-          </div>
-          <button type='button' onClick={() => send('next')}>
-            Next
-          </button>
-        </div>
-      )}
-      {matches('existingQuiz.revealed.surprise') && (
-        <div>
-          <div>
-            Surprise!!! Answer was{' '}
             {
               quiz.resultByStage[currentStage].answers[currentQuestionIndex]
                 .response
