@@ -68,6 +68,10 @@ const spawnOptionsActor = assign({
   optionsService: () => spawn(optionsMachine),
 })
 
+const increaseScore = assign({
+  score: (ctx) => ++ctx.score,
+})
+
 function subscribeToQuiz() {
   return function (callback: any, onReceive: any) {
     let unsubscribe: (() => void) | undefined
@@ -164,6 +168,7 @@ const quizMachine = createMachine<
     currentStageIndex: -1,
     currentQuestionIndex: -1,
     optionsService: null,
+    score: 0,
   },
   on: {
     setQuizKey: {
@@ -269,7 +274,9 @@ const quizMachine = createMachine<
         },
         revealed: {
           states: {
-            right: {},
+            right: {
+              entry: [increaseScore],
+            },
             wrong: {},
             surprise: {},
           },
@@ -300,6 +307,7 @@ export default function QuizPage() {
         currentStageIndex,
         currentQuestionIndex,
         optionsService,
+        score,
       },
     },
     send,
@@ -452,7 +460,13 @@ export default function QuizPage() {
       )}
       {matches('existingQuiz.finished') && (
         <div>
-          <div>Done. Here's your voucher.</div>
+          <div>
+            Done. Here's your voucher. Score {score} out of{' '}
+            {Object.values(questionsByStage).reduce(
+              (sum, { questions }) => sum + questions.length,
+              0
+            )}
+          </div>
         </div>
       )}
     </div>
