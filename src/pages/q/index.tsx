@@ -7,7 +7,7 @@ export default function NewQuizPage() {
   const router = useRouter()
 
   useEffect(() => {
-    const key = firebaseApp?.createNewQuiz()
+    const key = firebaseApp?.createQuizSet()
 
     router.replace('/q/[id]', `/q/${key}`)
   }, [router])

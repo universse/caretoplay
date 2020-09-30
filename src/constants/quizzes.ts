@@ -4,21 +4,21 @@ export enum Stage {
   CRITICAL = 'critical',
 }
 
-export type Question = {
+export type Quiz = {
   question: string
   options: string[]
   canEdit: boolean
 }
 
-type StageData = {
-  questions: Question[]
+export type StageData = {
+  quizzes: Quiz[]
 }
 
 export const allStages: Stage[] = [Stage.CASUAL, Stage.INTIMATE, Stage.CRITICAL]
 
-export const questionsByStage: Record<Stage, StageData> = {
+export const quizzesByStage: Record<Stage, StageData> = {
   casual: {
-    questions: [
+    quizzes: [
       {
         question: 'What brings joy in Mary’s life?',
         options: [
@@ -53,7 +53,7 @@ export const questionsByStage: Record<Stage, StageData> = {
     ],
   },
   intimate: {
-    questions: [
+    quizzes: [
       {
         question: 'If Mary had 24 hours left to live, what would she do?',
         options: [
@@ -68,7 +68,7 @@ export const questionsByStage: Record<Stage, StageData> = {
         question:
           'Would Mary rather die in 20 years with no regrets or die in 50 years with many regrets?',
         options: ['20 years with no regrets', '50 years with many regrets'],
-        canEdit: true,
+        canEdit: false,
       },
       {
         question:
@@ -79,7 +79,7 @@ export const questionsByStage: Record<Stage, StageData> = {
     ],
   },
   critical: {
-    questions: [
+    quizzes: [
       {
         question:
           "What if Mary found out she has a bad illness & has 1 month to live. What's her biggest fear?",
@@ -106,7 +106,7 @@ export const questionsByStage: Record<Stage, StageData> = {
         question:
           'If Mary was hospitalized, the person that Mary trusts the most and can rely on to make decisions for her on her behalf is...',
         options: ['Mother', 'Father', 'Spouse', 'Sibling'],
-        canEdit: false,
+        canEdit: true,
       },
     ],
   },

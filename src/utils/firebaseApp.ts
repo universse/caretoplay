@@ -17,8 +17,8 @@ function getFirebaseApp() {
 
   const database = firebase.database()
 
-  function createNewQuiz() {
-    return database.ref().child('quizzes').push().key
+  function createQuizSet() {
+    return database.ref().child('quizSets').push().key
   }
 
   function subscribeToConnectionStatus(callback) {
@@ -31,8 +31,8 @@ function getFirebaseApp() {
     return connectedRef.off()
   }
 
-  function subscribeToQuiz(quizKey, callback) {
-    const quizRef = database.ref(`quizzes/${quizKey}`)
+  function subscribeToQuizSet(quizSetKey, callback) {
+    const quizRef = database.ref(`quizSets/${quizSetKey}`)
 
     quizRef.on('value', function (snapshot) {
       callback(snapshot.val())
@@ -43,22 +43,24 @@ function getFirebaseApp() {
     }
   }
 
-  function saveQuizAnswer(quizKey, stage, questionIndex, answer) {
+  function saveQuiz(quizSetKey, stage, quizIndex, options, choice) {
     return database
-      .ref(`quizzes/${quizKey}/resultByStage/${stage}/answers/${questionIndex}`)
-      .set(answer)
+      .ref(
+        `quizSets/${quizSetKey}/editedQuizzesByStage/${stage}/quizzes/${quizIndex}`
+      )
+      .set({ options, choice })
   }
 
-  function finishQuiz(quizKey) {
-    return database.ref(`quizzes/${quizKey}/done`).set(true)
+  function finishQuizSet(quizSetKey) {
+    return database.ref(`quizSets/${quizSetKey}/done`).set(true)
   }
 
   return {
     subscribeToConnectionStatus,
-    createNewQuiz,
-    subscribeToQuiz,
-    saveQuizAnswer,
-    finishQuiz,
+    createQuizSet,
+    subscribeToQuizSet,
+    saveQuiz,
+    finishQuizSet,
   }
 }
 
