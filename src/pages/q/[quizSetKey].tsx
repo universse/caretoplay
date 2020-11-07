@@ -9,7 +9,12 @@ import ExistingQuizSet, {
   existingQuizSetMachine,
 } from 'components/ExistingQuizSet'
 import { firebaseApp } from 'utils/firebaseApp'
-import { CREATED_URL_PARAM, EMPTY_QUIZ_SET, STORAGE_KEY } from 'utils/quizUtils'
+import {
+  CREATED_URL_PARAM,
+  PERSISTED_URL_PARAM,
+  EMPTY_QUIZ_SET,
+  STORAGE_KEY,
+} from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
 
 type QuizMachineContext = {
@@ -54,9 +59,15 @@ type QuizMachineState =
 
 const assignQuizSetKey = assign({ quizSetKey: (_, e) => e.quizSetKey })
 
+const assignPersistedQuizSetKey = assign({
+  quizSetKey: (_, e) => e.data,
+})
+
 const assignQuizSet = assign({
   quizSet: ({ quizSet }, e) => ({ ...quizSet, ...e.data }),
 })
+
+const assignEmptyQuizSet = assign({ quizSet: { ...EMPTY_QUIZ_SET } })
 
 const spawnNewQuizSetService = assign({
   newQuizSetService: ({
@@ -96,6 +107,14 @@ function createQuizSet() {
   return firebaseApp?.createQuizSet()
 }
 
+function isNewlyCreatedQuizSet(_, e) {
+  return e[CREATED_URL_PARAM]
+}
+
+function isPersistedQuizSet(_, e) {
+  return e[PERSISTED_URL_PARAM]
+}
+
 function isNewQuizSet(_, e) {
   return e.data?.status === 'new'
 }
@@ -131,9 +150,14 @@ const quizSetMachine = createMachine<
           on: {
             setQuizSetKey: [
               {
-                cond: (_, e) => e[CREATED_URL_PARAM],
+                cond: isNewlyCreatedQuizSet,
                 actions: [assignQuizSetKey],
                 target: '#quizSet.newQuizSet',
+              },
+              {
+                cond: isPersistedQuizSet,
+                actions: [assignQuizSetKey],
+                target: 'fetchingPersistedQuizSet',
               },
               {
                 actions: [assignQuizSetKey],
@@ -178,12 +202,7 @@ const quizSetMachine = createMachine<
             id: 'createQuizSet',
             src: createQuizSet,
             onDone: {
-              actions: [
-                'redirectToNewQuizSet',
-                assign({
-                  quizSetKey: (_, e) => e.data,
-                }),
-              ],
+              actions: ['redirectToNewQuizSet', assignPersistedQuizSetKey],
               target: '#quizSet.newQuizSet',
             },
             onError: {},
@@ -195,7 +214,7 @@ const quizSetMachine = createMachine<
               target: '#quizSet.newQuizSet',
             },
             createNew: {
-              actions: [assign({ quizSet: { ...EMPTY_QUIZ_SET } })],
+              actions: [assignEmptyQuizSet],
               target: 'creatingQuizSet',
             },
           },
@@ -224,8 +243,7 @@ export default function QuizPage(): JSX.Element {
   ] = useMachine(
     quizSetMachine.withConfig({
       actions: {
-        redirectToNewQuizSet: (_, { data }) =>
-          replace(`/q/${data}`, `/q/${data}`),
+        redirectToNewQuizSet: (_, { data }) => replace(`/q/${data}`),
       },
     })
   )
@@ -238,14 +256,25 @@ export default function QuizPage(): JSX.Element {
         type: 'setQuizSetKey',
         quizSetKey,
         [CREATED_URL_PARAM]: !!query[CREATED_URL_PARAM],
+        [PERSISTED_URL_PARAM]: !!query[PERSISTED_URL_PARAM],
       })
 
     window.xsend = send
   }, [query, send])
-
+  console.log(value)
   return (
     <div>
       {matches('loading') && <div>Loading...</div>}
+      {matches({ loading: 'confirmContinue' }) && (
+        <div>
+          <button onClick={() => send('continue')} type='button'>
+            Continue
+          </button>
+          <button onClick={() => send('createNew')} type='button'>
+            Create new
+          </button>
+        </div>
+      )}
       {matches('newQuizSet') && (
         <NewQuizSet newQuizSetService={newQuizSetService} />
       )}

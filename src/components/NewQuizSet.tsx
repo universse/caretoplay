@@ -1,4 +1,4 @@
-import { createMachine, assign, spawn, forwardTo } from 'xstate'
+import { createMachine, assign, spawn } from 'xstate'
 import { useService } from '@xstate/react'
 import { set, del } from 'idb-keyval'
 
@@ -34,18 +34,18 @@ const spawnQuizInputService = assign({
     if (quizInputServices[currentQuizIndex]) return quizInputServices
 
     const quiz = quizzes[QUIZ_VERSION][currentQuizIndex]
+    const savedQuiz = quizSet?.quizzes?.[currentQuizIndex]
 
     return [
       ...quizInputServices,
       spawn(
         quizInputMachine.withContext({
           ...quizInputMachine.context,
-          choice: quizSet?.quizzes?.[currentQuizIndex]?.choice ?? -1,
+          choice: savedQuiz?.choice ?? -1,
           quiz: {
             ...quiz,
             options: quiz.options.map(
-              (option, i) =>
-                quizSet?.quizzes?.[currentQuizIndex]?.options[i] || option
+              (option, i) => savedQuiz?.options[i] || option
             ),
           },
         })
@@ -54,7 +54,7 @@ const spawnQuizInputService = assign({
   },
 })
 
-function saveQuizSetLocally({ currentQuizIndex, quizSetKey, quizSet }) {
+function persistQuizSet({ currentQuizIndex, quizSetKey, quizSet }) {
   function persist(quizSet) {
     set(STORAGE_KEY, quizSet)
   }
@@ -97,7 +97,7 @@ export const newQuizSetMachine = createMachine({
             next: [
               {
                 cond: (ctx) => !!ctx.quizSet.name.trim(),
-                actions: [saveQuizSetLocally],
+                actions: [persistQuizSet],
                 target: '#newQuizSet.showingStage',
               },
               { target: 'error' },
@@ -131,16 +131,16 @@ export const newQuizSetMachine = createMachine({
         answer: [
           {
             cond: shouldShowStage,
-            actions: [assignQuizInput, saveQuizSetLocally],
+            actions: [assignQuizInput, persistQuizSet],
             target: 'showingStage',
           },
           {
             cond: hasNextQuiz,
-            actions: [assignQuizInput, saveQuizSetLocally, nextQuiz],
+            actions: [assignQuizInput, persistQuizSet, nextQuiz],
             target: 'showingQuiz',
           },
           {
-            actions: [assignQuizInput, saveQuizSetLocally],
+            actions: [assignQuizInput, persistQuizSet],
             target: 'done',
           },
         ],

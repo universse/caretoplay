@@ -1,4 +1,4 @@
-import { createMachine, assign, spawn, forwardTo } from 'xstate'
+import { createMachine, assign, spawn } from 'xstate'
 import { useService } from '@xstate/react'
 
 import QuizGuess, {

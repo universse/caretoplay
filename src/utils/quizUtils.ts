@@ -4,7 +4,8 @@ import { produce } from 'immer'
 import { quizzes, QUIZ_VERSION } from 'constants/quizzes'
 import { QuizSet, QuizVersion } from 'interfaces/shared'
 
-export const CREATED_URL_PARAM = 'isNewQuiz'
+export const CREATED_URL_PARAM = 'isNew'
+export const PERSISTED_URL_PARAM = 'isPersisted'
 export const STAGE_TRANSITION_DURATION = 1000
 export const STORAGE_KEY = 'ctp'
 export const EMPTY_QUIZ_SET: QuizSet = {
