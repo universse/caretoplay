@@ -1,110 +1,129 @@
 import { createMachine, assign, sendParent, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
 
-import { Quiz } from 'constants/quizzes'
+import { Quiz } from 'interfaces/shared'
 
-type QuizMachineContext = {
+type QuizInputMachineContext = {
+  choice: number
   optionIndexToEdit: number
-  draftOptionValue: string
+  draftResponse: string
   quiz: Quiz
 }
 
-type QuizMachineEvent =
-  | { type: 'edit'; optionIndexToEdit: number; draftOptionValue: string }
-  | { type: 'input'; value: string }
-  | { type: 'confirm' }
-  | { type: 'cancel' }
-  | {
-      type: 'answer'
-      choice: number
-    }
+type QuizInputMachineEvent =
+  | { type: 'edit'; optionIndexToEdit: number; draftResponse: string }
+  | { type: 'select'; choice: number }
+  | { type: 'changeResponse'; value: string }
+  | { type: 'confirmResponseChange' }
+  | { type: 'cancelResponseChange' }
+  | { type: 'answer' }
 
-type QuizMachineState = {
+type QuizInputMachineState = {
   value:
-    | 'waiting'
-    | { ready: 'loading' }
-    | { ready: 'newQuiz' }
-    | { ready: 'existingQuiz' }
-  context: QuizMachineContext
+    | 'idle'
+    | 'error'
+    | 'editing'
+    | { editing: 'inputing' }
+    | { editing: 'error' }
+  context: QuizInputMachineContext
 }
+
+export type QuizInputService = Interpreter<
+  QuizInputMachineContext,
+  any,
+  QuizInputMachineEvent,
+  QuizInputMachineState
+>
 
 const setOptionToEdit = assign({
   optionIndexToEdit: (_, e) => e.optionIndexToEdit,
-  draftOptionValue: (_, e) => e.draftOptionValue,
+  draftResponse: (_, e) => e.draftResponse,
 })
 
-const inputNewResponse = assign({ draftOptionValue: (_, e) => e.value })
+const assignDraftResponse = assign({ draftResponse: (_, e) => e.value })
 
 const saveOption = assign({
-  quiz: ({ optionIndexToEdit, draftOptionValue, quiz }) => ({
+  quiz: ({ optionIndexToEdit, draftResponse, quiz }) => ({
     ...quiz,
     options: quiz.options.map((option, i) =>
-      i === optionIndexToEdit ? draftOptionValue.trim() : option
+      i === optionIndexToEdit ? draftResponse.trim() : option
     ),
   }),
 })
 
-const clearEdit = assign({ optionIndexToEdit: -1, draftOptionValue: '' })
+const clearEdit = assign({ optionIndexToEdit: -1, draftResponse: '' })
 
-const sendEditedQuizToParent = sendParent(
-  ({ quiz: { options } }, { choice }) => ({
-    type: 'answer',
-    options,
-    choice,
-  })
-)
+const answerQuiz = sendParent(({ choice, quiz: { options } }) => ({
+  type: 'answer',
+  options,
+  choice,
+}))
 
-export const quizMachine = createMachine<
-  QuizMachineContext,
-  QuizMachineEvent,
-  QuizMachineState
+const selectOption = assign({
+  choice: (_, { choice }) => choice,
+})
+
+export const quizInputMachine = createMachine<
+  QuizInputMachineContext,
+  QuizInputMachineEvent,
+  QuizInputMachineState
 >({
   id: 'quiz',
   initial: 'idle',
   context: {
+    choice: -1,
     optionIndexToEdit: -1,
-    draftOptionValue: '',
-    quiz: null,
+    draftResponse: '',
+    quiz: {},
   },
   states: {
     idle: {
       on: {
-        answer: { actions: [sendEditedQuizToParent] },
         edit: {
           actions: [setOptionToEdit],
           target: 'editing',
         },
+        select: { actions: [selectOption] },
+        answer: [
+          { cond: (ctx) => ctx.choice === -1, target: 'error' },
+          { actions: [answerQuiz] },
+        ],
+      },
+    },
+    error: {
+      on: {
+        select: { actions: [selectOption], target: 'idle' },
       },
     },
     editing: {
-      initial: 'default',
+      initial: 'inputing',
       states: {
-        default: {
+        inputing: {
           on: {
-            confirm: [
+            confirmResponseChange: [
               {
-                cond: ({ draftOptionValue }) => !!draftOptionValue.trim(),
+                cond: ({ draftResponse }) => !!draftResponse.trim(),
                 actions: [saveOption, clearEdit],
                 target: '#quiz.idle',
               },
               { target: 'error' },
             ],
-            input: {
-              actions: [inputNewResponse],
+            changeResponse: {
+              actions: [assignDraftResponse],
             },
           },
         },
         error: {
           on: {
-            input: {
-              actions: [inputNewResponse],
-              target: 'default',
+            changeResponse: {
+              actions: [assignDraftResponse],
+              target: 'inputing',
             },
           },
         },
       },
       on: {
-        cancel: {
+        cancelResponseChange: {
           actions: [clearEdit],
           target: 'idle',
         },
@@ -113,66 +132,78 @@ export const quizMachine = createMachine<
   },
 })
 
-export type QuizActor = Interpreter<
-  QuizMachineContext,
-  any,
-  QuizMachineEvent,
-  QuizMachineState
->
-
-export default function QuizInput({ quizService }: { quizService: QuizActor }) {
+export default function QuizInput({
+  quizInputService,
+}: {
+  quizInputService: QuizInputService
+}): JSX.Element {
   const [
     {
       matches,
-      context: { optionIndexToEdit, draftOptionValue, quiz },
+      context: { choice, optionIndexToEdit, draftResponse, quiz },
+      value,
     },
     send,
-  ] = useService(quizService)
+  ] = useService(quizInputService)
 
   return (
     <div>
-      <div>{quiz.question}</div>
       {quiz.options.map((option, i) => (
         <div key={i}>
           {matches('editing') && optionIndexToEdit === i ? (
             <>
               <input
-                onChange={(e) => send({ type: 'input', value: e.target.value })}
+                onChange={(e) =>
+                  send({ type: 'changeResponse', value: e.target.value })
+                }
                 type='text'
-                value={draftOptionValue}
+                value={draftResponse}
               />
-              <button type='button' onClick={() => send({ type: 'confirm' })}>
+              <button
+                onClick={() => send({ type: 'confirmResponseChange' })}
+                type='button'
+              >
                 Confirm
               </button>
-              <button type='button' onClick={() => send({ type: 'cancel' })}>
+              <button
+                onClick={() => send({ type: 'cancelResponseChange' })}
+                type='button'
+              >
                 Cancel
               </button>
             </>
           ) : (
             <button
-              type='button'
               disabled={matches('editing')}
-              onClick={() => send({ type: 'answer', choice: i })}
+              onClick={() => send({ type: 'select', choice: i })}
+              type='button'
             >
               {option}
             </button>
           )}
-          {quiz.canEdit && matches('idle') && (
+          {quiz.canEdit && !matches('editing') && (
             <button
-              type='button'
               onClick={() =>
                 send({
                   type: 'edit',
                   optionIndexToEdit: i,
-                  draftOptionValue: option,
+                  draftResponse: option,
                 })
               }
+              type='button'
             >
               Edit
             </button>
           )}
         </div>
       ))}
+      <button
+        disabled={!matches('idle') || choice === -1}
+        onClick={() => send({ type: 'answer' })}
+        type='button'
+      >
+        Confirm
+      </button>
     </div>
   )
 }

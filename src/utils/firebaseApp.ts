@@ -1,25 +1,16 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
+import { customAlphabet } from 'nanoid'
+
+const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
 // import 'firebase/auth'
 
 function getFirebaseApp() {
   if (typeof window === 'undefined') return
 
-  firebase.initializeApp({
-    apiKey: 'AIzaSyA5IyuJVWP7hBhaZUHuMPbPUXJdWM_SuaA',
-    authDomain: 'caretoplay-dev.firebaseapp.com',
-    databaseURL: 'https://caretoplay-dev.firebaseio.com',
-    projectId: 'caretoplay-dev',
-    storageBucket: 'caretoplay-dev.appspot.com',
-    messagingSenderId: '200941179102',
-    appId: '1:200941179102:web:3c4dbdfb540a21f32af24f',
-  })
+  firebase.initializeApp(JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_PROJECT))
 
   const database = firebase.database()
-
-  function createQuizSet() {
-    return database.ref().child('quizSets').push().key
-  }
 
   function subscribeToConnectionStatus(callback) {
     const connectedRef = database.ref('.info/connected')
@@ -31,36 +22,27 @@ function getFirebaseApp() {
     return connectedRef.off()
   }
 
-  function subscribeToQuizSet(quizSetKey, callback) {
-    const quizRef = database.ref(`quizSets/${quizSetKey}`)
-
-    quizRef.on('value', function (snapshot) {
-      callback(snapshot.val())
-    })
-
-    return () => {
-      quizRef.off()
-    }
-  }
-
-  function saveQuiz(quizSetKey, stage, quizIndex, options, choice) {
+  function fetchQuizSet(quizSetKey) {
     return database
-      .ref(
-        `quizSets/${quizSetKey}/editedQuizzesByStage/${stage}/quizzes/${quizIndex}`
-      )
-      .set({ options, choice })
+      .ref(`quizSets/${quizSetKey}`)
+      .once('value')
+      .then((snapshot) => snapshot.val())
   }
 
-  function finishQuizSet(quizSetKey) {
-    return database.ref(`quizSets/${quizSetKey}/done`).set(true)
+  function saveQuizSetData(quizSetKey, quizSetData) {
+    return database.ref(`quizSets/${quizSetKey}`).set(quizSetData)
+  }
+
+  function createQuizSet() {
+    const quizSetKey = nanoid()
+    return saveQuizSetData(quizSetKey, { status: 'new' }).then(() => quizSetKey)
   }
 
   return {
     subscribeToConnectionStatus,
     createQuizSet,
-    subscribeToQuizSet,
-    saveQuiz,
-    finishQuizSet,
+    fetchQuizSet,
+    saveQuizSetData,
   }
 }
 

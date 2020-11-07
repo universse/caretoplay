@@ -1,4 +1,4 @@
-function copyToClipboard(str) {
+export function copyToClipboard(str) {
   const el = document.createElement('textarea')
 
   el.value = str
@@ -27,3 +27,36 @@ function copyToClipboard(str) {
 //   copyToClipboard(window.location.href)
 //   e.currentTarget.focus()
 // })
+
+export function socialShare(data) {
+  return new Promise((resolve, reject) => {
+    if (navigator.share) {
+      navigator
+        .share(data)
+        .then(resolve)
+        .catch((error) => {
+          // Differentiate between user 'AbortError' and internal errors.
+          // E.g. Internal error: could not connect to Web Share interface.
+          if (error.message.startsWith('Internal error:'))
+            error.name = 'InternalError'
+
+          reject(error)
+        })
+
+      const cancel = () =>
+        setTimeout(() => {
+          window.removeEventListener('focus', cancel)
+
+          const error = new Error('Share cancelled')
+          error.name = 'ShareTimeout'
+          reject(error)
+        }, 100)
+
+      window.addEventListener('focus', cancel)
+    } else {
+      const error = new Error('Unsupported')
+      error.name = 'Unsupported'
+      reject(error)
+    }
+  })
+}

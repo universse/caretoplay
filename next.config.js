@@ -1,4 +1,6 @@
-module.exports = {
+const withPreact = require('next-plugin-preact')
+
+module.exports = withPreact({
   poweredByHeader: false,
   typescript: {
     ignoreBuildErrors: true,
@@ -26,4 +28,4 @@ module.exports = {
 
     return config
   },
-}
+})

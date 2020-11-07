@@ -2,14 +2,17 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { firebaseApp } from 'utils/firebaseApp'
+import { CREATED_URL_PARAM } from 'utils/quizUtils'
 
-export default function NewQuizPage() {
+export default function NewQuizSetPage() {
   const router = useRouter()
 
   useEffect(() => {
-    const key = firebaseApp?.createQuizSet()
-
-    router.replace('/q/[id]', `/q/${key}`)
+    firebaseApp
+      ?.createQuizSet()
+      .then((key) =>
+        router.replace(`/q/${key}?${CREATED_URL_PARAM}=true`, `/q/${key}`)
+      )
   }, [router])
 
   return null

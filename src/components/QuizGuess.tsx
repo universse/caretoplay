@@ -1,163 +1,129 @@
 import { createMachine, assign, sendParent, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
 
-import { Quiz } from 'constants/quizzes'
+import { Quiz } from 'interfaces/shared'
 
-type QuizMachineContext = {
-  optionIndexToEdit: number
-  draftOptionValue: string
+type QuizGuessMachineContext = {
+  choice: number
   quiz: Quiz
 }
 
-type QuizMachineEvent =
-  | { type: 'edit'; optionIndexToEdit: number; draftOptionValue: string }
-  | { type: 'input'; value: string }
-  | { type: 'save' }
-  | { type: 'cancel' }
-  | {
-      type: 'answer'
-      choice: number
-    }
+type QuizGuessMachineEvent =
+  | { type: 'select'; choice: number }
+  | { type: 'next' }
+  | { type: 'guess' }
 
-type QuizMachineState = {
-  value:
-    | 'waiting'
-    | { ready: 'loading' }
-    | { ready: 'newQuiz' }
-    | { ready: 'existingQuiz' }
-  context: QuizMachineContext
+type QuizGuessMachineState = {
+  value: 'idle' | 'revealed' | { revealed: 'right' | 'wrong' }
+  context: QuizGuessMachineContext
 }
 
-const setOptionToEdit = assign({
-  optionIndexToEdit: (_, e) => e.optionIndexToEdit,
-  draftOptionValue: (_, e) => e.draftOptionValue,
+export type QuizGuessService = Interpreter<
+  QuizGuessMachineContext,
+  any,
+  QuizGuessMachineEvent,
+  QuizGuessMachineState
+>
+
+const assignOption = assign({
+  choice: (_, e) => e.choice,
 })
 
-const inputNewResponse = assign({ draftOptionValue: (_, e) => e.value })
+const nextQuiz = sendParent({ type: 'next' })
 
-const saveOption = assign({
-  quiz: ({ optionIndexToEdit, draftOptionValue, quiz }) => ({
-    ...quiz,
-    options: quiz.options.map((option, i) =>
-      i === optionIndexToEdit ? draftOptionValue : option
-    ),
-  }),
-})
+function isGuessCorrect({ choice, quiz }, e) {
+  return choice === quiz.choice
+}
 
-const clearEdit = assign({ optionIndexToEdit: -1, draftOptionValue: '' })
-
-const sendEditedQuizToParent = sendParent(
-  ({ quiz: { options } }, { choice }) => ({
-    type: 'answer',
-    options,
-    choice,
-  })
-)
-
-export const quizMachine = createMachine<
-  QuizMachineContext,
-  QuizMachineEvent,
-  QuizMachineState
+export const quizGuessMachine = createMachine<
+  QuizGuessMachineContext,
+  QuizGuessMachineEvent,
+  QuizGuessMachineState
 >({
   id: 'quiz',
   initial: 'idle',
-  context: {
-    optionIndexToEdit: -1,
-    draftOptionValue: '',
-    quiz: null,
-  },
+  context: { choice: -1 },
   states: {
     idle: {
       on: {
-        answer: { actions: [sendEditedQuizToParent] },
-        edit: {
-          actions: [setOptionToEdit],
-          target: 'editing',
-        },
+        select: { actions: [assignOption] },
+        guess: [
+          { cond: isGuessCorrect, target: 'revealed.right' },
+          { target: 'revealed.wrong' },
+        ],
       },
     },
-    editing: {
+    revealed: {
+      states: {
+        right: {},
+        wrong: {},
+      },
       on: {
-        input: {
-          actions: [inputNewResponse],
-        },
-        save: {
-          actions: [saveOption, clearEdit],
-          target: 'idle',
-        },
-        cancel: {
-          actions: [clearEdit],
-          target: 'idle',
+        next: {
+          actions: [nextQuiz],
         },
       },
     },
   },
 })
 
-export type QuizActor = Interpreter<
-  QuizMachineContext,
-  any,
-  QuizMachineEvent,
-  QuizMachineState
->
-
-export default function QuizInput({
-  questionService,
+export default function QuizGuess({
+  quizGuessService,
 }: {
-  questionService: QuizActor
-}) {
+  quizGuessService: QuizGuessService
+}): JSX.Element {
   const [
     {
       matches,
-      context: { optionIndexToEdit, draftOptionValue, quiz },
+      context: { choice, quiz },
+      value,
     },
     send,
-  ] = useService(questionService)
+  ] = useService(quizGuessService)
+
+  const isRevealed = matches('revealed')
+  const isWrong = matches({ revealed: 'wrong' })
 
   return (
     <div>
-      <div>{quiz.question}</div>
-      {quiz.options.map((option, i) => (
-        <div key={i}>
-          {matches('editing') && optionIndexToEdit === i ? (
-            <>
-              <input
-                onChange={(e) => send({ type: 'input', value: e.target.value })}
-                type='text'
-                value={draftOptionValue}
-              />
-              <button type='button' onClick={() => send({ type: 'save' })}>
-                Save
-              </button>
-              <button type='button' onClick={() => send({ type: 'cancel' })}>
-                Cancel
-              </button>
-            </>
-          ) : (
+      {quiz.options.map((option, i) => {
+        const isSelectedChoice = choice === i
+
+        const shouldShowCorrectGuess =
+          matches({ revealed: 'right' }) && isSelectedChoice
+        const shouldShowWrongGuess = isWrong && isSelectedChoice
+
+        const shouldShowCorrectChoice = isWrong && quiz.choice === i
+
+        return (
+          <div key={i}>
             <button
+              className={isSelectedChoice ? 'Selected' : ''}
+              disabled={isRevealed}
+              onClick={() => send({ type: 'select', choice: i })}
               type='button'
-              disabled={matches('editing')}
-              onClick={() => send({ type: 'answer', choice: i })}
             >
               {option}
             </button>
-          )}
-          {quiz.canEdit && matches('idle') && (
-            <button
-              type='button'
-              onClick={() =>
-                send({
-                  type: 'edit',
-                  optionIndexToEdit: i,
-                  draftOptionValue: option,
-                })
-              }
-            >
-              Edit
-            </button>
-          )}
-        </div>
-      ))}
+            {shouldShowCorrectGuess && <span>Right</span>}
+            {shouldShowWrongGuess && <span>Wrong</span>}
+            {shouldShowCorrectChoice && <span>- Answer</span>}
+          </div>
+        )
+      })}
+      {isRevealed ? (
+        <button onClick={() => send('next')} type='button'>
+          Next
+        </button>
+      ) : (
+        <button
+          disabled={choice === -1}
+          onClick={() => send('guess')}
+          type='button'
+        >
+          Confirm
+        </button>
+      )}
     </div>
   )
 }
