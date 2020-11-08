@@ -4,63 +4,53 @@ import { createMachine, assign, spawn } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { get } from 'idb-keyval'
 
-import NewQuizSet, { newQuizSetMachine } from 'components/NewQuizSet'
+import NewQuizSet, {
+  newQuizSetMachine,
+  NewQuizSetService,
+} from 'components/NewQuizSet'
 import ExistingQuizSet, {
   existingQuizSetMachine,
+  ExistingQuizSetService,
 } from 'components/ExistingQuizSet'
 import { firebaseApp } from 'utils/firebaseApp'
-import {
-  CREATED_URL_PARAM,
-  PERSISTED_URL_PARAM,
-  EMPTY_QUIZ_SET,
-  STORAGE_KEY,
-} from 'utils/quizUtils'
+import { EMPTY_QUIZ_SET, STORAGE_KEY, immerAssign } from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
 
-type QuizMachineContext = {
-  quizSetKey: string
+type QuizSetMachineContext = {
   quizSet: QuizSet
-  newQuizSetService?: number
-  existingQuizSetService?: number
+  newQuizSetService: NewQuizSetService | null
+  existingQuizSetService: ExistingQuizSetService | null
 }
 
-type QuizMachineEvent =
-  | { type: 'setQuizSetKey'; quizSetKey: string }
-  | { type: 'retry' }
-  | { type: 'next' }
-  | { type: 'back' }
-  | { type: 'edit'; optionIndex: number }
-  | { type: 'input'; value: string }
-  | { type: 'cancelEdit' }
+type QuizSetMachineEvent =
   | {
-      type: 'answer'
-      answer: {
-        choice: number
-        response: string
+      type: 'setQuizSetKey'
+      data: { quizSetKey: string }
+    }
+  | { type: 'continue' }
+  | { type: 'createNew' }
+
+type QuizSetMachineState =
+  | {
+      value: 'loading' | { loading: '' } | { loading: 'confirmContinue' }
+      context: QuizSetMachineContext & {
+        newQuizSetService: null
+        existingQuizSetService: null
       }
     }
   | {
-      type: 'guess'
-      choice: number
+      value: 'newQuizSet'
+      context: QuizSetMachineContext & { newQuizSetService: NewQuizSetService }
     }
-  | { type: 'updateQuiz'; data: QuizSet }
-  | { type: 'agree' }
-
-type QuizMachineState =
-  | {
-      value: 'loading' | 'newQuizSet' | 'existingQuizSet'
-      context: QuizMachineContext
-    }
-  | { value: 'newQuizSet'; context: QuizMachineContext & { newQuizSet: null } }
   | {
       value: 'existingQuizSet'
-      context: QuizMachineContext & { existingQuizSet: null }
+      context: QuizSetMachineContext & {
+        existingQuizSetService: ExistingQuizSetService
+      }
     }
 
-const assignQuizSetKey = assign({ quizSetKey: (_, e) => e.quizSetKey })
-
-const assignPersistedQuizSetKey = assign({
-  quizSetKey: (_, e) => e.data,
+const assignQuizSetKey = immerAssign((ctx, e) => {
+  ctx.quizSet.quizSetKey = e.data.quizSetKey
 })
 
 const assignQuizSet = assign({
@@ -70,33 +60,27 @@ const assignQuizSet = assign({
 const assignEmptyQuizSet = assign({ quizSet: { ...EMPTY_QUIZ_SET } })
 
 const spawnNewQuizSetService = assign({
-  newQuizSetService: ({
-    quizSetKey,
-    quizSet: { currentQuizIndex, ...quizSet },
-  }) =>
+  newQuizSetService: ({ quizSet }) =>
     spawn(
       newQuizSetMachine.withContext({
         ...newQuizSetMachine.context,
-        quizSetKey,
         quizSet,
-        // currentQuizIndex: currentQuizIndex ?? -1,
       })
     ),
 })
 
 const spawnExistingQuizSetService = assign({
-  existingQuizSetService: ({ quizSetKey, quizSet }) =>
+  existingQuizSetService: ({ quizSet }) =>
     spawn(
       existingQuizSetMachine.withContext({
         ...existingQuizSetMachine.context,
-        quizSetKey,
         quizSet,
       })
     ),
 })
 
-function fetchQuizSet({ quizSetKey }: QuizMachineContext) {
-  return firebaseApp?.fetchQuizSet(quizSetKey)
+function fetchQuizSet(ctx: QuizSetMachineContext) {
+  return firebaseApp?.fetchQuizSet(ctx.quizSet.quizSetKey)
 }
 
 function fetchPersistedQuizSet() {
@@ -107,14 +91,6 @@ function createQuizSet() {
   return firebaseApp?.createQuizSet()
 }
 
-function isNewlyCreatedQuizSet(_, e) {
-  return e[CREATED_URL_PARAM]
-}
-
-function isPersistedQuizSet(_, e) {
-  return e[PERSISTED_URL_PARAM]
-}
-
 function isNewQuizSet(_, e) {
   return e.data?.status === 'new'
 }
@@ -123,19 +99,22 @@ function isExistingQuizSet(_, e) {
   return e.data?.status === 'finished'
 }
 
-function wasQuizSetPersisted(ctx, e) {
-  return e.data?.quizSetKey === ctx.quizSetKey
+function isOwnerOfPersistedQuizSet(ctx, e) {
+  return e.data?.quizSetKey === ctx.quizSet.quizSetKey
+}
+
+function isAnotherQuizSetPersisted(_, e) {
+  return e.data
 }
 
 const quizSetMachine = createMachine<
-  QuizMachineContext,
-  QuizMachineEvent,
-  QuizMachineState
+  QuizSetMachineContext,
+  QuizSetMachineEvent,
+  QuizSetMachineState
 >({
   id: 'quizSet',
   initial: 'loading',
   context: {
-    quizSetKey: '',
     quizSet: {
       ...EMPTY_QUIZ_SET,
     },
@@ -147,18 +126,9 @@ const quizSetMachine = createMachine<
       initial: 'waiting',
       states: {
         waiting: {
+          // after: { 100: { target: 'creatingQuizSet' } },
           on: {
             setQuizSetKey: [
-              {
-                cond: isNewlyCreatedQuizSet,
-                actions: [assignQuizSetKey],
-                target: '#quizSet.newQuizSet',
-              },
-              {
-                cond: isPersistedQuizSet,
-                actions: [assignQuizSetKey],
-                target: 'fetchingPersistedQuizSet',
-              },
               {
                 actions: [assignQuizSetKey],
                 target: 'fetchingQuizSet',
@@ -177,7 +147,7 @@ const quizSetMachine = createMachine<
                 actions: [assignQuizSet],
                 target: '#quizSet.existingQuizSet',
               },
-              { target: 'creatingQuizSet' },
+              { target: 'fetchingPersistedQuizSet' },
             ],
             onError: {},
           },
@@ -188,24 +158,18 @@ const quizSetMachine = createMachine<
             src: fetchPersistedQuizSet,
             onDone: [
               {
-                cond: wasQuizSetPersisted,
+                cond: isOwnerOfPersistedQuizSet,
                 actions: [assignQuizSet],
+                target: 'confirmContinue',
+              },
+              {
+                cond: isAnotherQuizSetPersisted,
+                actions: ['redirectToNewQuizSet', assignQuizSet],
                 target: 'confirmContinue',
               },
               { target: 'creatingQuizSet' },
             ],
             onError: { target: 'creatingQuizSet' },
-          },
-        },
-        creatingQuizSet: {
-          invoke: {
-            id: 'createQuizSet',
-            src: createQuizSet,
-            onDone: {
-              actions: ['redirectToNewQuizSet', assignPersistedQuizSetKey],
-              target: '#quizSet.newQuizSet',
-            },
-            onError: {},
           },
         },
         confirmContinue: {
@@ -217,6 +181,17 @@ const quizSetMachine = createMachine<
               actions: [assignEmptyQuizSet],
               target: 'creatingQuizSet',
             },
+          },
+        },
+        creatingQuizSet: {
+          invoke: {
+            id: 'createQuizSet',
+            src: createQuizSet,
+            onDone: {
+              actions: ['redirectToNewQuizSet', assignQuizSetKey],
+              target: '#quizSet.newQuizSet',
+            },
+            onError: {},
           },
         },
       },
@@ -236,14 +211,15 @@ export default function QuizPage(): JSX.Element {
   const [
     {
       matches,
-      context: { quizSetKey, newQuizSetService, existingQuizSetService },
+      context: { newQuizSetService, existingQuizSetService },
       value,
     },
     send,
   ] = useMachine(
     quizSetMachine.withConfig({
       actions: {
-        redirectToNewQuizSet: (_, { data }) => replace(`/q/${data}`),
+        redirectToNewQuizSet: (_, e) =>
+          replace(`/q/${e.data.quizSetKey}`, undefined),
       },
     })
   )
@@ -251,17 +227,15 @@ export default function QuizPage(): JSX.Element {
   useEffect(() => {
     const { quizSetKey } = query
 
-    typeof quizSetKey === 'string' &&
+    typeof quizSetKey?.[0] === 'string' &&
       send({
         type: 'setQuizSetKey',
-        quizSetKey,
-        [CREATED_URL_PARAM]: !!query[CREATED_URL_PARAM],
-        [PERSISTED_URL_PARAM]: !!query[PERSISTED_URL_PARAM],
+        data: { quizSetKey },
       })
 
     window.xsend = send
   }, [query, send])
-  console.log(value)
+
   return (
     <div>
       {matches('loading') && <div>Loading...</div>}

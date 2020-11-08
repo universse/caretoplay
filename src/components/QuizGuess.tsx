@@ -1,21 +1,21 @@
 import { createMachine, assign, sendParent, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
 
-import { Quiz } from 'interfaces/shared'
+import { QuizWithChoice } from 'interfaces/shared'
 
 type QuizGuessMachineContext = {
   choice: number
-  quiz: Quiz
+  quiz: QuizWithChoice | null
 }
 
 type QuizGuessMachineEvent =
-  | { type: 'select'; choice: number }
+  | { type: 'guess'; choice: number }
+  | { type: 'confirmGuess' }
   | { type: 'next' }
-  | { type: 'guess' }
 
 type QuizGuessMachineState = {
   value: 'idle' | 'revealed' | { revealed: 'right' | 'wrong' }
-  context: QuizGuessMachineContext
+  context: QuizGuessMachineContext & { quiz: QuizWithChoice }
 }
 
 export type QuizGuessService = Interpreter<
@@ -31,7 +31,7 @@ const assignOption = assign({
 
 const nextQuiz = sendParent({ type: 'next' })
 
-function isGuessCorrect({ choice, quiz }, e) {
+function isGuessCorrect({ choice, quiz }: QuizGuessMachineContext) {
   return choice === quiz.choice
 }
 
@@ -42,12 +42,12 @@ export const quizGuessMachine = createMachine<
 >({
   id: 'quiz',
   initial: 'idle',
-  context: { choice: -1 },
+  context: { choice: -1, quiz: null },
   states: {
     idle: {
       on: {
-        select: { actions: [assignOption] },
-        guess: [
+        guess: { actions: [assignOption] },
+        confirmGuess: [
           { cond: isGuessCorrect, target: 'revealed.right' },
           { target: 'revealed.wrong' },
         ],
@@ -100,7 +100,7 @@ export default function QuizGuess({
             <button
               className={isSelectedChoice ? 'Selected' : ''}
               disabled={isRevealed}
-              onClick={() => send({ type: 'select', choice: i })}
+              onClick={() => send({ type: 'guess', choice: i })}
               type='button'
             >
               {option}
@@ -118,7 +118,7 @@ export default function QuizGuess({
       ) : (
         <button
           disabled={choice === -1}
-          onClick={() => send('guess')}
+          onClick={() => send('confirmGuess')}
           type='button'
         >
           Confirm
