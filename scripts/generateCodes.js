@@ -34,7 +34,7 @@ function generateVouchers(count = 10000) {
         credential: firebase.credential.cert(
           JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
         ),
-        databaseURL: 'https://caretoplay-dev.firebaseio.com',
+        databaseURL: process.env.FIREBASE_DATABASE_URL,
       })
 
     const database = firebase.database()
