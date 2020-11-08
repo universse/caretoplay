@@ -1,4 +1,4 @@
-import { createMachine, assign, spawn } from 'xstate'
+import { createMachine, assign, spawn, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
 import { set, del } from 'idb-keyval'
 
@@ -20,6 +20,36 @@ import {
   shouldShowStage,
 } from 'utils/quizUtils'
 import { socialShare } from 'utils/share'
+import { QuizSet } from 'interfaces/shared'
+
+type NewQuizSetContext = {
+  quizSet: QuizSet
+  currentQuizIndex: number
+  quizInputServices: QuizInputService[]
+}
+
+type NewQuizSetEvent =
+  | { type: 'changeName' }
+  | { type: 'next' }
+  | { type: 'back' }
+  | {
+      type: 'answer'
+      choice: number
+      response: string
+    }
+  | { type: 'finish' }
+
+type NewQuizSetState = {
+  value: ''
+  context: NewQuizSetContext
+}
+
+export type NewQuizSetService = Interpreter<
+  NewQuizSetContext,
+  any,
+  NewQuizSetEvent,
+  NewQuizSetState
+>
 
 const assignName = immerAssign((ctx, e) => {
   ctx.quizSet.name = e.value
@@ -54,21 +84,19 @@ const spawnQuizInputService = assign({
   },
 })
 
-function persistQuizSet({ currentQuizIndex, quizSetKey, quizSet }) {
+function persistQuizSet({ quizSet }) {
   function persist(quizSet) {
     set(STORAGE_KEY, quizSet)
   }
 
   persist({
     ...quizSet,
-    // currentQuizIndex,
-    quizSetKey,
     quizVersion: QUIZ_VERSION,
   })
 }
 
-function finishQuizSet({ quizSetKey, quizSet }) {
-  return firebaseApp?.saveQuizSetData(quizSetKey, {
+function finishQuizSet({ quizSet }) {
+  return firebaseApp?.saveQuizSetData(quizSet.quizSetKey, {
     ...quizSet,
     quizVersion: QUIZ_VERSION,
     status: 'finished',
@@ -79,11 +107,18 @@ function clearLocalQuizSet() {
   del(STORAGE_KEY)
 }
 
-export const newQuizSetMachine = createMachine({
+function isNameInputFilled(ctx) {
+  return !!ctx.quizSet.name.trim()
+}
+
+export const newQuizSetMachine = createMachine<
+  NewQuizSetContext,
+  NewQuizSetEvent,
+  NewQuizSetState
+>({
   id: 'newQuizSet',
   initial: 'askForName',
   context: {
-    quizSetKey: '',
     quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
     quizInputServices: [],
@@ -96,7 +131,7 @@ export const newQuizSetMachine = createMachine({
           on: {
             next: [
               {
-                cond: (ctx) => !!ctx.quizSet.name.trim(),
+                cond: isNameInputFilled,
                 actions: [persistQuizSet],
                 target: '#newQuizSet.showingStage',
               },
@@ -180,7 +215,11 @@ export const newQuizSetMachine = createMachine({
   },
 })
 
-export default function NewQuizSet({ newQuizSetService }): JSX.Element {
+export default function NewQuizSet({
+  newQuizSetService,
+}: {
+  newQuizSetService: NewQuizSetService
+}): JSX.Element {
   const [
     {
       matches,

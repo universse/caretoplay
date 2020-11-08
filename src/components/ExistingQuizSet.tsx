@@ -1,4 +1,4 @@
-import { createMachine, assign, spawn } from 'xstate'
+import { createMachine, assign, spawn, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
 
 import QuizGuess, {
@@ -8,12 +8,40 @@ import QuizGuess, {
 import { quizzes, QUIZ_VERSION } from 'constants/quizzes'
 import {
   STAGE_TRANSITION_DURATION,
+  EMPTY_QUIZ_SET,
   nextQuiz,
   previousQuiz,
   hasNextQuiz,
   hasPreviousQuiz,
   shouldShowStage,
 } from 'utils/quizUtils'
+import { QuizSet } from 'interfaces/shared'
+
+type ExistingQuizSetContext = {
+  quizSet: QuizSet
+  currentQuizIndex: number
+  quizGuessServices: QuizGuessService[]
+  didSubscribe: boolean
+  phoneNumber: string
+}
+
+type ExistingQuizSetEvent =
+  | {
+      type: 'next'
+    }
+  | { type: 'back' }
+
+type ExistingQuizSetState = {
+  value: ''
+  context: ExistingQuizSetContext
+}
+
+export type ExistingQuizSetService = Interpreter<
+  ExistingQuizSetContext,
+  any,
+  ExistingQuizSetEvent,
+  ExistingQuizSetState
+>
 
 const assignDidSubscribe = assign({ didSubscribe: true })
 
@@ -53,11 +81,7 @@ export const existingQuizSetMachine = createMachine({
   id: 'existingQuizSet',
   initial: 'introduction',
   context: {
-    quizSetKey: '',
-    quizSet: {
-      name: '',
-      quizzes: [],
-    },
+    quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
     quizGuessServices: [],
     didSubscribe: false,
@@ -197,6 +221,8 @@ export const existingQuizSetMachine = createMachine({
 
 export default function ExistingQuizSet({
   existingQuizSetService,
+}: {
+  existingQuizSetService: ExistingQuizSetService
 }): JSX.Element {
   const [
     {

@@ -11,17 +11,18 @@ export type Quiz = {
   questionToGuess: string
   options: string[]
   hint?: string
-  choice?: number
 }
+
+export type QuizWithChoice = Quiz & { choice: number }
 
 export enum QuizVersion {
   v1 = 'v1',
 }
 
 export type QuizSet = {
+  quizSetKey: string
   name: string
-  quizzes: Quiz[]
+  quizzes: QuizWithChoice[]
   status?: 'new' | 'finished'
-  quizSetKey?: string
   quizVersion?: QuizVersion
 }

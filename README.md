@@ -2,24 +2,22 @@
 eval `ssh-agent -s`
 ssh-add ~/.ssh/personal
 
-retrieve persisted quiz when creating
+add completed count per quizset use firebase transaction
+handle /q - no query
 
-add error handling onError -> use react-query new QueryCache()
+add error handling onError
 finish rest of flows (UI + state)
-
-set up database security rule
-* security rule, only allow write if redeemedBy is null
-
-experiment with xstate web worker
-research facebook share callback
-
-sendinblue test email so don't use up free quota :D
-twilio sms
 
 add local redeemed (maybe) -> 1 redemption per browser
 
+experiment with xstate web worker
+research facebook share callback
+use react-query new QueryCache()
+
 PROD:
-index redeemedBy
-set up env on vercel
+sendinblue test email so don't use up free quota :D
+twilio sms
+set up staging env, use pull request
+
 
 -->
