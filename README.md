@@ -3,7 +3,6 @@ eval `ssh-agent -s`
 ssh-add ~/.ssh/personal
 
 add completed count per quizset use firebase transaction
-handle /q - no query
 
 add error handling onError
 finish rest of flows (UI + state)
@@ -17,7 +16,11 @@ use react-query new QueryCache()
 PROD:
 sendinblue test email so don't use up free quota :D
 twilio sms
-set up staging env, use pull request
 
+set up staging env, use pull request
+git checkout -b some-branch
+git add .
+git commit -m "Message"
+git push origin some-branch
 
 -->

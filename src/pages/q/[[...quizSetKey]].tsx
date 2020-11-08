@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { createMachine, assign, spawn } from 'xstate'
 import { useMachine } from '@xstate/react'
@@ -91,6 +91,10 @@ function createQuizSet() {
   return firebaseApp?.createQuizSet()
 }
 
+function hasQuizSetKey(_, e) {
+  return e.data.quizSetKey
+}
+
 function isNewQuizSet(_, e) {
   return e.data?.status === 'new'
 }
@@ -126,13 +130,14 @@ const quizSetMachine = createMachine<
       initial: 'waiting',
       states: {
         waiting: {
-          // after: { 100: { target: 'creatingQuizSet' } },
           on: {
             setQuizSetKey: [
               {
+                cond: hasQuizSetKey,
                 actions: [assignQuizSetKey],
                 target: 'fetchingQuizSet',
               },
+              { target: 'fetchingPersistedQuizSet' },
             ],
           },
         },
@@ -208,6 +213,8 @@ const quizSetMachine = createMachine<
 export default function QuizPage(): JSX.Element {
   const { query, replace } = useRouter()
 
+  const isFirstMount = useRef(true)
+
   const [
     {
       matches,
@@ -225,15 +232,14 @@ export default function QuizPage(): JSX.Element {
   )
 
   useEffect(() => {
-    const { quizSetKey } = query
-
-    typeof quizSetKey?.[0] === 'string' &&
+    if (isFirstMount.current) {
+      isFirstMount.current = false
+    } else {
       send({
         type: 'setQuizSetKey',
-        data: { quizSetKey },
+        data: { quizSetKey: query.quizSetKey?.[0] || '' },
       })
-
-    window.xsend = send
+    }
   }, [query, send])
 
   return (
