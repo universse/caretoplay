@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint */**/*.{js,ts,tsx} --fix",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "commit": "shjs ./scripts/commit.js"
   },
   "dependencies": {
     "@emotion/core": "^10.1.1",
@@ -50,6 +51,7 @@
     "react-query-devtools": "^2.6.3",
     "react-use-gesture": "^8.0.0",
     "sass": "^1.29.0",
+    "shelljs": "^0.8.4",
     "xstate": "^4.14.0"
   },
   "devDependencies": {

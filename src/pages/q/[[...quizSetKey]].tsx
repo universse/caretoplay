@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { createMachine, assign, spawn } from 'xstate'
 import { useMachine } from '@xstate/react'
@@ -213,8 +213,6 @@ const quizSetMachine = createMachine<
 export default function QuizPage(): JSX.Element {
   const { query, replace } = useRouter()
 
-  const isFirstMount = useRef(true)
-
   const [
     {
       matches,
@@ -225,21 +223,19 @@ export default function QuizPage(): JSX.Element {
   ] = useMachine(
     quizSetMachine.withConfig({
       actions: {
-        redirectToNewQuizSet: (_, e) =>
-          replace(`/q/${e.data.quizSetKey}`, undefined),
+        redirectToNewQuizSet: (_, e) => replace(`/q/${e.data.quizSetKey}`),
       },
     })
   )
 
   useEffect(() => {
-    if (isFirstMount.current) {
-      isFirstMount.current = false
-    } else {
-      send({
-        type: 'setQuizSetKey',
-        data: { quizSetKey: query.quizSetKey?.[0] || '' },
-      })
-    }
+    send({
+      type: 'setQuizSetKey',
+      data: {
+        quizSetKey:
+          window.location.pathname.replace('/q', '').split('/')[1] || '',
+      },
+    })
   }, [query, send])
 
   return (

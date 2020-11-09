@@ -1,7 +1,4 @@
 <!--
-eval `ssh-agent -s`
-ssh-add ~/.ssh/personal
-
 add completed count per quizset use firebase transaction
 
 add error handling onError
