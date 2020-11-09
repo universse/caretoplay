@@ -95,10 +95,6 @@ function hasQuizSetKey(_, e) {
   return e.data.quizSetKey
 }
 
-function isNewQuizSet(_, e) {
-  return e.data?.status === 'new'
-}
-
 function isExistingQuizSet(_, e) {
   return e.data?.status === 'finished'
 }
