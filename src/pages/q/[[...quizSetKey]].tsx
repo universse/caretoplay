@@ -146,7 +146,6 @@ const quizSetMachine = createMachine<
             id: 'fetchQuizSet',
             src: fetchQuizSet,
             onDone: [
-              { cond: isNewQuizSet, target: 'fetchingPersistedQuizSet' },
               {
                 cond: isExistingQuizSet,
                 actions: [assignQuizSet],
@@ -211,7 +210,7 @@ const quizSetMachine = createMachine<
 })
 
 export default function QuizPage(): JSX.Element {
-  const { query, replace } = useRouter()
+  const { replace } = useRouter()
 
   const [
     {
@@ -236,7 +235,7 @@ export default function QuizPage(): JSX.Element {
           window.location.pathname.replace('/q', '').split('/')[1] || '',
       },
     })
-  }, [query, send])
+  }, [send])
 
   return (
     <div>
