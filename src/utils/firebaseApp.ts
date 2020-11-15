@@ -1,6 +1,6 @@
 import { customAlphabet } from 'nanoid'
 
-import { restRequest } from 'utils/restRequest'
+import { restRequest } from '../../nodeUtils/restRequest'
 
 const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
 

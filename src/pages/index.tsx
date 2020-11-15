@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { get } from 'idb-keyval'
 
 import { FINISHED_QUIZSETS_STORAGE_KEY } from 'utils/quizUtils'
-import { restRequest } from 'nodeUtils/restRequest'
 
 export default function IndexPage(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true)
