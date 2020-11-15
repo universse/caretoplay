@@ -1,6 +1,6 @@
 import { customAlphabet } from 'nanoid'
 
-import restRequest from 'utils/restRequest'
+import { restRequest } from 'utils/restRequest'
 
 const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
 
@@ -9,23 +9,30 @@ function getFirebaseApp() {
     return restRequest(`/api/fetchQuizSet/${quizSetKey}`)
   }
 
-  function saveQuizSetData(quizSetKey: string, quizSetData) {
-    return restRequest('/api/saveQuizSetData', {
-      body: { quizSetKey, quizSetData },
-    })
-  }
-
   function createQuizSet() {
     const quizSetKey = nanoid()
-    return saveQuizSetData(quizSetKey, { status: 'new' }).then(() => ({
+    return saveQuizSetData({ quizSetKey, status: 'new' }).then(() => ({
       quizSetKey,
     }))
   }
 
+  function saveQuizSetData(quizSetData) {
+    return restRequest('/api/saveQuizSetData', {
+      body: { quizSetData },
+    })
+  }
+
+  function snap(type: 'share' | 'visit' | 'complete', quizSetKey?: string) {
+    return restRequest('/api/snap', {
+      body: { quizSetKey, type },
+    })
+  }
+
   return {
-    createQuizSet,
     fetchQuizSet,
+    createQuizSet,
     saveQuizSetData,
+    snap,
   }
 }
 

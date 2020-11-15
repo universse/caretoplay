@@ -1,12 +1,15 @@
 <!--
-add completed count per quizset use firebase transaction
-complete
+TODO:
+add error handling onError (kind of done)
 
-add error handling onError
-finish rest of flows (UI + state)
+* finish rest of flows (UI + state)
+missing flows: ask for email when sharing -> modify /api/redeem
+showing contacts
 
+NO:
 add local redeemed (maybe) -> 1 redemption per browser
 
+NICE TO HAVE:
 experiment with xstate web worker
 research facebook share callback
 use react-query new QueryCache()

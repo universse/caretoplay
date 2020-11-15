@@ -1,6 +1,7 @@
 import { createMachine, assign, sendParent, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
 
+import { immerAssign } from 'utils/quizUtils'
 import { Quiz } from 'interfaces/shared'
 
 type QuizInputMachineContext = {
@@ -42,13 +43,10 @@ const setOptionToEdit = assign({
 
 const assignDraftResponse = assign({ draftResponse: (_, e) => e.value })
 
-const saveOption = assign({
-  quiz: ({ optionIndexToEdit, draftResponse, quiz }) => ({
-    ...quiz,
-    options: quiz.options.map((option, i) =>
-      i === optionIndexToEdit ? draftResponse.trim() : option
-    ),
-  }),
+const saveOption = immerAssign((ctx) => {
+  const { optionIndexToEdit, draftResponse } = ctx
+
+  ctx.quiz.options[optionIndexToEdit] = draftResponse.trim()
 })
 
 const clearEdit = assign({ optionIndexToEdit: -1, draftResponse: '' })

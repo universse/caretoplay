@@ -1,6 +1,6 @@
 import { createMachine, assign, spawn, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
-import { set, del } from 'idb-keyval'
+import { get, set, del } from 'idb-keyval'
 
 import QuizInput, {
   quizInputMachine,
@@ -10,7 +10,8 @@ import { quizzes, QUIZ_VERSION } from 'constants/quizzes'
 import { firebaseApp } from 'utils/firebaseApp'
 import {
   STAGE_TRANSITION_DURATION,
-  STORAGE_KEY,
+  PERSISTED_QUIZSET_STORAGE_KEY,
+  FINISHED_QUIZSETS_STORAGE_KEY,
   EMPTY_QUIZ_SET,
   immerAssign,
   nextQuiz,
@@ -29,7 +30,7 @@ type NewQuizSetContext = {
 }
 
 type NewQuizSetEvent =
-  | { type: 'changeName' }
+  | { type: 'changeName'; value: string }
   | { type: 'next' }
   | { type: 'back' }
   | {
@@ -38,9 +39,19 @@ type NewQuizSetEvent =
       response: string
     }
   | { type: 'finish' }
+  | { type: 'retry' }
 
 type NewQuizSetState = {
-  value: ''
+  value:
+    | 'askForName'
+    | { askForName: 'inputting' }
+    | { askForName: 'error' }
+    | 'showingStage'
+    | 'showingQuiz'
+    | 'done'
+    | 'finishingQuizSet'
+    | 'error'
+    | 'finished'
   context: NewQuizSetContext
 }
 
@@ -85,26 +96,33 @@ const spawnQuizInputService = assign({
 })
 
 function persistQuizSet({ quizSet }) {
-  function persist(quizSet) {
-    set(STORAGE_KEY, quizSet)
-  }
-
-  persist({
+  set(PERSISTED_QUIZSET_STORAGE_KEY, {
     ...quizSet,
     quizVersion: QUIZ_VERSION,
   })
 }
 
 function finishQuizSet({ quizSet }) {
-  return firebaseApp?.saveQuizSetData(quizSet.quizSetKey, {
-    ...quizSet,
-    quizVersion: QUIZ_VERSION,
-    status: 'finished',
-  })
+  async function saveFinishedQuizSet({ quizSetKey, name }) {
+    const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
+
+    finishedQuizSets[quizSetKey] = name
+
+    return set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
+  }
+
+  return Promise.all([
+    firebaseApp.saveQuizSetData({
+      ...quizSet,
+      quizVersion: QUIZ_VERSION,
+      status: 'finished',
+    }),
+    saveFinishedQuizSet(quizSet),
+  ])
 }
 
 function clearLocalQuizSet() {
-  del(STORAGE_KEY)
+  del(PERSISTED_QUIZSET_STORAGE_KEY)
 }
 
 function isNameInputFilled(ctx) {
@@ -201,7 +219,12 @@ export const newQuizSetMachine = createMachine<
         id: 'finishQuizSet',
         src: finishQuizSet,
         onDone: { actions: [clearLocalQuizSet], target: 'finished' },
-        onError: {},
+        onError: { target: 'error' },
+      },
+    },
+    error: {
+      on: {
+        retry: 'finishingQuizSet',
       },
     },
     finished: {
@@ -224,7 +247,7 @@ export default function NewQuizSet({
     {
       matches,
       context: {
-        quizSet: { name },
+        quizSet: { name, quizSetKey },
         currentQuizIndex,
         quizInputServices,
       },
@@ -232,6 +255,7 @@ export default function NewQuizSet({
     },
     send,
   ] = useService(newQuizSetService)
+
   const versionedQuizzes = quizzes[QUIZ_VERSION]
 
   return (
@@ -285,24 +309,28 @@ export default function NewQuizSet({
               socialShare({
                 text: 'blah blah blah',
                 url: window.location.href,
-              }).catch((error) => {
-                switch (error.name) {
-                  case 'Unsupported':
-                    // open share modal
-                    break
-
-                  case 'InternalError':
-                    // log
-                    break
-
-                  case 'ShareTimeout':
-                    // log
-                    break
-
-                  default:
-                    break
-                }
               })
+                .then(() => {
+                  firebaseApp.snap('share', quizSetKey)
+                })
+                .catch((error) => {
+                  switch (error.name) {
+                    case 'Unsupported':
+                      // open share modal
+                      break
+
+                    case 'InternalError':
+                      // log
+                      break
+
+                    case 'ShareTimeout':
+                      // log
+                      break
+
+                    default:
+                      break
+                  }
+                })
             }
             type='button'
           >
