@@ -25,10 +25,14 @@ export default function IndexPage(): JSX.Element {
 
   return (
     <div>
-      <Link href='/q/new'>New quiz</Link>
+      <Link href='/q/new'>
+        <a>New quiz</a>
+      </Link>
       {isLoading && <div>spinner</div>}
       {!isLoading && hasFinishedQuizSets && (
-        <Link href='/q'>View finished</Link>
+        <Link href='/q'>
+          <a>View finished</a>
+        </Link>
       )}
     </div>
   )

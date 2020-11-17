@@ -17,13 +17,17 @@ export default function QuizPage(): JSX.Element {
 
   return (
     <div>
-      <Link href='/q/new'>New quiz</Link>
+      <Link href='/q/new'>
+        <a>New quiz</a>
+      </Link>
       {isLoading && <div>spinner</div>}
       <ul>
         {!isLoading &&
           finishedQuizSets.map(([quizSetKey, name]) => (
             <li key={quizSetKey}>
-              <Link href={`/q/${quizSetKey}`}>{`${name}'s quiz`}</Link>
+              <Link href={`/q/${quizSetKey}`}>
+                <a>{name}'s quiz</a>
+              </Link>
             </li>
           ))}
       </ul>
