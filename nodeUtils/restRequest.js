@@ -1,4 +1,6 @@
-export default async function restRequest(url, options = {}) {
+const fetch = require('@vercel/fetch-retry')(global.fetch)
+
+async function restRequest(url, options = {}) {
   const { headers, body, ...others } = options
 
   const response = await fetch(url, {
@@ -11,4 +13,8 @@ export default async function restRequest(url, options = {}) {
   const result = await response.json()
 
   return response.ok ? result : Promise.reject(result)
+}
+
+module.exports = {
+  restRequest,
 }

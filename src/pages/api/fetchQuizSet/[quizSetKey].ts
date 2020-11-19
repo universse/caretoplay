@@ -21,6 +21,6 @@ export default async function fetchQuizSet(
 
     res.status(200).json(snapshot.val() || {})
   } catch {
-    res.status(404).json({ success: false })
+    res.status(500).json({ success: false })
   }
 }

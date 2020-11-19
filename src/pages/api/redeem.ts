@@ -3,7 +3,7 @@ import * as firebase from 'firebase-admin'
 // import sgMail from '@sendgrid/mail'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import restRequest from 'utils/restRequest'
+import { restRequest } from '../../../nodeUtils/restRequest'
 
 const ErrorMessages = {
   '00': 'Unknown email verification error',

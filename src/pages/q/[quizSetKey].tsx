@@ -13,7 +13,11 @@ import ExistingQuizSet, {
   ExistingQuizSetService,
 } from 'components/ExistingQuizSet'
 import { firebaseApp } from 'utils/firebaseApp'
-import { EMPTY_QUIZ_SET, STORAGE_KEY, immerAssign } from 'utils/quizUtils'
+import {
+  EMPTY_QUIZ_SET,
+  PERSISTED_QUIZSET_STORAGE_KEY,
+  immerAssign,
+} from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
 
 type QuizSetMachineContext = {
@@ -29,10 +33,15 @@ type QuizSetMachineEvent =
     }
   | { type: 'continue' }
   | { type: 'createNew' }
+  | { type: 'retry' }
 
 type QuizSetMachineState =
   | {
-      value: 'loading' | { loading: '' } | { loading: 'confirmContinue' }
+      value:
+        | 'loading'
+        | { loading: '' }
+        | { loading: 'confirmContinue' }
+        | 'error'
       context: QuizSetMachineContext & {
         newQuizSetService: null
         existingQuizSetService: null
@@ -53,13 +62,17 @@ const assignQuizSetKey = immerAssign((ctx, e) => {
   ctx.quizSet.quizSetKey = e.data.quizSetKey
 })
 
-const assignQuizSet = assign({
+const assignQuizSet = assign<QuizSetMachineContext>({
   quizSet: ({ quizSet }, e) => ({ ...quizSet, ...e.data }),
 })
 
 const assignEmptyQuizSet = assign({ quizSet: { ...EMPTY_QUIZ_SET } })
 
-const spawnNewQuizSetService = assign({
+function visitQuizSet(ctx) {
+  firebaseApp.snap('visit', ctx.quizSet.quizSetKey)
+}
+
+const spawnNewQuizSetService = assign<QuizSetMachineContext>({
   newQuizSetService: ({ quizSet }) =>
     spawn(
       newQuizSetMachine.withContext({
@@ -80,19 +93,19 @@ const spawnExistingQuizSetService = assign({
 })
 
 function fetchQuizSet(ctx: QuizSetMachineContext) {
-  return firebaseApp?.fetchQuizSet(ctx.quizSet.quizSetKey)
+  return firebaseApp.fetchQuizSet(ctx.quizSet.quizSetKey)
 }
 
 function fetchPersistedQuizSet() {
-  return get(STORAGE_KEY)
+  return get(PERSISTED_QUIZSET_STORAGE_KEY)
 }
 
 function createQuizSet() {
-  return firebaseApp?.createQuizSet()
+  return firebaseApp.createQuizSet()
 }
 
 function hasQuizSetKey(_, e) {
-  return e.data.quizSetKey
+  return e.data.quizSetKey !== 'new'
 }
 
 function isExistingQuizSet(_, e) {
@@ -125,6 +138,9 @@ const quizSetMachine = createMachine<
     loading: {
       initial: 'waiting',
       states: {
+        hist: {
+          type: 'history',
+        },
         waiting: {
           on: {
             setQuizSetKey: [
@@ -144,12 +160,12 @@ const quizSetMachine = createMachine<
             onDone: [
               {
                 cond: isExistingQuizSet,
-                actions: [assignQuizSet],
+                actions: [assignQuizSet, visitQuizSet],
                 target: '#quizSet.existingQuizSet',
               },
               { target: 'fetchingPersistedQuizSet' },
             ],
-            onError: {},
+            onError: { target: '#quizSet.error' },
           },
         },
         fetchingPersistedQuizSet: {
@@ -169,7 +185,7 @@ const quizSetMachine = createMachine<
               },
               { target: 'creatingQuizSet' },
             ],
-            onError: { target: 'creatingQuizSet' },
+            onError: { target: '#quizSet.error' },
           },
         },
         confirmContinue: {
@@ -191,9 +207,14 @@ const quizSetMachine = createMachine<
               actions: ['redirectToNewQuizSet', assignQuizSetKey],
               target: '#quizSet.newQuizSet',
             },
-            onError: {},
+            onError: { target: '#quizSet.error' },
           },
         },
+      },
+    },
+    error: {
+      on: {
+        retry: 'loading.hist',
       },
     },
     newQuizSet: {
@@ -206,7 +227,10 @@ const quizSetMachine = createMachine<
 })
 
 export default function QuizPage(): JSX.Element {
-  const { replace } = useRouter()
+  const {
+    query: { quizSetKey },
+    replace,
+  } = useRouter()
 
   const [
     {
@@ -224,18 +248,25 @@ export default function QuizPage(): JSX.Element {
   )
 
   useEffect(() => {
-    send({
-      type: 'setQuizSetKey',
-      data: {
-        quizSetKey:
-          window.location.pathname.replace('/q', '').split('/')[1] || '',
-      },
-    })
-  }, [send])
+    typeof quizSetKey === 'string' &&
+      send({
+        type: 'setQuizSetKey',
+        data: {
+          quizSetKey,
+        },
+      })
+  }, [quizSetKey, send])
 
   return (
     <div>
       {matches('loading') && <div>Loading...</div>}
+      {matches('error') && (
+        <div>
+          <button onClick={() => send('retry')} type='button'>
+            Retry
+          </button>
+        </div>
+      )}
       {matches({ loading: 'confirmContinue' }) && (
         <div>
           <button onClick={() => send('continue')} type='button'>

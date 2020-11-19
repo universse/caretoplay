@@ -6,6 +6,7 @@ import QuizGuess, {
   QuizGuessService,
 } from 'components/QuizGuess'
 import { quizzes, QUIZ_VERSION } from 'constants/quizzes'
+import { firebaseApp } from 'utils/firebaseApp'
 import {
   STAGE_TRANSITION_DURATION,
   EMPTY_QUIZ_SET,
@@ -32,7 +33,12 @@ type ExistingQuizSetEvent =
   | { type: 'back' }
 
 type ExistingQuizSetState = {
-  value: ''
+  value:
+    | 'introduction'
+    | 'instruction'
+    | 'showingStage'
+    | 'showingQuiz'
+    | 'completed'
   context: ExistingQuizSetContext
 }
 
@@ -69,6 +75,10 @@ const spawnQuizGuessService = assign({
   },
 })
 
+function completeQuizSet(ctx) {
+  firebaseApp.snap('complete', ctx.quizSet.quizSetKey)
+}
+
 function didSubscribe(ctx) {
   return ctx.didSubscribe
 }
@@ -77,7 +87,11 @@ function isPhoneNumberValid(ctx) {
   return ctx.phoneNumber
 }
 
-export const existingQuizSetMachine = createMachine({
+export const existingQuizSetMachine = createMachine<
+  ExistingQuizSetContext,
+  ExistingQuizSetEvent,
+  ExistingQuizSetState
+>({
   id: 'existingQuizSet',
   initial: 'introduction',
   context: {
@@ -119,7 +133,7 @@ export const existingQuizSetMachine = createMachine({
             target: 'showingStage',
           },
           { cond: hasNextQuiz, actions: [nextQuiz], target: 'showingQuiz' },
-          { target: 'askToSubscribe' },
+          { actions: [completeQuizSet], target: 'completed' },
         ],
         back: [
           {
@@ -130,92 +144,92 @@ export const existingQuizSetMachine = createMachine({
         ],
       },
     },
-    askToSubscribe: {
-      initial: 'disagreed',
-      on: {
-        agree: {
-          target: '.agreed',
-        },
-        disagree: {
-          target: '.disagreed',
-        },
-      },
-      states: {
-        agreed: {
-          on: {
-            selectOutlet: {
-              target: 'selectedOutlet',
-            },
-          },
-        },
-        selectedOutlet: {
-          on: {
-            next: {
-              actions: [assignDidSubscribe],
-              target: '#existingQuizSet.askForPhoneNumber',
-            },
-          },
-        },
-        disagreed: {
-          on: {
-            next: {
-              target: '#existingQuizSet.askForPhoneNumber',
-            },
-          },
-        },
-      },
+    completed: {
+      // initial: 'disagreed',
+      // on: {
+      //   agree: {
+      //     target: '.agreed',
+      //   },
+      //   disagree: {
+      //     target: '.disagreed',
+      //   },
+      // },
+      // states: {
+      //   agreed: {
+      //     on: {
+      //       selectOutlet: {
+      //         target: 'selectedOutlet',
+      //       },
+      //     },
+      //   },
+      //   selectedOutlet: {
+      //     on: {
+      //       next: {
+      //         actions: [assignDidSubscribe],
+      //         target: '#existingQuizSet.askForPhoneNumber',
+      //       },
+      //     },
+      //   },
+      //   disagreed: {
+      //     on: {
+      //       next: {
+      //         target: '#existingQuizSet.askForPhoneNumber',
+      //       },
+      //     },
+      //   },
+      // },
     },
-    askForPhoneNumber: {
-      initial: 'inputting',
-      states: {
-        inputting: {
-          on: {
-            submit: [
-              {
-                cond: isPhoneNumberValid,
-                target: 'submitted',
-              },
-              { target: 'error' },
-            ],
-            changePhoneNumber: {
-              actions: [assignPhoneNumber],
-            },
-          },
-        },
-        error: {
-          on: {
-            changePhoneNumber: {
-              actions: [assignPhoneNumber],
-              target: 'inputting',
-            },
-          },
-        },
-        submitted: {
-          always: [
-            { cond: didSubscribe, target: 'savingAndRedeeming' },
-            { target: 'redeeming' },
-          ],
-        },
-        savingAndRedeeming: {
-          invoke: {
-            id: 'saveAndRedeem',
-            src: 'saveAndRedeem',
-            onDone: [{ target: '#existingQuizSet.askToShare' }],
-            onError: {},
-          },
-        },
-        redeeming: {
-          invoke: {
-            id: 'redeem',
-            src: 'redeem',
-            onDone: [{ target: '#existingQuizSet.askToShare' }],
-            onError: {},
-          },
-        },
-      },
-    },
-    askToShare: {},
-    shareOnFacebook: {},
+    // askForPhoneNumber: {
+    //   initial: 'inputting',
+    //   states: {
+    //     inputting: {
+    //       on: {
+    //         submit: [
+    //           {
+    //             cond: isPhoneNumberValid,
+    //             target: 'submitted',
+    //           },
+    //           { target: 'error' },
+    //         ],
+    //         changePhoneNumber: {
+    //           actions: [assignPhoneNumber],
+    //         },
+    //       },
+    //     },
+    //     error: {
+    //       on: {
+    //         changePhoneNumber: {
+    //           actions: [assignPhoneNumber],
+    //           target: 'inputting',
+    //         },
+    //       },
+    //     },
+    //     submitted: {
+    //       always: [
+    //         { cond: didSubscribe, target: 'savingAndRedeeming' },
+    //         { target: 'redeeming' },
+    //       ],
+    //     },
+    //     savingAndRedeeming: {
+    //       invoke: {
+    //         id: 'saveAndRedeem',
+    //         src: 'saveAndRedeem',
+    //         onDone: [{ target: '#existingQuizSet.askToShare' }],
+    //         onError: {},
+    //       },
+    //     },
+    //     redeeming: {
+    //       invoke: {
+    //         id: 'redeem',
+    //         src: 'redeem',
+    //         onDone: [{ target: '#existingQuizSet.askToShare' }],
+    //         onError: {},
+    //       },
+    //     },
+    //   },
+    // },
+    // askToShare: {},
+    // shareOnFacebook: {},
   },
 })
 
@@ -280,7 +294,7 @@ export default function ExistingQuizSet({
           <QuizGuess quizGuessService={quizGuessServices[currentQuizIndex]} />
         </div>
       )}
-      {matches('askToSubscribe') && (
+      {matches('completed') && (
         <div>
           <div>Done. Here's your voucher.</div>
         </div>

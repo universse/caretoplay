@@ -105,8 +105,8 @@ export default function QuizGuess({
             >
               {option}
             </button>
-            {shouldShowCorrectGuess && <span>Right</span>}
-            {shouldShowWrongGuess && <span>Wrong</span>}
+            {shouldShowCorrectGuess && <span>- Right</span>}
+            {shouldShowWrongGuess && <span>- Wrong</span>}
             {shouldShowCorrectChoice && <span>- Answer</span>}
           </div>
         )
