@@ -4,14 +4,24 @@ on:
     # test every branch
     # edit below if you only want certain branches tested
     branches: '*'
-  # schedule:
-  #   # test on schedule using cron syntax
-  #   - cron: "0 * * * *" # every hour
+    # schedule:
+    #   # test on schedule using cron syntax
+    #   - cron: "0 * * * *" # every hour
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    # if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
 
     steps:
+      # - name: Wait for Vercel preview deployment to be ready
+      #   uses: patrickedqvist/wait-for-vercel-preview@master
+      #   id: wait-for-preview-deployment
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     max_timeout: 60
+      #   env:
+      #     DEPLOY_URL: ${{steps.wait-for-preview-deployment.outputs.url}}
+
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
@@ -34,8 +44,8 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: Start local server
-        run: yarn dev & npx wait-on http://localhost:3000
+      # - name: Start local server
+      #   run: yarn dev & npx wait-on http://localhost:3000
 
       - run: yarn test
         env:
@@ -46,7 +56,7 @@ jobs:
           # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets
           # LOGIN_PASSWORD: ${{ secrets.PASSWORD }}
 
-      - name: Upload Artifacts
+      - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@master
         with:
