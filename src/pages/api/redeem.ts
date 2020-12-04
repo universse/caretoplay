@@ -3,7 +3,7 @@ import * as firebase from 'firebase-admin'
 // import sgMail from '@sendgrid/mail'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { restRequest } from '../../../nodeUtils/restRequest'
+import { restRequestRetry } from '../../../nodeUtils/restRequest'
 
 const ErrorMessages = {
   '00': 'Unknown email verification error',
@@ -49,7 +49,7 @@ const voucherMachine = createMachine({
       invoke: {
         id: 'verifyEmail',
         src: function (ctx) {
-          return restRequest(
+          return restRequestRetry(
             `https://verifier.meetchopra.com/verify/${ctx.email}?token=${process.env.EMAIL_VERIFIER_TOKEN}`
           )
         },
@@ -156,7 +156,7 @@ const voucherMachine = createMachine({
         src: function (ctx) {
           const PROJECT_EMAIL = 'caretoplay.acp@gmail.com'
 
-          return restRequest('https://api.sendinblue.com/v3/smtp/email', {
+          return restRequestRetry('https://api.sendinblue.com/v3/smtp/email', {
             headers: {
               'api-key': process.env.SENDINBLUE_API_KEY,
             },

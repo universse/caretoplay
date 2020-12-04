@@ -2,7 +2,7 @@ import { Stage, Quiz, QuizVersion } from 'interfaces/shared'
 
 export const QUIZ_VERSION: QuizVersion = QuizVersion.v1
 
-export const quizzes: Record<QuizVersion, Quiz[]> = {
+export const QUIZZES: Record<QuizVersion, Quiz[]> = {
   v1: [
     {
       stage: Stage.CASUAL,
@@ -109,3 +109,5 @@ export const quizzes: Record<QuizVersion, Quiz[]> = {
     },
   ],
 }
+
+export const CONTACTS = []

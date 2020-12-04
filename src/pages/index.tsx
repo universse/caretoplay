@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { get } from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 
 import { FINISHED_QUIZSETS_STORAGE_KEY } from 'utils/quizUtils'
 
@@ -9,18 +9,24 @@ export default function IndexPage(): JSX.Element {
   const [hasFinishedQuizSets, setFinishedQuizSets] = useState(false)
 
   useEffect(() => {
-    get(FINISHED_QUIZSETS_STORAGE_KEY).then((hasFinishedQuizSets) => {
+    async function getFinishedQuizSets() {
+      const finishedQuizSets = await get(FINISHED_QUIZSETS_STORAGE_KEY)
+
+      if (finishedQuizSets) {
+        for (const key of Object.keys(finishedQuizSets)) {
+          if (typeof finishedQuizSets[key] === 'string') {
+            finishedQuizSets[key] = { name: finishedQuizSets[key] }
+          }
+        }
+
+        await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
+      }
+
       setIsLoading(false)
-      setFinishedQuizSets(!!hasFinishedQuizSets)
-    })
-    // restRequest('/api/complete', {
-    //   body: { quizSetKey: '043DETML8A0S' },
-    // })
-    //   .then(console.log)
-    //   .catch((e) => {
-    //     console.log('error')
-    //     console.log(e)
-    //   })
+      setFinishedQuizSets(!!finishedQuizSets)
+    }
+
+    getFinishedQuizSets()
   }, [])
 
   return (

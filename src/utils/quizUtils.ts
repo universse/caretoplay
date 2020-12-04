@@ -1,24 +1,23 @@
 import { assign } from 'xstate'
-import { produce } from 'immer'
 
-import { quizzes, QUIZ_VERSION } from 'constants/quizzes'
+import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
 import { Quiz, QuizSet, QuizVersion } from 'interfaces/shared'
 
 export const STAGE_TRANSITION_DURATION = 1000
-export const PERSISTED_QUIZSET_STORAGE_KEY = 'ctp_persisted'
+
+export const COMPLETED_QUIZSETS_STORAGE_KEY = 'ctp_completed'
 export const FINISHED_QUIZSETS_STORAGE_KEY = 'ctp_finished'
+export const PERSISTED_QUIZSET_STORAGE_KEY = 'ctp_persisted'
+
 export const EMPTY_QUIZ_SET: QuizSet = {
   quizSetKey: '',
   name: '',
+  email: '',
   quizzes: [],
 }
 
-export function immerAssign(recipe) {
-  return assign(produce(recipe))
-}
-
 export const nextQuiz = assign({
-  currentQuizIndex: (ctx) => ctx.currentQuizIndex + 1,
+  currentQuizIndex: (ctx, e) => ctx.currentQuizIndex + 1,
 })
 
 export const previousQuiz = assign({
@@ -26,7 +25,7 @@ export const previousQuiz = assign({
 })
 
 export function hasNextQuiz({ currentQuizIndex }) {
-  return currentQuizIndex < quizzes[QUIZ_VERSION].length - 1
+  return currentQuizIndex < QUIZZES[QUIZ_VERSION].length - 1
 }
 
 export function hasPreviousQuiz({ currentQuizIndex }) {
@@ -36,7 +35,7 @@ export function hasPreviousQuiz({ currentQuizIndex }) {
 export function shouldShowStage({ currentQuizIndex }) {
   return (
     hasNextQuiz({ currentQuizIndex }) &&
-    quizzes[QUIZ_VERSION][currentQuizIndex]?.stage !==
-      quizzes[QUIZ_VERSION][currentQuizIndex + 1].stage
+    QUIZZES[QUIZ_VERSION][currentQuizIndex]?.stage !==
+      QUIZZES[QUIZ_VERSION][currentQuizIndex + 1].stage
   )
 }

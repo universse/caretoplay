@@ -23,6 +23,7 @@ export type QuizSet = {
   quizSetKey: string
   name: string
   quizzes: QuizWithChoice[]
+  email?: string
   status?: 'new' | 'finished'
   quizVersion?: QuizVersion
 }

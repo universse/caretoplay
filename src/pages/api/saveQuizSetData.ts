@@ -19,7 +19,7 @@ export default async function saveQuizSetData(
     await firebase
       .database()
       .ref(`quizSets/${quizSetData.quizSetKey}`)
-      .set(quizSetData)
+      .update(quizSetData)
     res.status(200).json({ success: true })
   } catch {
     res.status(500).json({ success: false })

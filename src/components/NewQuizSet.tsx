@@ -6,14 +6,18 @@ import QuizInput, {
   quizInputMachine,
   QuizInputService,
 } from 'components/QuizInput'
-import { quizzes, QUIZ_VERSION } from 'constants/quizzes'
-import { firebaseApp } from 'utils/firebaseApp'
+import Share, {
+  shareMachine,
+  // ShareService
+} from 'components/Share'
+import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
+import { apiClient } from 'utils/apiClient'
+import { immerAssign } from 'utils/machineUtils'
 import {
   STAGE_TRANSITION_DURATION,
   PERSISTED_QUIZSET_STORAGE_KEY,
   FINISHED_QUIZSETS_STORAGE_KEY,
   EMPTY_QUIZ_SET,
-  immerAssign,
   nextQuiz,
   previousQuiz,
   hasNextQuiz,
@@ -40,6 +44,7 @@ type NewQuizSetEvent =
     }
   | { type: 'finish' }
   | { type: 'retry' }
+  | { type: 'share' }
 
 type NewQuizSetState = {
   value:
@@ -50,8 +55,8 @@ type NewQuizSetState = {
     | 'showingQuiz'
     | 'done'
     | 'finishingQuizSet'
-    | 'error'
-    | 'finished'
+    | 'finishingQuizSetError'
+    | 'askToShare'
   context: NewQuizSetContext
 }
 
@@ -74,7 +79,7 @@ const spawnQuizInputService = assign({
   quizInputServices: ({ quizSet, currentQuizIndex, quizInputServices }) => {
     if (quizInputServices[currentQuizIndex]) return quizInputServices
 
-    const quiz = quizzes[QUIZ_VERSION][currentQuizIndex]
+    const quiz = QUIZZES[QUIZ_VERSION][currentQuizIndex]
     const savedQuiz = quizSet?.quizzes?.[currentQuizIndex]
 
     return [
@@ -95,6 +100,20 @@ const spawnQuizInputService = assign({
   },
 })
 
+const spawnShareService = assign({
+  shareService: ({ shareService, quizSet }) =>
+    shareService ||
+    spawn(
+      shareMachine.withConfig({
+        services: {
+          handleSubmit(ctx) {
+            return apiClient.subscribe(quizSet.quizSetKey, ctx.data.email)
+          },
+        },
+      })
+    ),
+})
+
 function persistQuizSet({ quizSet }) {
   set(PERSISTED_QUIZSET_STORAGE_KEY, {
     ...quizSet,
@@ -106,19 +125,47 @@ function finishQuizSet({ quizSet }) {
   async function saveFinishedQuizSet({ quizSetKey, name }) {
     const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
 
-    finishedQuizSets[quizSetKey] = name
+    finishedQuizSets[quizSetKey] = { name }
 
     return set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
   }
 
   return Promise.all([
-    firebaseApp.saveQuizSetData({
+    apiClient.saveQuizSetData({
       ...quizSet,
       quizVersion: QUIZ_VERSION,
       status: 'finished',
     }),
     saveFinishedQuizSet(quizSet),
   ])
+}
+
+function shareQuizSet(ctx) {
+  socialShare({
+    text: 'blah blah blah',
+    url: window.location.href,
+  })
+    .then(() => {
+      apiClient.snap('share', ctx.quizSet.quizSetKey)
+    })
+    .catch((error) => {
+      switch (error.name) {
+        case 'Unsupported':
+          // open share modal
+          break
+
+        case 'InternalError':
+          // log
+          break
+
+        case 'ShareTimeout':
+          // log
+          break
+
+        default:
+          break
+      }
+    })
 }
 
 function clearLocalQuizSet() {
@@ -140,6 +187,7 @@ export const newQuizSetMachine = createMachine<
     quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
     quizInputServices: [],
+    shareService: null,
   },
   states: {
     askForName: {
@@ -218,25 +266,53 @@ export const newQuizSetMachine = createMachine<
       invoke: {
         id: 'finishQuizSet',
         src: finishQuizSet,
-        onDone: { actions: [clearLocalQuizSet], target: 'finished' },
-        onError: { target: 'error' },
+        onDone: { actions: [clearLocalQuizSet], target: 'askToShare' },
+        onError: { target: 'finishingQuizSetError' },
       },
     },
-    error: {
+    finishingQuizSetError: {
       on: {
         retry: 'finishingQuizSet',
       },
     },
-    finished: {
+    askToShare: {
+      entry: [spawnShareService],
       on: {
         back: {
-          // TODO: actions unfinish
           target: 'showingQuiz',
+        },
+        share: {
+          actions: [shareQuizSet],
         },
       },
     },
   },
 })
+
+function QuizScreen({
+  currentQuizIndex,
+  handleBackButton,
+  quizInputService,
+  versionedQuizzes,
+}) {
+  const currentQuiz = versionedQuizzes[currentQuizIndex]
+
+  const currentStageQuestions = versionedQuizzes.filter(
+    (quiz) => quiz.stage === currentQuiz?.stage
+  )
+  const questionOrder = currentStageQuestions.indexOf(currentQuiz) + 1
+  const questionCountForCurrentStage = currentStageQuestions.length
+
+  return (
+    <div>
+      <button onClick={handleBackButton} type='button'>
+        Back
+      </button>
+      <div>{currentQuiz.questionToAnswer}</div>
+      <QuizInput quizInputService={quizInputService} />
+    </div>
+  )
+}
 
 export default function NewQuizSet({
   newQuizSetService,
@@ -250,13 +326,14 @@ export default function NewQuizSet({
         quizSet: { name, quizSetKey },
         currentQuizIndex,
         quizInputServices,
+        shareService,
       },
       value,
     },
     send,
   ] = useService(newQuizSetService)
 
-  const versionedQuizzes = quizzes[QUIZ_VERSION]
+  const versionedQuizzes = QUIZZES[QUIZ_VERSION]
 
   return (
     <div>
@@ -281,13 +358,12 @@ export default function NewQuizSet({
         </div>
       )}
       {matches('showingQuiz') && (
-        <div>
-          <button onClick={() => send('back')} type='button'>
-            Back
-          </button>
-          <div>{versionedQuizzes[currentQuizIndex].questionToAnswer}</div>
-          <QuizInput quizInputService={quizInputServices[currentQuizIndex]} />
-        </div>
+        <QuizScreen
+          currentQuizIndex={currentQuizIndex}
+          handleBackButton={() => send('back')}
+          quizInputService={quizInputServices[currentQuizIndex]}
+          versionedQuizzes={versionedQuizzes}
+        />
       )}
       {matches('done') && (
         <div>
@@ -301,39 +377,11 @@ export default function NewQuizSet({
           <div>Saving...</div>
         </div>
       )}
-      {matches('finished') && (
+      {matches('askToShare') && (
         <div>
           <div>Done. Share with your spouse.</div>
-          <button
-            onClick={() =>
-              socialShare({
-                text: 'blah blah blah',
-                url: window.location.href,
-              })
-                .then(() => {
-                  firebaseApp.snap('share', quizSetKey)
-                })
-                .catch((error) => {
-                  switch (error.name) {
-                    case 'Unsupported':
-                      // open share modal
-                      break
-
-                    case 'InternalError':
-                      // log
-                      break
-
-                    case 'ShareTimeout':
-                      // log
-                      break
-
-                    default:
-                      break
-                  }
-                })
-            }
-            type='button'
-          >
+          <Share shareService={shareService} />
+          <button onClick={() => send('share')} type='button'>
             Share
           </button>
         </div>

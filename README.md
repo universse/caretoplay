@@ -1,21 +1,17 @@
 <!--
 TODO:
-add error handling onError (kind of done)
+view guessed quiz flow
+ask for relationship, send email when relationship completed quiz /api/completeQuizSet
+outro show contacts
 
-* finish rest of flows (UI + state)
-missing flows: ask for email when sharing -> modify /api/redeem
-showing contacts
+add error boundary
 
-NO:
-add local redeemed (maybe) -> 1 redemption per browser
+PROD:
+potentially sms
 
 NICE TO HAVE:
 experiment with xstate web worker
 research facebook share callback
 use react-query new QueryCache()
-
-PROD:
-sendinblue test email so don't use up free quota :D
-twilio sms
 
 -->
