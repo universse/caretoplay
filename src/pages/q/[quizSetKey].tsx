@@ -12,12 +12,9 @@ import ExistingQuizSet, {
   existingQuizSetMachine,
   ExistingQuizSetService,
 } from 'components/ExistingQuizSet'
-import { firebaseApp } from 'utils/firebaseApp'
-import {
-  EMPTY_QUIZ_SET,
-  PERSISTED_QUIZSET_STORAGE_KEY,
-  immerAssign,
-} from 'utils/quizUtils'
+import { apiClient } from 'utils/apiClient'
+import { immerAssign } from 'utils/machineUtils'
+import { EMPTY_QUIZ_SET, PERSISTED_QUIZSET_STORAGE_KEY } from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
 
 type QuizSetMachineContext = {
@@ -68,8 +65,8 @@ const assignQuizSet = assign<QuizSetMachineContext>({
 
 const assignEmptyQuizSet = assign({ quizSet: { ...EMPTY_QUIZ_SET } })
 
-function visitQuizSet(ctx) {
-  firebaseApp.snap('visit', ctx.quizSet.quizSetKey)
+function trackQuizSetVisit(ctx) {
+  apiClient.snap('visit', ctx.quizSet.quizSetKey)
 }
 
 const spawnNewQuizSetService = assign<QuizSetMachineContext>({
@@ -93,7 +90,7 @@ const spawnExistingQuizSetService = assign({
 })
 
 function fetchQuizSet(ctx: QuizSetMachineContext) {
-  return firebaseApp.fetchQuizSet(ctx.quizSet.quizSetKey)
+  return apiClient.fetchQuizSet(ctx.quizSet.quizSetKey)
 }
 
 function fetchPersistedQuizSet() {
@@ -101,7 +98,7 @@ function fetchPersistedQuizSet() {
 }
 
 function createQuizSet() {
-  return firebaseApp.createQuizSet()
+  return apiClient.createQuizSet()
 }
 
 function hasQuizSetKey(_, e) {
@@ -160,7 +157,7 @@ const quizSetMachine = createMachine<
             onDone: [
               {
                 cond: isExistingQuizSet,
-                actions: [assignQuizSet, visitQuizSet],
+                actions: [assignQuizSet, trackQuizSetVisit],
                 target: '#quizSet.existingQuizSet',
               },
               { target: 'fetchingPersistedQuizSet' },

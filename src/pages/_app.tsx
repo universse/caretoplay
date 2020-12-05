@@ -1,16 +1,14 @@
-import { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 // import { inspect } from '@xstate/inspect'
 // import 'styles/index.scss'
 
-import { firebaseApp } from 'utils/firebaseApp'
+import { apiClient } from 'utils/apiClient'
 
-// if (typeof window === 'object') inspect({ iframe: false })
+if (typeof window === 'object') {
+  apiClient.snap('visit')
+  // inspect({ iframe: false })
+}
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  useEffect(() => {
-    firebaseApp.snap('visit')
-  }, [])
-
   return <Component {...pageProps} />
 }

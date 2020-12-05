@@ -1,14 +1,17 @@
 import { createMachine, assign, spawn, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
+import { get, set } from 'idb-keyval'
 
 import QuizGuess, {
   quizGuessMachine,
   QuizGuessService,
 } from 'components/QuizGuess'
-import { quizzes, QUIZ_VERSION } from 'constants/quizzes'
-import { firebaseApp } from 'utils/firebaseApp'
+import { CONTACTS, QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
+import { apiClient } from 'utils/apiClient'
+import { immerAssign } from 'utils/machineUtils'
 import {
   STAGE_TRANSITION_DURATION,
+  COMPLETED_QUIZSETS_STORAGE_KEY,
   EMPTY_QUIZ_SET,
   nextQuiz,
   previousQuiz,
@@ -31,6 +34,8 @@ type ExistingQuizSetEvent =
       type: 'next'
     }
   | { type: 'back' }
+  | { type: 'guess'; choice: number }
+  | { type: 'retry' }
 
 type ExistingQuizSetState = {
   value:
@@ -38,7 +43,7 @@ type ExistingQuizSetState = {
     | 'instruction'
     | 'showingStage'
     | 'showingQuiz'
-    | 'completed'
+    | 'askToShare'
   context: ExistingQuizSetContext
 }
 
@@ -49,12 +54,13 @@ export type ExistingQuizSetService = Interpreter<
   ExistingQuizSetState
 >
 
-const assignDidSubscribe = assign({ didSubscribe: true })
-
-const assignPhoneNumber = assign({ phoneNumber: (_, e) => e.value })
-
 const spawnQuizGuessService = assign({
-  quizGuessServices: ({ quizSet, currentQuizIndex, quizGuessServices }) => {
+  quizGuessServices: ({
+    savedGuesses,
+    quizSet,
+    currentQuizIndex,
+    quizGuessServices,
+  }) => {
     if (quizGuessServices[currentQuizIndex]) return quizGuessServices
 
     const { choice, options } = quizSet.quizzes[currentQuizIndex]
@@ -65,26 +71,55 @@ const spawnQuizGuessService = assign({
         quizGuessMachine.withContext({
           ...quizGuessMachine.context,
           quiz: {
-            ...quizzes[QUIZ_VERSION][currentQuizIndex],
+            ...QUIZZES[QUIZ_VERSION][currentQuizIndex],
             choice,
             options,
           },
+          choice: savedGuesses[currentQuizIndex] ?? -1,
         })
       ),
     ]
   },
 })
 
-function completeQuizSet(ctx) {
-  firebaseApp.snap('complete', ctx.quizSet.quizSetKey)
+function trackQuizSetComplete(ctx) {
+  apiClient.snap('complete', ctx.quizSet.quizSetKey)
 }
 
-function didSubscribe(ctx) {
-  return ctx.didSubscribe
+function trackQuizSetReview(ctx) {
+  apiClient.snap('review', ctx.quizSet.quizSetKey)
 }
 
-function isPhoneNumberValid(ctx) {
-  return ctx.phoneNumber
+async function fetchSavedGuess({ quizSet: { quizSetKey } }) {
+  const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
+  return completedQuizSets?.[quizSetKey]
+}
+
+const assignSavedGuesses = assign({
+  savedGuesses: (_, e) => e.data?.savedGuesses || [],
+})
+const assignEmptyGuesses = assign({ savedGuesses: [] })
+
+const saveGuess = immerAssign((ctx, { choice }) => {
+  ctx.savedGuesses[ctx.currentQuizIndex] = choice
+})
+
+function hasSavedGuesses(_, e) {
+  return e.data
+}
+
+async function completeQuizSet({ quizSet, savedGuesses }) {
+  async function saveCompletedQuizSet({ quizSetKey }, savedGuesses) {
+    const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
+    completedQuizSets[quizSetKey] = { savedGuesses }
+
+    return set(COMPLETED_QUIZSETS_STORAGE_KEY, completedQuizSets)
+  }
+
+  return Promise.all([
+    apiClient.completeQuizSet('', ''),
+    saveCompletedQuizSet(quizSet, savedGuesses),
+  ])
 }
 
 export const existingQuizSetMachine = createMachine<
@@ -98,6 +133,7 @@ export const existingQuizSetMachine = createMachine<
     quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
     quizGuessServices: [],
+    savedGuesses: [],
     didSubscribe: false,
     phoneNumber: '',
   },
@@ -112,6 +148,33 @@ export const existingQuizSetMachine = createMachine<
     instruction: {
       on: {
         next: {
+          target: 'fetchingSavedGuess',
+        },
+      },
+    },
+    fetchingSavedGuess: {
+      invoke: {
+        id: 'fetchSavedGuess',
+        src: fetchSavedGuess,
+        onDone: [
+          {
+            cond: hasSavedGuesses,
+            actions: [assignSavedGuesses],
+            target: 'confirmReview',
+          },
+          { target: 'showingStage' },
+        ],
+        onError: { target: 'showingStage' },
+      },
+    },
+    confirmReview: {
+      on: {
+        review: {
+          actions: [trackQuizSetReview],
+          target: 'showingStage',
+        },
+        startAfresh: {
+          actions: [assignEmptyGuesses],
           target: 'showingStage',
         },
       },
@@ -127,13 +190,21 @@ export const existingQuizSetMachine = createMachine<
     showingQuiz: {
       entry: [spawnQuizGuessService],
       on: {
-        next: [
+        guess: [
           {
             cond: shouldShowStage,
+            actions: [saveGuess],
             target: 'showingStage',
           },
-          { cond: hasNextQuiz, actions: [nextQuiz], target: 'showingQuiz' },
-          { actions: [completeQuizSet], target: 'completed' },
+          {
+            cond: hasNextQuiz,
+            actions: [saveGuess, nextQuiz],
+            target: 'showingQuiz',
+          },
+          {
+            actions: [saveGuess, trackQuizSetComplete],
+            target: 'completingQuizSet',
+          },
         ],
         back: [
           {
@@ -144,92 +215,34 @@ export const existingQuizSetMachine = createMachine<
         ],
       },
     },
-    completed: {
-      // initial: 'disagreed',
-      // on: {
-      //   agree: {
-      //     target: '.agreed',
-      //   },
-      //   disagree: {
-      //     target: '.disagreed',
-      //   },
-      // },
-      // states: {
-      //   agreed: {
-      //     on: {
-      //       selectOutlet: {
-      //         target: 'selectedOutlet',
-      //       },
-      //     },
-      //   },
-      //   selectedOutlet: {
-      //     on: {
-      //       next: {
-      //         actions: [assignDidSubscribe],
-      //         target: '#existingQuizSet.askForPhoneNumber',
-      //       },
-      //     },
-      //   },
-      //   disagreed: {
-      //     on: {
-      //       next: {
-      //         target: '#existingQuizSet.askForPhoneNumber',
-      //       },
-      //     },
-      //   },
-      // },
+    completingQuizSet: {
+      invoke: {
+        id: 'completeQuizSet',
+        src: completeQuizSet,
+        onDone: { target: 'outroduction' },
+        onError: { target: 'completingQuizSetError' },
+      },
     },
-    // askForPhoneNumber: {
-    //   initial: 'inputting',
-    //   states: {
-    //     inputting: {
-    //       on: {
-    //         submit: [
-    //           {
-    //             cond: isPhoneNumberValid,
-    //             target: 'submitted',
-    //           },
-    //           { target: 'error' },
-    //         ],
-    //         changePhoneNumber: {
-    //           actions: [assignPhoneNumber],
-    //         },
-    //       },
-    //     },
-    //     error: {
-    //       on: {
-    //         changePhoneNumber: {
-    //           actions: [assignPhoneNumber],
-    //           target: 'inputting',
-    //         },
-    //       },
-    //     },
-    //     submitted: {
-    //       always: [
-    //         { cond: didSubscribe, target: 'savingAndRedeeming' },
-    //         { target: 'redeeming' },
-    //       ],
-    //     },
-    //     savingAndRedeeming: {
-    //       invoke: {
-    //         id: 'saveAndRedeem',
-    //         src: 'saveAndRedeem',
-    //         onDone: [{ target: '#existingQuizSet.askToShare' }],
-    //         onError: {},
-    //       },
-    //     },
-    //     redeeming: {
-    //       invoke: {
-    //         id: 'redeem',
-    //         src: 'redeem',
-    //         onDone: [{ target: '#existingQuizSet.askToShare' }],
-    //         onError: {},
-    //       },
-    //     },
-    //   },
-    // },
-    // askToShare: {},
-    // shareOnFacebook: {},
+    completingQuizSetError: {
+      on: {
+        retry: 'completingQuizSet',
+      },
+    },
+    outroduction: {
+      on: {
+        next: {
+          target: 'askToShare',
+        },
+      },
+    },
+    askToShare: {
+      initial: 'asking',
+      states: {
+        asking: {},
+        sharing: {},
+        shared: {},
+      },
+    },
   },
 })
 
@@ -242,6 +255,7 @@ export default function ExistingQuizSet({
     {
       matches,
       context: {
+        savedGuesses,
         quizSet: { name },
         currentQuizIndex,
         quizGuessServices,
@@ -251,7 +265,7 @@ export default function ExistingQuizSet({
     send,
   ] = useService(existingQuizSetService)
 
-  const versionedQuizzes = quizzes[QUIZ_VERSION]
+  const versionedQuizzes = QUIZZES[QUIZ_VERSION]
 
   return (
     <div>
@@ -275,6 +289,16 @@ export default function ExistingQuizSet({
           </div>
         </div>
       )}
+      {matches('confirmReview') && (
+        <div>
+          <button onClick={() => send('review')} type='button'>
+            Review
+          </button>
+          <button onClick={() => send('startAfresh')} type='button'>
+            Start afresh
+          </button>
+        </div>
+      )}
       {matches('showingStage') && (
         <div>
           <div>Stage {versionedQuizzes[currentQuizIndex + 1].stage}</div>
@@ -294,7 +318,8 @@ export default function ExistingQuizSet({
           <QuizGuess quizGuessService={quizGuessServices[currentQuizIndex]} />
         </div>
       )}
-      {matches('completed') && (
+      {matches('outroduction') && <div>Outro</div>}
+      {matches('askToShare') && (
         <div>
           <div>Done. Here's your voucher.</div>
         </div>

@@ -1,7 +1,7 @@
 import { createMachine, assign, sendParent, Interpreter } from 'xstate'
 import { useService } from '@xstate/react'
 
-import { immerAssign } from 'utils/quizUtils'
+import { immerAssign } from 'utils/machineUtils'
 import { Quiz } from 'interfaces/shared'
 
 type QuizInputMachineContext = {
@@ -17,7 +17,7 @@ type QuizInputMachineEvent =
   | { type: 'changeResponse'; value: string }
   | { type: 'confirmResponseChange' }
   | { type: 'cancelResponseChange' }
-  | { type: 'answer' }
+  | { type: 'answer'; options: string[]; choice: number }
 
 type QuizInputMachineState = {
   value:

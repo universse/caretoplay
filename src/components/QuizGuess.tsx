@@ -14,7 +14,7 @@ type QuizGuessMachineEvent =
   | { type: 'next' }
 
 type QuizGuessMachineState = {
-  value: 'idle' | 'revealed' | { revealed: 'right' | 'wrong' }
+  value: 'unrevealed' | 'revealed' | { revealed: 'right' | 'wrong' }
   context: QuizGuessMachineContext & { quiz: QuizWithChoice }
 }
 
@@ -25,11 +25,15 @@ export type QuizGuessService = Interpreter<
   QuizGuessMachineState
 >
 
-const assignOption = assign({
+const assignChoice = assign({
   choice: (_, e) => e.choice,
 })
 
-const nextQuiz = sendParent({ type: 'next' })
+const madeGuess = sendParent(({ choice }) => ({ type: 'guess', choice }))
+
+function hasNotGuessed({ choice }) {
+  return choice === -1
+}
 
 function isGuessCorrect({ choice, quiz }: QuizGuessMachineContext) {
   return choice === quiz.choice
@@ -41,26 +45,36 @@ export const quizGuessMachine = createMachine<
   QuizGuessMachineState
 >({
   id: 'quiz',
-  initial: 'idle',
+  initial: 'unknown',
   context: { choice: -1, quiz: null },
   states: {
-    idle: {
+    unknown: {
+      always: [
+        { cond: hasNotGuessed, target: 'unrevealed' },
+        { target: 'revealed' },
+      ],
+    },
+    unrevealed: {
       on: {
-        guess: { actions: [assignOption] },
-        confirmGuess: [
-          { cond: isGuessCorrect, target: 'revealed.right' },
-          { target: 'revealed.wrong' },
-        ],
+        guess: { actions: [assignChoice] },
+        confirmGuess: { target: 'revealed' },
       },
     },
     revealed: {
+      initial: 'unknown',
       states: {
+        unknown: {
+          always: [
+            { cond: isGuessCorrect, target: 'right' },
+            { target: 'wrong' },
+          ],
+        },
         right: {},
         wrong: {},
       },
       on: {
         next: {
-          actions: [nextQuiz],
+          actions: [madeGuess],
         },
       },
     },

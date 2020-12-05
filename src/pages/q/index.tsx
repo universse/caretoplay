@@ -23,7 +23,7 @@ export default function QuizPage(): JSX.Element {
       {isLoading && <div>spinner</div>}
       <ul>
         {!isLoading &&
-          finishedQuizSets.map(([quizSetKey, name]) => (
+          finishedQuizSets.map(([quizSetKey, { name }]) => (
             <li key={quizSetKey}>
               <Link href={`/q/${quizSetKey}`}>
                 <a>{name}'s quiz</a>
