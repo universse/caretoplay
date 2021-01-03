@@ -1,11 +1,15 @@
 import { useEffect } from 'react'
 import { createMachine, assign, spawn } from 'xstate'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useMachine } from '@xstate/react'
 import { get, set } from 'idb-keyval'
 
 import LandingScreen from 'screens/LandingScreen'
 import StageScreen from 'screens/StageScreen'
+import Congratulations from './Congratulations'
+import ACPLocations from './ACPLocations'
+import { Text } from './shared'
 import QuizGuess, {
   quizGuessMachine,
   QuizGuessService,
@@ -285,10 +289,68 @@ export default function ExistingQuizSet({
         </div>
       )}
       {matches('outroduction') && (
-        <div>
+        <div className='background-brand100'>
+          <Congratulations />
+          <div className='px-16 py-24'>
+            <ACPLocations />
+          </div>
           {email ? `${name} entered giveaway` : ''}
           <div>
-            <a href='/q/new'>Create quiz</a>
+            <a
+              className='AspectRatio _16-9 block'
+              href='https://www.hyatt.com/en-US/hotel/singapore/andaz-singapore/sinaz/dining'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <Image
+                alt='Hyatt website'
+                layout='fill'
+                objectFit='cover'
+                src={`/assets/images/giveaway.jpg`}
+              />
+            </a>
+            <div className='background-gray900 px-16 py-24'>
+              <Text
+                as='h6'
+                className='color-light serif fw-800 uppercase text-center'
+                element='p'
+              >
+                Stand a chance to
+              </Text>
+              <Text
+                as='h4'
+                className='color-brand300 serif fw-800 uppercase text-center'
+                element='p'
+              >
+                win our grand prize
+              </Text>
+              <Text
+                as='h6'
+                className='color-light serif fw-800 uppercase text-center'
+                element='p'
+              >
+                A 3D2N stay at Andaz Singapore!
+              </Text>
+              <Text
+                as='body1'
+                className='color-light serif fw-800 text-center'
+                element='p'
+              >
+                + Breakfast for 2 at Alley on 25 (worth $880!).
+              </Text>
+              <Text as='body2' className='color-light text-center' element='p'>
+                Winner will be announced and notified on 19 Feburary 2021.
+              </Text>
+            </div>
+          </div>
+          <div className='flex justify-center px-16 py-24'>
+            <a
+              className='flex justify-center items-center text-body1 color-dark background-brand500 fw-700 rounded shadow01 px-24 py-16'
+              href='/q/new'
+              type='button'
+            >
+              Create your own quiz!
+            </a>
           </div>
         </div>
       )}

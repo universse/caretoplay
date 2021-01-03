@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import LetsBegin from 'assets/illustrations/LetsBegin'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Hero from 'components/Hero'
@@ -38,7 +39,7 @@ export default function LandingScreen({ name, nextStep }: {}): JSX.Element {
           </Text>
         </div>
       </div>
-      <div className='flex flex-col items-center px-16 py-32 background-brand900'>
+      <div className='flex flex-col items-center px-16 pt-32 pb-48 background-brand900 overflow-hidden'>
         <Text
           as='h5'
           className='serif color-dark fw-800 text-center'
@@ -50,11 +51,21 @@ export default function LandingScreen({ name, nextStep }: {}): JSX.Element {
         <button
           className='text-body1 color-dark background-gray100 fw-700 rounded shadow01'
           onClick={nextStep}
-          style={{ height: '3rem', width: '12.5rem' }}
+          style={{ height: '3rem', width: '10rem' }}
           type='button'
         >
           Let's Begin!
         </button>
+        <div
+          className='absolute'
+          style={{
+            width: '12rem',
+            left: 'calc(50% + 4.5rem)',
+            bottom: '-3rem',
+          }}
+        >
+          <LetsBegin />
+        </div>
       </div>
       <Footer />
     </div>

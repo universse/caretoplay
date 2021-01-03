@@ -3,6 +3,7 @@ import { classNames } from 'utils/classNames'
 export function TextInput(props) {
   return (
     <input
+      autoComplete='off'
       className='text-body1 color-dark rounded shadow01 px-24 w-100'
       {...props}
     />

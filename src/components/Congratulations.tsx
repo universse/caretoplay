@@ -34,7 +34,7 @@ export default function Congratulations() {
         <Text className='color-dark text-center serif fw-800' element='p'>
           Life is unpredictable.
           <br />
-          If one day you are unable to speak for yourself, who would youappoint
+          If one day you are unable to speak for yourself, who would you appoint
           to represent your wishes?
           <br />
           <br />I would nominate ________ to speak up for me.

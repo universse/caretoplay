@@ -22,7 +22,7 @@ export default function StageScreen({
   }
 
   return (
-    <div className='flex justify-center h-100 overflow-hidden'>
+    <div className='flex flex-expand justify-center h-100 overflow-hidden'>
       <div
         ref={(container) =>
           lottie
@@ -39,6 +39,7 @@ export default function StageScreen({
         style={{
           backgroundColor: `#${backgrounds[stage]}`,
           backgroundImage: 'url(/assets/svgs/sun.svg)',
+          flex: '1 1 auto',
         }}
       />
     </div>

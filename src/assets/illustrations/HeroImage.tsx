@@ -1,10 +1,12 @@
 export default function HeroImage() {
   return (
     <svg
-      fill='none'
+      aria-hidden
       // height='650'
-      viewBox='0 0 1144 650'
+      fill='none'
       // width='1144'
+      focusable={false}
+      viewBox='0 0 1144 650'
       xmlns='http://www.w3.org/2000/svg'
     >
       <path

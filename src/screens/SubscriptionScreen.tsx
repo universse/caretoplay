@@ -223,9 +223,8 @@ export default function SubscriptionScreen({
         >
           By submitting this lucky draw entry form, you agree with the
           collection and processing of your personal information by Care to
-          Play?, in accordance with the Personal Data Protection Act.
-          <br />
-          You will be subscribed to our marketing mailing list.
+          Play?, in accordance with the Personal Data Protection Act. You will
+          be subscribed to our marketing mailing list.
         </Text>
         <div className='mt-4'>
           {fieldErrors.agreedToPDPA?.map((error, i) => (

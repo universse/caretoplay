@@ -211,13 +211,13 @@ function finishQuizSet({ quizSet }) {
   ])
 }
 
-function shareQuizSet(ctx) {
+function shareQuizSet({ quizSet: { name, quizSetKey } }) {
   socialShare({
-    text: 'blah blah blah',
+    text: `Click this link to play: How well do you know ${name}?`,
     url: window.location.href,
   })
     .then(() => {
-      apiClient.snap('share', ctx.quizSet.quizSetKey)
+      apiClient.snap('share', quizSetKey)
     })
     .catch((error) => {
       switch (error.name) {
