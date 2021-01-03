@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'A Pompadour';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('./fonts/A\ Pompadour/apompadour_text2.woff2') format('woff2'),
+    url('./fonts/A\ Pompadour/apompadour_text2.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'A Pompadour';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+    url('./fonts/A\ Pompadour/apompadour_text2_bold.woff2') format('woff2'),
+    url('./fonts/A\ Pompadour/apompadour_text2_bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 300;
+  src: local(''), url('./fonts/Gilroy/gilroy-light.woff2') format('woff2'),
+    url('./fonts/Gilroy/gilroy-light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 800;
+  src: local(''), url('./fonts/Gilroy/gilroy-extrabold.woff2') format('woff2'),
+    url('./fonts/Gilroy/gilroy-extrabold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('./fonts/NotoSans/noto-sans-v11-latin-regular.woff2') format('woff2'),
+    url('./fonts/NotoSans/noto-sans-v11-latin-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+    url('./fonts/NotoSans/noto-sans-v11-latin-700.woff2') format('woff2'),
+    url('./fonts/NotoSans/noto-sans-v11-latin-700.woff') format('woff');
+}

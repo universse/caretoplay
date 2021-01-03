@@ -3,17 +3,16 @@ import { assign } from 'xstate'
 import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
 import { Quiz, QuizSet, QuizVersion } from 'interfaces/shared'
 
-export const STAGE_TRANSITION_DURATION = 1000
-
 export const COMPLETED_QUIZSETS_STORAGE_KEY = 'ctp_completed'
 export const FINISHED_QUIZSETS_STORAGE_KEY = 'ctp_finished'
 export const PERSISTED_QUIZSET_STORAGE_KEY = 'ctp_persisted'
 
 export const EMPTY_QUIZ_SET: QuizSet = {
   quizSetKey: '',
+  status: 'new',
   name: '',
-  email: '',
   quizzes: [],
+  personalInfo: {},
 }
 
 export const nextQuiz = assign({

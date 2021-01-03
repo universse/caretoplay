@@ -1,45 +1,143 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { get, set } from 'idb-keyval'
+import Image from 'next/image'
+// import { get, set } from 'idb-keyval'
 
-import { FINISHED_QUIZSETS_STORAGE_KEY } from 'utils/quizUtils'
+import Footer from 'components/Footer'
+import Header from 'components/Header'
+import Hero from 'components/Hero'
+import { Text } from 'components/shared'
+// import { FINISHED_QUIZSETS_STORAGE_KEY } from 'utils/quizUtils'
 
 export default function IndexPage(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasFinishedQuizSets, setFinishedQuizSets] = useState(false)
+  // const [isLoading, setIsLoading] = useState(true)
+  // const [hasFinishedQuizSets, setFinishedQuizSets] = useState(false)
 
-  useEffect(() => {
-    async function getFinishedQuizSets() {
-      const finishedQuizSets = await get(FINISHED_QUIZSETS_STORAGE_KEY)
+  // useEffect(() => {
+  //   async function getFinishedQuizSets() {
+  //     const finishedQuizSets = await get(FINISHED_QUIZSETS_STORAGE_KEY)
 
-      if (finishedQuizSets) {
-        for (const key of Object.keys(finishedQuizSets)) {
-          if (typeof finishedQuizSets[key] === 'string') {
-            finishedQuizSets[key] = { name: finishedQuizSets[key] }
-          }
-        }
+  //     if (finishedQuizSets) {
+  //       for (const key of Object.keys(finishedQuizSets)) {
+  //         if (typeof finishedQuizSets[key] === 'string') {
+  //           finishedQuizSets[key] = { name: finishedQuizSets[key] }
+  //         }
+  //       }
 
-        await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
-      }
+  //       await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
+  //     }
 
-      setIsLoading(false)
-      setFinishedQuizSets(!!finishedQuizSets)
-    }
+  //     setIsLoading(false)
+  //     setFinishedQuizSets(!!finishedQuizSets)
+  //   }
 
-    getFinishedQuizSets()
-  }, [])
+  //   getFinishedQuizSets()
+  // }, [])
 
   return (
     <div>
-      <Link href='/q/new'>
-        <a>New quiz</a>
-      </Link>
-      {isLoading && <div>spinner</div>}
+      <Header />
+      <Hero />
+      <div className='flex background-gray900 pr-16 py-24 items-center'>
+        <div style={{ flex: '0 0 40%' }}>
+          <div className='AspectRatio _1-1'>
+            <Image
+              // alt='Hyatt website'
+              layout='fill'
+              objectFit='cover'
+              src={`/assets/gifs/hugging-dark.gif`}
+            />
+          </div>
+        </div>
+        <div>
+          <Text as='h4' className='serif color-brand100 fw-800' element='h2'>
+            How well do you think you know your love one?
+          </Text>
+          <Text as='body2' className='color-brand100 fw-400' element='p'>
+            Take this quiz to find out!
+            <br />
+            (You may even discover new surprises!)
+          </Text>
+        </div>
+      </div>
+      <div>
+        <a
+          className='AspectRatio _16-9 block'
+          href='https://www.hyatt.com/en-US/hotel/singapore/andaz-singapore/sinaz/dining'
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          <Image
+            alt='Hyatt website'
+            layout='fill'
+            objectFit='cover'
+            src={`/assets/images/giveaway.jpg`}
+          />
+        </a>
+        <div className='background-gray900 px-16 py-24'>
+          <Text
+            as='h6'
+            className='color-light serif fw-800 uppercase text-center'
+            element='p'
+          >
+            Complete the quiz & stand a chance to
+          </Text>
+          <Text
+            as='h4'
+            className='color-brand300 serif fw-800 uppercase text-center'
+            element='p'
+          >
+            win our grand prize
+          </Text>
+          <Text
+            as='h6'
+            className='color-light serif fw-800 uppercase text-center'
+            element='p'
+          >
+            A 3D2N stay at Andaz Singapore!
+          </Text>
+          <Text
+            as='body1'
+            className='color-light serif fw-800 text-center'
+            element='p'
+          >
+            + Breakfast for 2 at Alley on 25 (worth $880!).
+          </Text>
+          <Text as='body2' className='color-light text-center' element='p'>
+            The lucky draw form can be found at the end of the quiz. Winner will
+            be announced and notified on 19 Feburary 2021.
+          </Text>
+        </div>
+      </div>
+      <div className='flex flex-col items-center px-16 py-32 background-brand900'>
+        <Text
+          as='h5'
+          className='serif color-dark fw-800 text-center'
+          element='h3'
+        >
+          Are you ready?
+        </Text>
+        <Text as='body2' className='color-dark fw-400 text-center' element='p'>
+          Remember, you can customise your answers! (You may even add in some
+          tricks to really test your partner!)
+        </Text>
+        <div style={{ flex: '0 0 0.5rem' }} />
+        <Link href='/q/new'>
+          <a
+            className='flex justify-center items-center text-body1 color-dark background-gray100 fw-700 rounded shadow01'
+            style={{ height: '3rem', width: '12.5rem' }}
+          >
+            Let's Begin!
+          </a>
+        </Link>
+      </div>
+      <Footer />
+      {/* {isLoading && <div>spinner</div>}
       {!isLoading && hasFinishedQuizSets && (
         <Link href='/q'>
           <a>View finished</a>
         </Link>
-      )}
+      )} */}
     </div>
   )
 }

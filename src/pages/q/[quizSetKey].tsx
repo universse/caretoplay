@@ -1,59 +1,35 @@
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { createMachine, assign, spawn } from 'xstate'
+import { createMachine, assign } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { get } from 'idb-keyval'
 
-import NewQuizSet, {
-  newQuizSetMachine,
-  NewQuizSetService,
-} from 'components/NewQuizSet'
-import ExistingQuizSet, {
-  existingQuizSetMachine,
-  ExistingQuizSetService,
-} from 'components/ExistingQuizSet'
+import NewQuizSet from 'components/NewQuizSet'
+import ExistingQuizSet from 'components/ExistingQuizSet'
 import { apiClient } from 'utils/apiClient'
+import { apiServer } from 'utils/apiServer'
 import { immerAssign } from 'utils/machineUtils'
 import { EMPTY_QUIZ_SET, PERSISTED_QUIZSET_STORAGE_KEY } from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
 
 type QuizSetMachineContext = {
   quizSet: QuizSet
-  newQuizSetService: NewQuizSetService | null
-  existingQuizSetService: ExistingQuizSetService | null
 }
 
 type QuizSetMachineEvent =
-  | {
-      type: 'setQuizSetKey'
-      data: { quizSetKey: string }
-    }
   | { type: 'continue' }
   | { type: 'createNew' }
   | { type: 'retry' }
 
-type QuizSetMachineState =
-  | {
-      value:
-        | 'loading'
-        | { loading: '' }
-        | { loading: 'confirmContinue' }
-        | 'error'
-      context: QuizSetMachineContext & {
-        newQuizSetService: null
-        existingQuizSetService: null
-      }
-    }
-  | {
-      value: 'newQuizSet'
-      context: QuizSetMachineContext & { newQuizSetService: NewQuizSetService }
-    }
-  | {
-      value: 'existingQuizSet'
-      context: QuizSetMachineContext & {
-        existingQuizSetService: ExistingQuizSetService
-      }
-    }
+type QuizSetMachineState = {
+  value:
+    | 'loading'
+    | { loading: '' }
+    | { loading: 'confirmContinue' }
+    | 'error'
+    | 'newQuizSet'
+    | 'existingQuizSet'
+  context: QuizSetMachineContext
+}
 
 const assignQuizSetKey = immerAssign((ctx, e) => {
   ctx.quizSet.quizSetKey = e.data.quizSetKey
@@ -69,30 +45,6 @@ function trackQuizSetVisit(ctx) {
   apiClient.snap('visit', ctx.quizSet.quizSetKey)
 }
 
-const spawnNewQuizSetService = assign<QuizSetMachineContext>({
-  newQuizSetService: ({ quizSet }) =>
-    spawn(
-      newQuizSetMachine.withContext({
-        ...newQuizSetMachine.context,
-        quizSet,
-      })
-    ),
-})
-
-const spawnExistingQuizSetService = assign({
-  existingQuizSetService: ({ quizSet }) =>
-    spawn(
-      existingQuizSetMachine.withContext({
-        ...existingQuizSetMachine.context,
-        quizSet,
-      })
-    ),
-})
-
-function fetchQuizSet(ctx: QuizSetMachineContext) {
-  return apiClient.fetchQuizSet(ctx.quizSet.quizSetKey)
-}
-
 function fetchPersistedQuizSet() {
   return get(PERSISTED_QUIZSET_STORAGE_KEY)
 }
@@ -101,12 +53,8 @@ function createQuizSet() {
   return apiClient.createQuizSet()
 }
 
-function hasQuizSetKey(_, e) {
-  return e.data.quizSetKey !== 'new'
-}
-
-function isExistingQuizSet(_, e) {
-  return e.data?.status === 'finished'
+function isExistingQuizSet(ctx) {
+  return ctx.quizSet.status === 'finished'
 }
 
 function isOwnerOfPersistedQuizSet(ctx, e) {
@@ -128,8 +76,6 @@ const quizSetMachine = createMachine<
     quizSet: {
       ...EMPTY_QUIZ_SET,
     },
-    newQuizSetService: null,
-    existingQuizSetService: null,
   },
   states: {
     loading: {
@@ -139,31 +85,14 @@ const quizSetMachine = createMachine<
           type: 'history',
         },
         waiting: {
-          on: {
-            setQuizSetKey: [
-              {
-                cond: hasQuizSetKey,
-                actions: [assignQuizSetKey],
-                target: 'fetchingQuizSet',
-              },
-              { target: 'fetchingPersistedQuizSet' },
-            ],
-          },
-        },
-        fetchingQuizSet: {
-          invoke: {
-            id: 'fetchQuizSet',
-            src: fetchQuizSet,
-            onDone: [
-              {
-                cond: isExistingQuizSet,
-                actions: [assignQuizSet, trackQuizSetVisit],
-                target: '#quizSet.existingQuizSet',
-              },
-              { target: 'fetchingPersistedQuizSet' },
-            ],
-            onError: { target: '#quizSet.error' },
-          },
+          always: [
+            {
+              cond: isExistingQuizSet,
+              actions: [trackQuizSetVisit],
+              target: '#quizSet.existingQuizSet',
+            },
+            { target: 'fetchingPersistedQuizSet' },
+          ],
         },
         fetchingPersistedQuizSet: {
           invoke: {
@@ -214,48 +143,29 @@ const quizSetMachine = createMachine<
         retry: 'loading.hist',
       },
     },
-    newQuizSet: {
-      entry: [spawnNewQuizSetService],
-    },
-    existingQuizSet: {
-      entry: [spawnExistingQuizSetService],
-    },
+    newQuizSet: {},
+    existingQuizSet: {},
   },
 })
 
-export default function QuizPage(): JSX.Element {
-  const {
-    query: { quizSetKey },
-    replace,
-  } = useRouter()
+export default function QuizPage({ quizSet }): JSX.Element {
+  const router = useRouter()
 
-  const [
-    {
-      matches,
-      context: { newQuizSetService, existingQuizSetService },
-      value,
-    },
-    send,
-  ] = useMachine(
-    quizSetMachine.withConfig({
-      actions: {
-        redirectToNewQuizSet: (_, e) => replace(`/q/${e.data.quizSetKey}`),
-      },
-    })
-  )
-
-  useEffect(() => {
-    typeof quizSetKey === 'string' &&
-      send({
-        type: 'setQuizSetKey',
-        data: {
-          quizSetKey,
+  const [{ matches, context, value }, send] = useMachine(
+    quizSetMachine
+      .withContext({ ...quizSetMachine.context, quizSet })
+      .withConfig({
+        actions: {
+          redirectToNewQuizSet: (_, e) =>
+            router.replace(`/q/${e.data.quizSetKey}`, undefined, {
+              shallow: true,
+            }),
         },
       })
-  }, [quizSetKey, send])
+  )
 
   return (
-    <div>
+    <>
       {matches('loading') && <div>Loading...</div>}
       {matches('error') && (
         <div>
@@ -274,12 +184,18 @@ export default function QuizPage(): JSX.Element {
           </button>
         </div>
       )}
-      {matches('newQuizSet') && (
-        <NewQuizSet newQuizSetService={newQuizSetService} />
-      )}
+      {matches('newQuizSet') && <NewQuizSet initialQuizSet={context.quizSet} />}
       {matches('existingQuizSet') && (
-        <ExistingQuizSet existingQuizSetService={existingQuizSetService} />
+        <ExistingQuizSet initialQuizSet={context.quizSet} />
       )}
-    </div>
+    </>
   )
+}
+
+export async function getServerSideProps({ params: { quizSetKey } }) {
+  const quizSet = await apiServer.fetchQuizSet(quizSetKey)
+
+  return {
+    props: { quizSet: { ...EMPTY_QUIZ_SET, ...quizSet } },
+  }
 }

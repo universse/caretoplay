@@ -1,17 +1,27 @@
 <!--
 TODO:
+share data
+homepage graphics at start button
+guess flow - last screen
+
+loading screen when fetching
+remove offline stuffs
+
+proper analytics
+SEO, favicon
+
 view guessed quiz flow
-ask for relationship, send email when relationship completed quiz /api/completeQuizSet
-outro show contacts
+aria-label button + input
+validation mode
 
 add error boundary
 
 PROD:
 potentially sms
+code split
 
 NICE TO HAVE:
 experiment with xstate web worker
-research facebook share callback
 use react-query new QueryCache()
 
 -->

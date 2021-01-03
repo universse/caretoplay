@@ -1,16 +1,19 @@
-import { createMachine, assign, spawn, Interpreter } from 'xstate'
-import { useService } from '@xstate/react'
+import { useEffect } from 'react'
+import { createMachine, assign, spawn } from 'xstate'
+import Link from 'next/link'
+import { useMachine } from '@xstate/react'
 import { get, set } from 'idb-keyval'
 
+import LandingScreen from 'screens/LandingScreen'
+import StageScreen from 'screens/StageScreen'
 import QuizGuess, {
   quizGuessMachine,
   QuizGuessService,
 } from 'components/QuizGuess'
-import { CONTACTS, QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
+import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
 import { apiClient } from 'utils/apiClient'
 import { immerAssign } from 'utils/machineUtils'
 import {
-  STAGE_TRANSITION_DURATION,
   COMPLETED_QUIZSETS_STORAGE_KEY,
   EMPTY_QUIZ_SET,
   nextQuiz,
@@ -25,8 +28,7 @@ type ExistingQuizSetContext = {
   quizSet: QuizSet
   currentQuizIndex: number
   quizGuessServices: QuizGuessService[]
-  didSubscribe: boolean
-  phoneNumber: string
+  persistedGuesses: number[]
 }
 
 type ExistingQuizSetEvent =
@@ -34,29 +36,24 @@ type ExistingQuizSetEvent =
       type: 'next'
     }
   | { type: 'back' }
+  | { type: 'review' }
+  | { type: 'startAfresh' }
   | { type: 'guess'; choice: number }
   | { type: 'retry' }
 
 type ExistingQuizSetState = {
   value:
     | 'introduction'
-    | 'instruction'
+    | 'confirmReview'
     | 'showingStage'
     | 'showingQuiz'
-    | 'askToShare'
+    | 'outroduction'
   context: ExistingQuizSetContext
 }
 
-export type ExistingQuizSetService = Interpreter<
-  ExistingQuizSetContext,
-  any,
-  ExistingQuizSetEvent,
-  ExistingQuizSetState
->
-
 const spawnQuizGuessService = assign({
   quizGuessServices: ({
-    savedGuesses,
+    persistedGuesses,
     quizSet,
     currentQuizIndex,
     quizGuessServices,
@@ -75,7 +72,7 @@ const spawnQuizGuessService = assign({
             choice,
             options,
           },
-          choice: savedGuesses[currentQuizIndex] ?? -1,
+          choice: persistedGuesses[currentQuizIndex] ?? -1,
         })
       ),
     ]
@@ -90,36 +87,30 @@ function trackQuizSetReview(ctx) {
   apiClient.snap('review', ctx.quizSet.quizSetKey)
 }
 
-async function fetchSavedGuess({ quizSet: { quizSetKey } }) {
+async function fetchPersistedGuess({ quizSet: { quizSetKey } }) {
   const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
   return completedQuizSets?.[quizSetKey]
 }
 
-const assignSavedGuesses = assign({
-  savedGuesses: (_, e) => e.data?.savedGuesses || [],
+const assignPersistedGuesses = assign({
+  persistedGuesses: (_, e) => e.data?.persistedGuesses || [],
 })
-const assignEmptyGuesses = assign({ savedGuesses: [] })
+const assignEmptyGuesses = assign({ persistedGuesses: [] })
 
 const saveGuess = immerAssign((ctx, { choice }) => {
-  ctx.savedGuesses[ctx.currentQuizIndex] = choice
+  ctx.persistedGuesses[ctx.currentQuizIndex] = choice
 })
 
-function hasSavedGuesses(_, e) {
+function hasPersistedGuesses(_, e) {
   return e.data
 }
 
-async function completeQuizSet({ quizSet, savedGuesses }) {
-  async function saveCompletedQuizSet({ quizSetKey }, savedGuesses) {
-    const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
-    completedQuizSets[quizSetKey] = { savedGuesses }
+async function completeQuizSet({ quizSet: { quizSetKey }, persistedGuesses }) {
+  const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
 
-    return set(COMPLETED_QUIZSETS_STORAGE_KEY, completedQuizSets)
-  }
+  completedQuizSets[quizSetKey] = { persistedGuesses }
 
-  return Promise.all([
-    apiClient.completeQuizSet('', ''),
-    saveCompletedQuizSet(quizSet, savedGuesses),
-  ])
+  return set(COMPLETED_QUIZSETS_STORAGE_KEY, completedQuizSets)
 }
 
 export const existingQuizSetMachine = createMachine<
@@ -133,33 +124,24 @@ export const existingQuizSetMachine = createMachine<
     quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
     quizGuessServices: [],
-    savedGuesses: [],
-    didSubscribe: false,
-    phoneNumber: '',
+    persistedGuesses: [],
   },
   states: {
     introduction: {
       on: {
         next: {
-          target: 'instruction',
+          target: 'fetchingPersistedGuess',
         },
       },
     },
-    instruction: {
-      on: {
-        next: {
-          target: 'fetchingSavedGuess',
-        },
-      },
-    },
-    fetchingSavedGuess: {
+    fetchingPersistedGuess: {
       invoke: {
-        id: 'fetchSavedGuess',
-        src: fetchSavedGuess,
+        id: 'fetchPersistedGuess',
+        src: fetchPersistedGuess,
         onDone: [
           {
-            cond: hasSavedGuesses,
-            actions: [assignSavedGuesses],
+            cond: hasPersistedGuesses,
+            actions: [assignPersistedGuesses],
             target: 'confirmReview',
           },
           { target: 'showingStage' },
@@ -180,8 +162,8 @@ export const existingQuizSetMachine = createMachine<
       },
     },
     showingStage: {
-      after: {
-        [STAGE_TRANSITION_DURATION]: {
+      on: {
+        next: {
           actions: [nextQuiz],
           target: 'showingQuiz',
         },
@@ -210,8 +192,8 @@ export const existingQuizSetMachine = createMachine<
           {
             cond: hasPreviousQuiz,
             actions: [previousQuiz],
-            target: 'showingQuiz',
           },
+          { actions: [previousQuiz], target: 'introduction' },
         ],
       },
     },
@@ -228,66 +210,49 @@ export const existingQuizSetMachine = createMachine<
         retry: 'completingQuizSet',
       },
     },
-    outroduction: {
-      on: {
-        next: {
-          target: 'askToShare',
-        },
-      },
-    },
-    askToShare: {
-      initial: 'asking',
-      states: {
-        asking: {},
-        sharing: {},
-        shared: {},
-      },
-    },
+    outroduction: {},
   },
 })
 
 export default function ExistingQuizSet({
-  existingQuizSetService,
+  initialQuizSet,
 }: {
-  existingQuizSetService: ExistingQuizSetService
+  initialQuizSet: any
 }): JSX.Element {
   const [
     {
       matches,
       context: {
-        savedGuesses,
-        quizSet: { name },
+        persistedGuesses,
+        quizSet: {
+          name,
+          personalInfo: { email },
+        },
         currentQuizIndex,
         quizGuessServices,
       },
       value,
     },
     send,
-  ] = useService(existingQuizSetService)
+  ] = useMachine(
+    existingQuizSetMachine.withContext({
+      ...existingQuizSetMachine.context,
+      quizSet: initialQuizSet,
+    })
+  )
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [value])
 
   const versionedQuizzes = QUIZZES[QUIZ_VERSION]
 
+  const nextStep = () => send('next')
+
   return (
-    <div>
+    <>
       {matches('introduction') && (
-        <div>
-          <div>Introduction</div>
-          <div>
-            <button onClick={() => send('next')} type='button'>
-              Start Quiz
-            </button>
-          </div>
-        </div>
-      )}
-      {matches('instruction') && (
-        <div>
-          <div>How much you know {name}?</div>
-          <div>
-            <button onClick={() => send('next')} type='button'>
-              Next
-            </button>
-          </div>
-        </div>
+        <LandingScreen name={name} nextStep={nextStep} />
       )}
       {matches('confirmReview') && (
         <div>
@@ -300,9 +265,10 @@ export default function ExistingQuizSet({
         </div>
       )}
       {matches('showingStage') && (
-        <div>
-          <div>Stage {versionedQuizzes[currentQuizIndex + 1].stage}</div>
-        </div>
+        <StageScreen
+          handleComplete={nextStep}
+          stage={versionedQuizzes[currentQuizIndex + 1].stage}
+        />
       )}
       {matches('showingQuiz') && (
         <div>
@@ -318,12 +284,14 @@ export default function ExistingQuizSet({
           <QuizGuess quizGuessService={quizGuessServices[currentQuizIndex]} />
         </div>
       )}
-      {matches('outroduction') && <div>Outro</div>}
-      {matches('askToShare') && (
+      {matches('outroduction') && (
         <div>
-          <div>Done. Here's your voucher.</div>
+          {email ? `${name} entered giveaway` : ''}
+          <div>
+            <a href='/q/new'>Create quiz</a>
+          </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

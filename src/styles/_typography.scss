@@ -1,0 +1,41 @@
+body {
+  font-family: 'Noto Sans', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.text-h4 {
+  font-size: px-to-rem(24);
+  line-height: px-to-rem(32);
+}
+
+.text-h5 {
+  font-size: px-to-rem(20);
+  line-height: px-to-rem(32);
+}
+
+.text-h6 {
+  font-size: px-to-rem(18);
+  line-height: px-to-rem(24);
+}
+
+.text-body1 {
+  font-size: px-to-rem(16);
+  line-height: px-to-rem(24);
+}
+
+.text-body2 {
+  font-size: px-to-rem(14);
+  line-height: px-to-rem(20);
+}
+
+.text-caption {
+  font-size: px-to-rem(12);
+  line-height: px-to-rem(20);
+}
+
+.text-button {
+  font-size: px-to-rem(14);
+  line-height: px-to-rem(20);
+}

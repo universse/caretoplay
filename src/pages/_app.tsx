@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
-// import { inspect } from '@xstate/inspect'
-// import 'styles/index.scss'
+import 'focus-visible'
+
+import 'styles/index.scss'
 
 import { apiClient } from 'utils/apiClient'
 

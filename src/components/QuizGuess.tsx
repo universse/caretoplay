@@ -1,5 +1,5 @@
-import { createMachine, assign, sendParent, Interpreter } from 'xstate'
-import { useService } from '@xstate/react'
+import { createMachine, assign, sendParent, ActorRefFrom } from 'xstate'
+import { useActor } from '@xstate/react'
 
 import { QuizWithChoice } from 'interfaces/shared'
 
@@ -18,12 +18,7 @@ type QuizGuessMachineState = {
   context: QuizGuessMachineContext & { quiz: QuizWithChoice }
 }
 
-export type QuizGuessService = Interpreter<
-  QuizGuessMachineContext,
-  any,
-  QuizGuessMachineEvent,
-  QuizGuessMachineState
->
+export type QuizGuessService = ActorRefFrom<typeof quizGuessMachine>
 
 const assignChoice = assign({
   choice: (_, e) => e.choice,
@@ -93,7 +88,7 @@ export default function QuizGuess({
       value,
     },
     send,
-  ] = useService(quizGuessService)
+  ] = useActor(quizGuessService)
 
   const isRevealed = matches('revealed')
   const isWrong = matches({ revealed: 'wrong' })

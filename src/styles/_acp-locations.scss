@@ -1,0 +1,13 @@
+details.ACPLcations {
+  summary::after {
+    @extend .text-h5, .fw-700, .color-dark;
+
+    content: '+';
+  }
+
+  &[open] {
+    summary::after {
+      content: '-';
+    }
+  }
+}

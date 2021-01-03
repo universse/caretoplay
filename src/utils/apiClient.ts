@@ -4,10 +4,6 @@ import { restRequest } from '../../nodeUtils/restRequest'
 
 const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
 
-function fetchQuizSet(quizSetKey: string) {
-  return restRequest(`/api/fetchQuizSet/${quizSetKey}`)
-}
-
 function createQuizSet() {
   const quizSetKey = nanoid()
   return saveQuizSetData({ quizSetKey, status: 'new' }).then(() => ({
@@ -21,29 +17,24 @@ function saveQuizSetData(quizSetData) {
   })
 }
 
-function subscribe(quizSetKey: string, email: string) {
+function subscribe(quizSetKey: string, name: string, personalInfo: any) {
   return restRequest('/api/subscribe', {
-    body: { quizSetKey, email },
+    body: { quizSetKey, name, personalInfo },
   })
 }
 
-function completeQuizSet(quizSetKey: string, relationship: string) {
-  return restRequest('/api/completeQuizSet', {
-    body: { quizSetKey, relationship },
-  })
-}
-
-function snap(type: 'share' | 'visit' | 'complete', quizSetKey?: string) {
+function snap(
+  type: 'share' | 'visit' | 'complete' | 'review',
+  quizSetKey?: string
+) {
   return restRequest('/api/snap', {
     body: { quizSetKey, type },
   })
 }
 
 export const apiClient = {
-  fetchQuizSet,
   createQuizSet,
   saveQuizSetData,
   subscribe,
-  completeQuizSet,
   snap,
 }

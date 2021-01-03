@@ -1,0 +1,20 @@
+:root {
+  --brand100: #f2e3cc;
+  --brand200: #dfc590;
+  --brand300: #facb6b;
+  --brand500: #{$brand500};
+  --brand900: #f6c45e;
+
+  --gray000: #fff;
+  --gray100: #f6f5f4;
+  --gray600: #858789;
+  --gray900: #2f3240;
+  --success: #97ca47;
+  --danger500: #{$danger};
+  --danger600: #922f2f;
+  --light: #{$light};
+  --dark: #{$dark};
+  --shadow01: 1px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  --input-focused: 0 0 0 4px #{rgba($brand500, 0.6)};
+  --input-invalid: 0 0 0 4px #{rgba($danger, 0.8)};
+}

@@ -1,0 +1,118 @@
+$stage-01-background: #f8e3c9;
+$stage-02-background: #f4ddd4;
+$stage-03-background: #2c3458;
+
+.Layout {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  // height: 100%;
+  margin: 0 auto;
+  max-width: px-to-rem(960);
+  padding: 0 px-to-rem(16);
+  position: relative;
+  width: 100%;
+}
+
+.QuizScreen {
+  // height: 100%;
+  width: 100%;
+
+  &.Stage01 {
+    background-color: $stage-01-background;
+
+    .Question,
+    .NavButton {
+      color: var(--dark);
+    }
+
+    .Dot {
+      background-color: rgba($dark, 0.35);
+
+      &.Active {
+        background-color: $dark;
+      }
+    }
+  }
+
+  &.Stage02 {
+    background-color: $stage-02-background;
+
+    .Question,
+    .NavButton {
+      color: var(--dark);
+    }
+
+    .Dot {
+      background-color: rgba($dark, 0.35);
+
+      &.Active {
+        background-color: $dark;
+      }
+    }
+  }
+
+  &.Stage03 {
+    background-color: $stage-03-background;
+
+    .Question,
+    .NavButton {
+      color: var(--light);
+    }
+
+    .Dot {
+      background-color: rgba($light, 0.35);
+
+      &.Active {
+        background-color: $light;
+      }
+    }
+  }
+
+  .Option {
+    background-color: var(--light);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    height: px-to-rem(48);
+    margin-bottom: px-to-rem(12);
+
+    .Response {
+      color: var(--dark);
+      padding: 0 px-to-rem(72) 0 1rem;
+      width: 100%;
+    }
+
+    .EditResponse {
+      height: 100%;
+      right: 0;
+      top: 0;
+    }
+
+    &--right {
+    }
+
+    &--wrong {
+    }
+  }
+}
+
+.Dots {
+  $width: 80;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  left: calc(50% - #{px-to-rem($width / 2)});
+  position: absolute;
+  width: px-to-rem($width);
+}
+
+.Dot {
+  background-color: rgba($light, 0.35);
+  border-radius: 50%;
+  height: px-to-rem(12);
+  width: px-to-rem(12);
+
+  &.Active {
+    background-color: $light;
+  }
+}
