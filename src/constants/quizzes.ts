@@ -105,7 +105,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'In the event of hospitalisation, who would you trust to make important decisions on your behalf?',
       questionToGuess:
         'In the event of hospitalisation, who would {{name}} trust to make important decisions on {{name}}’s behalf?',
-      options: ['Mother', 'Father', 'Spouse'],
+      options: ['Name of loved one', 'Name of loved one', 'Name of loved one'],
       hint:
         'Do take this opportunity to think of 3 loved ones who understand your wishes and values the most.',
     },

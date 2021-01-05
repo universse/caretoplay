@@ -4,6 +4,7 @@ import { createMachine, assign, sendParent, ActorRefFrom } from 'xstate'
 import { useActor } from '@xstate/react'
 
 import Icon from 'components/Icon'
+import { Text } from 'components/shared'
 import { STAGES } from 'constants/quizzes'
 import { classNames } from 'utils/classNames'
 import { immerAssign } from 'utils/machineUtils'
@@ -185,10 +186,21 @@ export default function QuizInputScreen({
           />
         </div>
         <div className='mt-16'>
-          <p className='text-h6 Question text-center'>
+          <Text
+            as='h6'
+            className='Question serif fw-800 text-center'
+            element='p'
+          >
             {currentQuiz.questionToAnswer}
-          </p>
+          </Text>
         </div>
+        {currentQuiz.hint && (
+          <div className='mt-8'>
+            <Text className='color-brand300 text-center' element='p'>
+              {currentQuiz.hint}
+            </Text>
+          </div>
+        )}
         <ul className='mt-16'>
           {quiz.options.map((option, i) => (
             <li
@@ -259,7 +271,7 @@ export default function QuizInputScreen({
                     </>
                   ) : (
                     <button
-                      className='flex justify-center items-center background-dark flex-expand rounded h-100'
+                      className='EditButton flex justify-center items-center background-dark flex-expand rounded h-100'
                       disabled={isEditing}
                       onClick={() =>
                         send({
@@ -270,7 +282,7 @@ export default function QuizInputScreen({
                       }
                       type='button'
                     >
-                      <Icon fill='var(--light)' icon='pen' size='medium' />
+                      <Icon icon='pen' size='medium' />
                     </button>
                   )}
                 </div>

@@ -136,7 +136,7 @@ export default function IndexPage(): JSX.Element {
         </Text>
         <Text as='body2' className='color-dark fw-400 text-center' element='p'>
           Remember, you can customise your answers! (You may even add in some
-          tricks to <strong>really</strong> test your partner!)
+          tricks to <strong>really</strong> test your loved ones!)
         </Text>
         <div style={{ flex: '0 0 1.5rem' }} />
         <Link href='/q/new' passHref>

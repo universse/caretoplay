@@ -396,8 +396,8 @@ export default function NewQuizSet({
         />
       )}
       {matches('finishingQuizSet') && (
-        <div>
-          <div>Saving...</div>
+        <div className='overlay background-brand900'>
+          <div className='Spinner' />
         </div>
       )}
       {matches('outroduction') && (

@@ -1,24 +1,27 @@
 .QuizScreen {
   &.Stage01 {
-    --background: #f8e3c9;
-    --color: var(--dark);
+    --stage-background: #f8e3c9;
+    --text-color: var(--dark);
+    --background-color: var(--light);
     --color-opaque: #{rgba($dark, 0.35)};
   }
 
   &.Stage02 {
-    --background: #f4ddd4;
-    --color: var(--dark);
+    --stage-background: #f4ddd4;
+    --text-color: var(--dark);
+    --background-color: var(--light);
     --color-opaque: #{rgba($dark, 0.35)};
   }
 
   &.Stage03 {
-    --background: #2c3458;
-    --color: var(--light);
+    --stage-background: #2c3458;
+    --text-color: var(--light);
+    --background-color: var(--dark);
     --color-opaque: #{rgba($light, 0.35)};
   }
 
   & > div {
-    background-color: var(--background);
+    background-color: var(--stage-background);
   }
 
   .Question,
@@ -35,11 +38,12 @@
     background-color: var(--color-opaque);
 
     &.Active {
-      background-color: var(--color);
+      background-color: var(--text-color);
     }
   }
 
-  .Option {
-    margin-bottom: px-to-rem(12);
+  .EditButton {
+    background-color: var(--text-color);
+    color: var(--background-color);
   }
 }

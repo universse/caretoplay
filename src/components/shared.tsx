@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { classNames } from 'utils/classNames'
 
 export function TextInput(props) {
@@ -19,14 +20,18 @@ export function Text({
   return <E className={classNames(`text-${as}`, className)} {...props} />
 }
 
-export function Button({
-  element: E = 'button',
-  // as = 'body1',
-  className,
-  ...props
-}): JSX.Element {
+export const Button = forwardRef(function (
+  {
+    element: E = 'button',
+    // as = 'body1',
+    className,
+    ...props
+  },
+  ref
+): JSX.Element {
   return (
     <E
+      ref={ref}
       className={classNames(
         'flex justify-center items-center text-body1 color-dark fw-700 rounded shadow01 px-24 py-16',
         // `text-${as}`,
@@ -35,7 +40,7 @@ export function Button({
       {...props}
     />
   )
-}
+})
 
 export function Checkbox(props) {
   return <input className='Checkbox' type='checkbox' {...props} />

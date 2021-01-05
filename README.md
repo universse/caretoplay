@@ -1,15 +1,14 @@
 <!--
 TODO:
-guess flow - last screen check email
+
+guessquizScreen flow - last screen check email
 gifs alts + srcs
-show hint
+offline stuffs screens - continue/create new/error retry completingQuizSetError, finishingQuizSetError, [quizSetKey] error
 
-quiz screens
-offline stuffs screens - continue/create new/error retry
-
-code split next dynamic
-proper analytics
 SEO, favicon
+code split next dynamic
+
+proper analytics
 
 
 
