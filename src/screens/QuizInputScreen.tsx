@@ -196,7 +196,7 @@ export default function QuizInputScreen({
         </div>
         {currentQuiz.hint && (
           <div className='mt-8'>
-            <Text className='color-brand300 text-center' element='p'>
+            <Text as='body2' className='color-brand300 text-center' element='p'>
               {currentQuiz.hint}
             </Text>
           </div>
