@@ -1,12 +1,13 @@
 <!--
 TODO:
 guess flow - last screen check email
-gifs alt
-react svg decorative
+gifs alts + srcs
+show hint
 
-loading screen when fetching
-remove offline stuffs
+quiz screens
+offline stuffs screens - continue/create new/error retry
 
+code split next dynamic
 proper analytics
 SEO, favicon
 

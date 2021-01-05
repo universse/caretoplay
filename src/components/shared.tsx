@@ -19,14 +19,28 @@ export function Text({
   return <E className={classNames(`text-${as}`, className)} {...props} />
 }
 
+export function Button({
+  element: E = 'button',
+  // as = 'body1',
+  className,
+  ...props
+}): JSX.Element {
+  return (
+    <E
+      className={classNames(
+        'flex justify-center items-center text-body1 color-dark fw-700 rounded shadow01 px-24 py-16',
+        // `text-${as}`,
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
 export function Checkbox(props) {
   return <input className='Checkbox' type='checkbox' {...props} />
 }
 
 export function Radio(props) {
   return <input className='Radio visually-hidden' type='radio' {...props} />
-}
-
-export function Button(props) {
-  return <button type='button' {...props} />
 }

@@ -166,7 +166,11 @@ export default function QuizPage({ quizSet }): JSX.Element {
 
   return (
     <>
-      {matches('loading') && <div>Loading...</div>}
+      {matches('loading') && (
+        <div className='overlay background-brand900'>
+          <div className='Spinner' />
+        </div>
+      )}
       {matches('error') && (
         <div>
           <button onClick={() => send('retry')} type='button'>

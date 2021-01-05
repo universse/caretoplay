@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useActor } from '@xstate/react'
 
-import { Text, TextInput, Checkbox, Radio } from 'components/shared'
+import { Text, TextInput, Checkbox, Radio, Button } from 'components/shared'
 import { FormService } from 'machines/formMachine'
 
 const MARITAL_STATUSES = [
@@ -336,20 +336,17 @@ export default function SubscriptionScreen({
         </div>
         <div className='background-brand100 px-16 pt-24 pb-48'>
           <div className='mb-16'>
-            <button
-              className='text-body1 color-dark background-success fw-700 rounded shadow01 px-24 py-16 w-100'
-              type='submit'
-            >
+            <Button className='background-success w-100' type='submit'>
               Submit lucky draw entry!
-            </button>
+            </Button>
           </div>
-          <button
-            className='text-body1 color-dark background-gray100 fw-700 rounded shadow01 px-24 py-16 w-100'
+          <Button
+            className='background-gray100 w-100'
             onClick={skipScreen}
             type='button'
           >
             No thanks.
-          </button>
+          </Button>
         </div>
       </form>
     </div>

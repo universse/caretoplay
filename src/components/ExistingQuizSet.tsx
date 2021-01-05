@@ -9,7 +9,7 @@ import LandingScreen from 'screens/LandingScreen'
 import StageScreen from 'screens/StageScreen'
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
-import { Text } from './shared'
+import { Button, Text } from './shared'
 import QuizGuess, {
   quizGuessMachine,
   QuizGuessService,
@@ -344,13 +344,9 @@ export default function ExistingQuizSet({
             </div>
           </div>
           <div className='flex justify-center px-16 py-24'>
-            <a
-              className='flex justify-center items-center text-body1 color-dark background-brand500 fw-700 rounded shadow01 px-24 py-16'
-              href='/q/new'
-              type='button'
-            >
+            <Button className='background-brand500' element='a' href='/q/new'>
               Create your own quiz!
-            </a>
+            </Button>
           </div>
         </div>
       )}

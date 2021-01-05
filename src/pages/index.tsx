@@ -1,5 +1,6 @@
-// import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 // import { get, set } from 'idb-keyval'
 
@@ -7,7 +8,7 @@ import LetsBegin from 'assets/illustrations/LetsBegin'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Hero from 'components/Hero'
-import { Text } from 'components/shared'
+import { Text, Button } from 'components/shared'
 // import { FINISHED_QUIZSETS_STORAGE_KEY } from 'utils/quizUtils'
 
 export default function IndexPage(): JSX.Element {
@@ -34,6 +35,21 @@ export default function IndexPage(): JSX.Element {
 
   //   getFinishedQuizSets()
   // }, [])
+
+  const [isLoadingNewQuizPage, setIsLoadingNewQuizPage] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    function handleRouteChange(url) {
+      setIsLoadingNewQuizPage(url === '/q/new')
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [])
 
   return (
     <div>
@@ -123,13 +139,18 @@ export default function IndexPage(): JSX.Element {
           tricks to <strong>really</strong> test your partner!)
         </Text>
         <div style={{ flex: '0 0 1.5rem' }} />
-        <Link href='/q/new'>
-          <a
-            className='flex justify-center items-center text-body1 color-dark background-gray100 fw-700 rounded shadow01'
+        <Link href='/q/new' passHref>
+          <Button
+            className='background-gray100 overflow-hidden'
+            element='a'
             style={{ height: '3rem', width: '10rem' }}
           >
-            Let's Begin!
-          </a>
+            {isLoadingNewQuizPage ? (
+              <div className='Spinner' />
+            ) : (
+              "Let's Begin!"
+            )}
+          </Button>
         </Link>
         <div
           className='absolute'

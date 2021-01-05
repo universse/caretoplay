@@ -7,7 +7,7 @@ import { object, bool, ref, string } from 'yup'
 import Footer from './Footer'
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
-import { Text } from './shared'
+import { Text, Button } from './shared'
 import HeroImage from 'assets/illustrations/HeroImage'
 import PersonalInfoScreen from 'screens/PersonalInfoScreen'
 import StageScreen from 'screens/StageScreen'
@@ -408,21 +408,21 @@ export default function NewQuizSet({
           </div>
           <div className='px-16 pb-48'>
             <div className='mb-16'>
-              <button
-                className='text-body1 color-dark background-success fw-700 rounded shadow01 px-24 py-16 w-100'
+              <Button
+                className='background-success w-100'
                 onClick={nextStep}
                 type='button'
               >
                 Join lucky draw!
-              </button>
+              </Button>
             </div>
-            <button
-              className='text-body1 color-dark background-gray100 fw-700 rounded shadow01 px-24 py-16 w-100'
+            <Button
+              className='background-gray100 w-100'
               onClick={() => send('skipLuckyDraw')}
               type='button'
             >
               No thanks.
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -447,13 +447,13 @@ export default function NewQuizSet({
               You're almost done!
             </Text>
             <div style={{ flex: '0 0 1rem' }} />
-            <button
-              className='text-body1 color-dark background-gray100 fw-700 rounded shadow01 px-24 py-16'
+            <Button
+              className='background-gray100'
               onClick={() => send('share')}
               type='button'
             >
               Share this quiz with your loved ones!
-            </button>
+            </Button>
           </div>
           <Footer />
         </div>

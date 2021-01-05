@@ -93,6 +93,22 @@ $spacing-values: (4, 8, 12, 16, 24, 32, 48);
   position: absolute;
 }
 
+.top-0 {
+  top: 0;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.right-0 {
+  right: 0;
+}
+
 .block {
   display: block;
 }
@@ -107,6 +123,10 @@ $spacing-values: (4, 8, 12, 16, 24, 32, 48);
 
 .flex {
   display: flex;
+}
+
+.flex-auto {
+  flex: 1 1 auto;
 }
 
 .flex-expand {
@@ -243,4 +263,16 @@ $spacing-values: (4, 8, 12, 16, 24, 32, 48);
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.overlay {
+  @extend .flex,
+    .justify-center,
+    .items-center,
+    .flex-col,
+    .absolute,
+    .bottom-0,
+    .top-0,
+    .left-0,
+    .right-0;
 }

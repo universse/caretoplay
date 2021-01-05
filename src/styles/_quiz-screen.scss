@@ -1,118 +1,45 @@
-$stage-01-background: #f8e3c9;
-$stage-02-background: #f4ddd4;
-$stage-03-background: #2c3458;
-
-.Layout {
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: space-between;
-  // height: 100%;
-  margin: 0 auto;
-  max-width: px-to-rem(960);
-  padding: 0 px-to-rem(16);
-  position: relative;
-  width: 100%;
-}
-
 .QuizScreen {
-  // height: 100%;
-  width: 100%;
-
   &.Stage01 {
-    background-color: $stage-01-background;
-
-    .Question,
-    .NavButton {
-      color: var(--dark);
-    }
-
-    .Dot {
-      background-color: rgba($dark, 0.35);
-
-      &.Active {
-        background-color: $dark;
-      }
-    }
+    --background: #f8e3c9;
+    --color: var(--dark);
+    --color-opaque: #{rgba($dark, 0.35)};
   }
 
   &.Stage02 {
-    background-color: $stage-02-background;
-
-    .Question,
-    .NavButton {
-      color: var(--dark);
-    }
-
-    .Dot {
-      background-color: rgba($dark, 0.35);
-
-      &.Active {
-        background-color: $dark;
-      }
-    }
+    --background: #f4ddd4;
+    --color: var(--dark);
+    --color-opaque: #{rgba($dark, 0.35)};
   }
 
   &.Stage03 {
-    background-color: $stage-03-background;
+    --background: #2c3458;
+    --color: var(--light);
+    --color-opaque: #{rgba($light, 0.35)};
+  }
 
-    .Question,
-    .NavButton {
-      color: var(--light);
-    }
+  & > div {
+    background-color: var(--background);
+  }
 
-    .Dot {
-      background-color: rgba($light, 0.35);
+  .Question,
+  .NavButton {
+    color: var(--color);
+  }
 
-      &.Active {
-        background-color: $light;
-      }
+  .Dots {
+    $width: 80;
+    left: calc(50% - #{px-to-rem($width / 2)});
+  }
+
+  .Dot {
+    background-color: var(--color-opaque);
+
+    &.Active {
+      background-color: var(--color);
     }
   }
 
   .Option {
-    background-color: var(--light);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    height: px-to-rem(48);
     margin-bottom: px-to-rem(12);
-
-    .Response {
-      color: var(--dark);
-      padding: 0 px-to-rem(72) 0 1rem;
-      width: 100%;
-    }
-
-    .EditResponse {
-      height: 100%;
-      right: 0;
-      top: 0;
-    }
-
-    &--right {
-    }
-
-    &--wrong {
-    }
-  }
-}
-
-.Dots {
-  $width: 80;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  left: calc(50% - #{px-to-rem($width / 2)});
-  position: absolute;
-  width: px-to-rem($width);
-}
-
-.Dot {
-  background-color: rgba($light, 0.35);
-  border-radius: 50%;
-  height: px-to-rem(12);
-  width: px-to-rem(12);
-
-  &.Active {
-    background-color: $light;
   }
 }

@@ -160,20 +160,18 @@ export default function PersonalInfoForm({
             </div>
           </fieldset>
         </div>
-        <div>
-          <div
-            className='flex justify-end items-center px-16 background-brand100'
-            style={{ height: '5rem' }}
+        <div
+          className='flex justify-end items-center px-16 background-brand100'
+          style={{ flex: '0 0 5rem' }}
+        >
+          <button
+            className='flex items-center text-button uppercase color-dark fw-700'
+            style={{ height: '3rem' }}
+            type='submit'
           >
-            <button
-              className='flex items-center text-button uppercase color-dark fw-700'
-              style={{ height: '3rem' }}
-              type='submit'
-            >
-              Next
-              <Icon fill='var(--dark)' icon='chevron-right' size='large' />
-            </button>
-          </div>
+            Next
+            <Icon fill='var(--dark)' icon='chevron-right' size='large' />
+          </button>
         </div>
       </form>
     </div>

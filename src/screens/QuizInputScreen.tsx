@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Image from 'next/image'
 import { createMachine, assign, sendParent, ActorRefFrom } from 'xstate'
 import { useActor } from '@xstate/react'
@@ -40,7 +41,10 @@ const setOptionToEdit = assign({
   draftResponse: (_, e) => e.draftResponse,
 })
 
-const assignDraftResponse = assign({ draftResponse: (_, e) => e.value })
+const assignDraftResponse = immerAssign((ctx, e) => {
+  ctx.draftResponse = e.value
+  // ctx.rows[ctx.optionIndexToEdit] = e.rows
+})
 
 const saveOption = immerAssign((ctx) => {
   const { optionIndexToEdit, draftResponse } = ctx
@@ -68,6 +72,7 @@ export const quizInputMachine = createMachine<
   id: 'quiz',
   initial: 'idle',
   context: {
+    // rows: [2, 2, 2, 2],
     choice: -1,
     optionIndexToEdit: -1,
     draftResponse: '',
@@ -155,67 +160,107 @@ export default function QuizInputScreen({
     send,
   ] = useActor(quizInputService)
 
+  const isEditing = matches('editing')
+
+  useEffect(() => {
+    if (isEditing) {
+      document.querySelector('textarea')?.focus()
+    }
+  }, [isEditing])
+
   return (
     <div
-      className={`QuizScreen Stage0${STAGES.indexOf(currentQuiz.stage) + 1}`}
+      className={`QuizScreen Stage0${
+        STAGES.indexOf(currentQuiz.stage) + 1
+      } flex flex-col h-100`}
     >
-      <div className='Layout'>
-        <div>
-          <div className='pt-16'>
-            <div className='AspectRatio _16-9'>
-              <Image
-                alt={currentQuiz.animationAlt}
-                layout='fill'
-                objectFit='cover'
-                src={`/assets/gifs/quiz-0${currentQuizIndex + 1}.gif`}
-              />
-            </div>
-          </div>
-          <div className='mt-16'>
-            <p className='text-h6 Question text-center'>
-              {currentQuiz.questionToAnswer}
-            </p>
-          </div>
-          <ul className='mt-16'>
-            {quiz.options.map((option, i) => (
-              <li key={i} className='Option'>
-                {matches('editing') && optionIndexToEdit === i ? (
-                  <>
-                    <textarea
-                      className='text-body1 Response break-word text-center'
-                      onChange={(e) =>
-                        send({ type: 'changeResponse', value: e.target.value })
-                      }
-                      value={draftResponse}
-                    />
-                    <div className='EditResponse absolute'>
-                      <button
-                        onClick={() => send({ type: 'confirmResponseChange' })}
-                        type='button'
-                      >
-                        Confirm
-                      </button>
-                      <button
-                        onClick={() => send({ type: 'cancelResponseChange' })}
-                        type='button'
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </>
+      <div className='flex-expand px-16 pt-16 pb-4'>
+        <div className='AspectRatio _16-9'>
+          <Image
+            alt={currentQuiz.animationAlt}
+            layout='fill'
+            objectFit='cover'
+            // src={`/assets/gifs/quiz-0${currentQuizIndex + 1}.gif`}
+            src={`/assets/gifs/${currentQuiz.animationSrc}`}
+          />
+        </div>
+        <div className='mt-16'>
+          <p className='text-h6 Question text-center'>
+            {currentQuiz.questionToAnswer}
+          </p>
+        </div>
+        <ul className='mt-16'>
+          {quiz.options.map((option, i) => (
+            <li
+              key={i}
+              className='flex items-center mb-12'
+              style={{ height: '3rem' }}
+              // style={{ height: `${(Math.max(2, rows[i]) * 24 + 8) / 16}rem` }}
+            >
+              <div className='flex-auto h-100'>
+                {isEditing && optionIndexToEdit === i ? (
+                  <textarea
+                    className={classNames(
+                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
+                      choice === i && !isEditing
+                        ? 'background-brand900'
+                        : 'background-light'
+                    )}
+                    onChange={(e) => {
+                      send({
+                        type: 'changeResponse',
+                        value: e.target.value,
+                        // 8 is y-padding, 20 is lineHeight of body2
+                        // rows: (e.target.scrollHeight - 8) / 20,
+                      })
+                    }}
+                    rows={2}
+                    // rows={Math.max(2, rows[i])}
+                    value={draftResponse}
+                  />
                 ) : (
                   <button
-                    className='text-body1 Response break-word'
-                    disabled={matches('editing')}
+                    className={classNames(
+                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
+                      choice === i && !isEditing
+                        ? 'background-brand900'
+                        : 'background-light'
+                    )}
+                    disabled={isEditing}
                     onClick={() => send({ type: 'select', choice: i })}
                     type='button'
                   >
                     {option}
                   </button>
                 )}
-                {quiz.canEdit && !matches('editing') && (
-                  <div className='EditResponse absolute'>
+              </div>
+              {quiz.canEdit && (
+                <div
+                  className='flex justify-between ml-8'
+                  style={{ flex: '0 0 4rem', height: '1.75rem' }}
+                >
+                  {isEditing && optionIndexToEdit === i ? (
+                    <>
+                      <button
+                        className='flex justify-center items-center background-success flex-auto rounded h-100'
+                        onClick={() => send({ type: 'confirmResponseChange' })}
+                        type='button'
+                      >
+                        <Icon fill='var(--light)' icon='check' size='medium' />
+                      </button>
+                      <div style={{ flex: '0 0 0.5rem' }} />
+                      <button
+                        className='flex justify-center items-center background-light flex-auto rounded h-100'
+                        onClick={() => send({ type: 'cancelResponseChange' })}
+                        type='button'
+                      >
+                        <Icon fill='var(--dark)' icon='cross' size='medium' />
+                      </button>
+                    </>
+                  ) : (
                     <button
+                      className='flex justify-center items-center background-dark flex-expand rounded h-100'
+                      disabled={isEditing}
                       onClick={() =>
                         send({
                           type: 'edit',
@@ -225,60 +270,64 @@ export default function QuizInputScreen({
                       }
                       type='button'
                     >
-                      Edit
+                      <Icon fill='var(--light)' icon='pen' size='medium' />
                     </button>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div
-          className='flex justify-between items-center'
-          style={{ height: '5rem' }}
+                  )}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div
+        className='flex justify-between items-center px-16'
+        style={{ flex: '0 0 5rem' }}
+      >
+        <button
+          className='flex items-center text-button NavButton uppercase fw-700'
+          onClick={handleBackButton}
+          style={{ height: '3rem' }}
+          type='button'
         >
-          <button
-            className='flex items-center text-button NavButton uppercase fw-700'
-            onClick={handleBackButton}
-            style={{ height: '3rem' }}
-            type='button'
-          >
-            <Icon icon='chevron-left' size='large' />
-            Back
-          </button>
-          <div className='Dots'>
-            {currentStageQuestions.map((question, i) => (
-              <div
-                key={i}
-                className={classNames(
-                  'Dot',
-                  question === currentQuiz && 'Active'
-                )}
-              />
-            ))}
-          </div>
-          {choice !== -1 &&
-            (currentQuizIndex === versionedQuizzes.length - 1 ? (
-              <button
-                className='text-button color-dark uppercase background-gray100 rounded fw-700 px-16 shadow01'
-                onClick={() => send({ type: 'answer' })}
-                style={{ height: '3rem' }}
-                type='submit'
-              >
-                Done!
-              </button>
-            ) : (
-              <button
-                className='flex items-center text-button NavButton uppercase fw-700'
-                onClick={() => send({ type: 'answer' })}
-                style={{ height: '3rem' }}
-                type='button'
-              >
-                Next
-                <Icon icon='chevron-right' size='large' />
-              </button>
-            ))}
+          <Icon icon='chevron-left' size='large' />
+          Back
+        </button>
+        <div
+          className='flex justify-between absolute'
+          style={{ width: '5rem', left: 'calc(50% - 2.5rem)' }}
+        >
+          {currentStageQuestions.map((question, i) => (
+            <div
+              key={i}
+              className={classNames(
+                'Dot rounded',
+                question === currentQuiz && 'Active'
+              )}
+              style={{ width: '0.75rem', height: '0.75rem' }}
+            />
+          ))}
         </div>
+        {choice !== -1 &&
+          (currentQuizIndex === versionedQuizzes.length - 1 ? (
+            <button
+              className='text-button color-dark uppercase background-gray100 rounded fw-700 px-16 shadow01'
+              onClick={() => send({ type: 'answer' })}
+              style={{ height: '3rem' }}
+              type='submit'
+            >
+              Done!
+            </button>
+          ) : (
+            <button
+              className='flex items-center text-button NavButton uppercase fw-700'
+              onClick={() => send({ type: 'answer' })}
+              style={{ height: '3rem' }}
+              type='button'
+            >
+              Next
+              <Icon icon='chevron-right' size='large' />
+            </button>
+          ))}
       </div>
     </div>
   )
