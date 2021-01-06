@@ -196,7 +196,14 @@ export default function QuizPage({ quizSet }): JSX.Element {
   )
 }
 
-export async function getServerSideProps({ params: { quizSetKey } }) {
+export function getStaticPaths() {
+  return {
+    paths: [{ params: { quizSetKey: 'new' } }],
+    fallback: 'blocking',
+  }
+}
+
+export async function getStaticProps({ params: { quizSetKey } }) {
   const quizSet = await apiServer.fetchQuizSet(quizSetKey)
 
   return {
