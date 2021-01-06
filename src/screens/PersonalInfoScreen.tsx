@@ -165,7 +165,7 @@ export default function PersonalInfoForm({
           style={{ flex: '0 0 5rem' }}
         >
           <button
-            className='flex items-center text-button uppercase color-dark fw-700'
+            className='flex items-center text-button lowercase color-dark fw-700'
             style={{ height: '3rem' }}
             type='submit'
           >

@@ -296,7 +296,8 @@ export default function QuizInputScreen({
         style={{ flex: '0 0 5rem' }}
       >
         <button
-          className='flex items-center text-button NavButton uppercase fw-700'
+          className='flex items-center text-button NavButton lowercase fw-700'
+          disabled={isEditing}
           onClick={handleBackButton}
           style={{ height: '3rem' }}
           type='button'
@@ -322,7 +323,8 @@ export default function QuizInputScreen({
         {choice !== -1 &&
           (currentQuizIndex === versionedQuizzes.length - 1 ? (
             <button
-              className='text-button color-dark uppercase background-gray100 rounded fw-700 px-16 shadow01'
+              className='text-button color-dark lowercase background-gray100 rounded fw-700 px-16 shadow01'
+              disabled={isEditing}
               onClick={() => send({ type: 'answer' })}
               style={{ height: '3rem' }}
               type='submit'
@@ -331,7 +333,8 @@ export default function QuizInputScreen({
             </button>
           ) : (
             <button
-              className='flex items-center text-button NavButton uppercase fw-700'
+              className='flex items-center text-button NavButton lowercase fw-700'
+              disabled={isEditing}
               onClick={() => send({ type: 'answer' })}
               style={{ height: '3rem' }}
               type='button'
