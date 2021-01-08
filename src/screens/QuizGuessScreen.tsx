@@ -142,46 +142,33 @@ export default function QuizGuessScreen({
           {quiz.options.map((option, i) => {
             const isSelectedChoice = choice === i
 
-            const guessedRight =
-              matches({ revealed: 'right' }) && isSelectedChoice
             const guessedWrong = isWrong && isSelectedChoice
-
             const shouldRevealCorrectChoice = isRevealed && quiz.choice === i
 
             return (
-              <li
-                key={i}
-                className='flex items-center mb-12'
-                style={{ height: '3rem' }}
-              >
-                <div className='flex-auto h-100'>
-                  <button
-                    className={classNames(
-                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
-                      choice === i ? 'background-brand900' : 'background-light',
-                      guessedWrong && 'Wrong',
-                      shouldRevealCorrectChoice && 'Right'
-                    )}
-                    onClick={() => send({ type: 'guess', choice: i })}
-                    type='button'
-                  >
-                    {option}
-                  </button>
-                  {guessedRight && (
-                    <Text as='body2' className='Message fw-700'>
-                      Yay! That is correct!
-                    </Text>
+              <li key={i} className='mb-12'>
+                <button
+                  className={classNames(
+                    'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
+                    choice === i ? 'background-brand900' : 'background-light',
+                    guessedWrong && 'Wrong',
+                    shouldRevealCorrectChoice && 'Right'
                   )}
-                  {guessedWrong && (
-                    <Text as='body2' className='Message fw-700'>
-                      Oh no, ask {name} why.
-                    </Text>
-                  )}
-                </div>
+                  onClick={() => send({ type: 'guess', choice: i })}
+                  style={{ height: '3rem' }}
+                  type='button'
+                >
+                  {option}
+                </button>
               </li>
             )
           })}
         </ul>
+        {isRevealed && (
+          <Text as='body2' className='Message block fw-700 text-center'>
+            {isWrong ? `Oh no, ask ${name} why.` : 'Yay! That is correct!'}
+          </Text>
+        )}
       </div>
       <div
         className='flex justify-between items-center px-16'

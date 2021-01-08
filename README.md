@@ -1,11 +1,11 @@
 <!--
 TODO:
 
-guessquizScreen flow - last screen check email
+guessquizScreen flow - last screen check email + cross and check for right and wrong answer
 gifs alts + srcs
 
 offline stuffs screens - continue/create new/error retry
-search state.matches without ui completingQuizSetError, finishingQuizSetError, [quizSetKey] error
+  - search state.matches without ui completingQuizSetError, finishingQuizSetError, [quizSetKey] error
 
 subscription form error
 dont submit form on enter on mobile????
