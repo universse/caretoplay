@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { createMachine, assign, spawn } from 'xstate'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useMachine } from '@xstate/react'
 import { get, set } from 'idb-keyval'
 

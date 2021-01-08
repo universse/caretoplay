@@ -1,15 +1,17 @@
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import { createMachine, assign } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { get } from 'idb-keyval'
 
-import NewQuizSet from 'components/NewQuizSet'
-import ExistingQuizSet from 'components/ExistingQuizSet'
 import { apiClient } from 'utils/apiClient'
 import { apiServer } from 'utils/apiServer'
 import { immerAssign } from 'utils/machineUtils'
 import { EMPTY_QUIZ_SET, PERSISTED_QUIZSET_STORAGE_KEY } from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
+
+const NewQuizSet = dynamic(() => import('components/NewQuizSet'))
+const ExistingQuizSet = dynamic(() => import('components/ExistingQuizSet'))
 
 type QuizSetMachineContext = {
   quizSet: QuizSet
