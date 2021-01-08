@@ -46,4 +46,16 @@
     background-color: var(--text-color);
     color: var(--background-color);
   }
+
+  .Message {
+    color: var(--text-color);
+  }
+
+  .Right {
+    @extend .background-success;
+  }
+
+  .Wrong {
+    @extend .background-danger600, .color-light;
+  }
 }

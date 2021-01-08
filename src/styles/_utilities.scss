@@ -213,8 +213,8 @@ $spacing-values: (4, 8, 12, 16, 24, 32, 48);
   background-color: var(--gray900);
 }
 
-.background-success {
-  background-color: var(--success);
+.background-danger600 {
+  background-color: var(--danger600);
 }
 
 .background-brand100 {
@@ -231,6 +231,14 @@ $spacing-values: (4, 8, 12, 16, 24, 32, 48);
 
 .background-brand900 {
   background-color: var(--brand900);
+}
+
+.background-success {
+  background-color: var(--success);
+}
+
+.background-danger600 {
+  background-color: var(--danger600);
 }
 
 .background-no-repeat {

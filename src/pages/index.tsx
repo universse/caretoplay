@@ -68,7 +68,7 @@ export default function IndexPage(): JSX.Element {
         </div>
         <div>
           <Text as='h4' className='serif color-brand100 fw-800' element='h2'>
-            How well do you think you know your love one?
+            How well do you think you know your loved one?
           </Text>
           <Text as='body2' className='color-brand100 fw-400' element='p'>
             Take this quiz to find out!

@@ -327,7 +327,7 @@ export default function QuizInputScreen({
               disabled={isEditing}
               onClick={() => send({ type: 'answer' })}
               style={{ height: '3rem' }}
-              type='submit'
+              type='button'
             >
               Done!
             </button>

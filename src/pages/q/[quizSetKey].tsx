@@ -208,5 +208,6 @@ export async function getStaticProps({ params: { quizSetKey } }) {
 
   return {
     props: { quizSet: { ...EMPTY_QUIZ_SET, ...quizSet } },
+    revalidate: 1,
   }
 }

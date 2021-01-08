@@ -5,15 +5,15 @@ import Link from 'next/link'
 import { useMachine } from '@xstate/react'
 import { get, set } from 'idb-keyval'
 
-import LandingScreen from 'screens/LandingScreen'
-import StageScreen from 'screens/StageScreen'
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
 import { Button, Text } from './shared'
-import QuizGuess, {
+import LandingScreen from 'screens/LandingScreen'
+import StageScreen from 'screens/StageScreen'
+import QuizGuessScreen, {
   quizGuessMachine,
   QuizGuessService,
-} from 'components/QuizGuess'
+} from 'screens/QuizGuessScreen'
 import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
 import { apiClient } from 'utils/apiClient'
 import { immerAssign } from 'utils/machineUtils'
@@ -275,18 +275,13 @@ export default function ExistingQuizSet({
         />
       )}
       {matches('showingQuiz') && (
-        <div>
-          <button onClick={() => send('back')} type='button'>
-            Back
-          </button>
-          <div>
-            {versionedQuizzes[currentQuizIndex].questionToGuess.replace(
-              /{{name}}/g,
-              name
-            )}
-          </div>
-          <QuizGuess quizGuessService={quizGuessServices[currentQuizIndex]} />
-        </div>
+        <QuizGuessScreen
+          currentQuizIndex={currentQuizIndex}
+          handleBackButton={() => send('back')}
+          name={name}
+          quizGuessService={quizGuessServices[currentQuizIndex]}
+          versionedQuizzes={versionedQuizzes}
+        />
       )}
       {matches('outroduction') && (
         <div className='background-brand100'>
