@@ -434,7 +434,7 @@ export default function NewQuizSet({
       )}
       {matches('askToShare') && (
         <div className='flex flex-col h-100'>
-          <div className='flex flex-col items-center background-brand900 flex-expand px-16 py-32'>
+          <div className='flex flex-col justify-center background-brand900 flex-expand px-16 pb-48'>
             <div className='AspectRatio mx-auto' style={{ width: '64%' }}>
               <HeroImage />
             </div>
