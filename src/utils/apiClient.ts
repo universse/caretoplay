@@ -17,6 +17,12 @@ function saveQuizSetData(quizSetData) {
   })
 }
 
+function buildPage(quizSetKey) {
+  return restRequest('/api/buildPage', {
+    body: { quizSetKey },
+  })
+}
+
 function subscribe(quizSetKey: string, name: string, personalInfo: any) {
   return restRequest('/api/subscribe', {
     body: { quizSetKey, name, personalInfo },
@@ -35,6 +41,7 @@ function snap(
 export const apiClient = {
   createQuizSet,
   saveQuizSetData,
+  buildPage,
   subscribe,
   snap,
 }
