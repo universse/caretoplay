@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { createMachine, assign, spawn } from 'xstate'
 import Image from 'next/image'
 import { useMachine } from '@xstate/react'
-import { get, set } from 'idb-keyval'
 
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
@@ -15,9 +14,7 @@ import QuizGuessScreen, {
 } from 'screens/QuizGuessScreen'
 import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
 import { apiClient } from 'utils/apiClient'
-import { immerAssign } from 'utils/machineUtils'
 import {
-  COMPLETED_QUIZSETS_STORAGE_KEY,
   EMPTY_QUIZ_SET,
   nextQuiz,
   previousQuiz,
@@ -31,7 +28,6 @@ type ExistingQuizSetContext = {
   quizSet: QuizSet
   currentQuizIndex: number
   quizGuessServices: QuizGuessService[]
-  persistedGuesses: number[]
 }
 
 type ExistingQuizSetEvent =
@@ -39,28 +35,15 @@ type ExistingQuizSetEvent =
       type: 'next'
     }
   | { type: 'back' }
-  | { type: 'review' }
-  | { type: 'startAfresh' }
   | { type: 'guess'; choice: number }
-  | { type: 'retry' }
 
 type ExistingQuizSetState = {
-  value:
-    | 'introduction'
-    | 'confirmReview'
-    | 'showingStage'
-    | 'showingQuiz'
-    | 'outroduction'
+  value: 'introduction' | 'showingStage' | 'showingQuiz' | 'outroduction'
   context: ExistingQuizSetContext
 }
 
 const spawnQuizGuessService = assign({
-  quizGuessServices: ({
-    persistedGuesses,
-    quizSet,
-    currentQuizIndex,
-    quizGuessServices,
-  }) => {
+  quizGuessServices: ({ quizSet, currentQuizIndex, quizGuessServices }) => {
     if (quizGuessServices[currentQuizIndex]) return quizGuessServices
 
     const { choice, options } = quizSet.quizzes[currentQuizIndex]
@@ -75,7 +58,6 @@ const spawnQuizGuessService = assign({
             choice,
             options,
           },
-          choice: persistedGuesses[currentQuizIndex] ?? -1,
         })
       ),
     ]
@@ -84,40 +66,6 @@ const spawnQuizGuessService = assign({
 
 function trackQuizSetComplete(ctx) {
   apiClient.snap('complete', ctx.quizSet.quizSetKey)
-}
-
-function trackQuizSetReview(ctx) {
-  apiClient.snap('review', ctx.quizSet.quizSetKey)
-}
-
-async function fetchPersistedGuess({ quizSet: { quizSetKey } }) {
-  try {
-    const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
-    return completedQuizSets?.[quizSetKey]
-  } catch {}
-}
-
-const assignPersistedGuesses = assign({
-  persistedGuesses: (_, e) => e.data?.persistedGuesses || [],
-})
-const assignEmptyGuesses = assign({ persistedGuesses: [] })
-
-const saveGuess = immerAssign((ctx, { choice }) => {
-  ctx.persistedGuesses[ctx.currentQuizIndex] = choice
-})
-
-function hasPersistedGuesses(_, e) {
-  return e.data
-}
-
-async function completeQuizSet({ quizSet: { quizSetKey }, persistedGuesses }) {
-  try {
-    const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
-
-    completedQuizSets[quizSetKey] = { persistedGuesses }
-
-    await set(COMPLETED_QUIZSETS_STORAGE_KEY, completedQuizSets)
-  } catch {}
 }
 
 export const existingQuizSetMachine = createMachine<
@@ -131,39 +79,11 @@ export const existingQuizSetMachine = createMachine<
     quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
     quizGuessServices: [],
-    persistedGuesses: [],
   },
   states: {
     introduction: {
       on: {
         next: {
-          target: 'fetchingPersistedGuess',
-        },
-      },
-    },
-    fetchingPersistedGuess: {
-      invoke: {
-        id: 'fetchPersistedGuess',
-        src: fetchPersistedGuess,
-        onDone: [
-          {
-            cond: hasPersistedGuesses,
-            actions: [assignPersistedGuesses],
-            target: 'confirmReview',
-          },
-          { target: 'showingStage' },
-        ],
-        onError: { target: 'showingStage' },
-      },
-    },
-    confirmReview: {
-      on: {
-        review: {
-          actions: [trackQuizSetReview],
-          target: 'showingStage',
-        },
-        startAfresh: {
-          actions: [assignEmptyGuesses],
           target: 'showingStage',
         },
       },
@@ -182,17 +102,16 @@ export const existingQuizSetMachine = createMachine<
         guess: [
           {
             cond: shouldShowStage,
-            actions: [saveGuess],
             target: 'showingStage',
           },
           {
             cond: hasNextQuiz,
-            actions: [saveGuess, nextQuiz],
+            actions: [nextQuiz],
             target: 'showingQuiz',
           },
           {
-            actions: [saveGuess, trackQuizSetComplete],
-            target: 'completingQuizSet',
+            actions: [trackQuizSetComplete],
+            target: 'outroduction',
           },
         ],
         back: [
@@ -202,19 +121,6 @@ export const existingQuizSetMachine = createMachine<
           },
           { actions: [previousQuiz], target: 'introduction' },
         ],
-      },
-    },
-    completingQuizSet: {
-      invoke: {
-        id: 'completeQuizSet',
-        src: completeQuizSet,
-        onDone: { target: 'outroduction' },
-        onError: { target: 'completingQuizSetError' },
-      },
-    },
-    completingQuizSetError: {
-      on: {
-        retry: 'completingQuizSet',
       },
     },
     outroduction: {},
@@ -230,7 +136,6 @@ export default function ExistingQuizSet({
     {
       matches,
       context: {
-        persistedGuesses,
         quizSet: {
           name,
           personalInfo: { email },
@@ -260,16 +165,6 @@ export default function ExistingQuizSet({
     <>
       {matches('introduction') && (
         <LandingScreen name={name} nextStep={nextStep} />
-      )}
-      {matches('confirmReview') && (
-        <div>
-          <button onClick={() => send('review')} type='button'>
-            Review
-          </button>
-          <button onClick={() => send('startAfresh')} type='button'>
-            Start afresh
-          </button>
-        </div>
       )}
       {matches('showingStage') && (
         <StageScreen

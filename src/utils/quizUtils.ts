@@ -3,7 +3,6 @@ import { assign } from 'xstate'
 import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
 import { Quiz, QuizSet, QuizVersion } from 'interfaces/shared'
 
-export const COMPLETED_QUIZSETS_STORAGE_KEY = 'ctp_completed'
 export const FINISHED_QUIZSETS_STORAGE_KEY = 'ctp_finished'
 export const PERSISTED_QUIZSET_STORAGE_KEY = 'ctp_persisted'
 

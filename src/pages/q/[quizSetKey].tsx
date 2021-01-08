@@ -4,14 +4,28 @@ import { createMachine, assign } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { get } from 'idb-keyval'
 
+import { Button, Text } from 'components/shared'
 import { apiClient } from 'utils/apiClient'
 import { apiServer } from 'utils/apiServer'
 import { immerAssign } from 'utils/machineUtils'
 import { EMPTY_QUIZ_SET, PERSISTED_QUIZSET_STORAGE_KEY } from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
 
-const NewQuizSet = dynamic(() => import('components/NewQuizSet'))
-const ExistingQuizSet = dynamic(() => import('components/ExistingQuizSet'))
+function Loading() {
+  return (
+    <div className='overlay background-brand900'>
+      <div className='Spinner' />
+    </div>
+  )
+}
+
+const NewQuizSet = dynamic(() => import('components/NewQuizSet'), {
+  loading: Loading,
+})
+
+const ExistingQuizSet = dynamic(() => import('components/ExistingQuizSet'), {
+  loading: Loading,
+})
 
 type QuizSetMachineContext = {
   quizSet: QuizSet
@@ -19,7 +33,7 @@ type QuizSetMachineContext = {
 
 type QuizSetMachineEvent =
   | { type: 'continue' }
-  | { type: 'createNew' }
+  | { type: 'startAfresh' }
   | { type: 'retry' }
 
 type QuizSetMachineState = {
@@ -121,7 +135,7 @@ const quizSetMachine = createMachine<
             continue: {
               target: '#quizSet.newQuizSet',
             },
-            createNew: {
+            startAfresh: {
               actions: [assignEmptyQuizSet],
               target: 'creatingQuizSet',
             },
@@ -174,20 +188,42 @@ export default function QuizPage({ quizSet }): JSX.Element {
         </div>
       )}
       {matches('error') && (
-        <div>
-          <button onClick={() => send('retry')} type='button'>
+        <div className='overlay background-brand900'>
+          <Text className='color-dark'>Oh no, something went wrong.</Text>
+          <div style={{ flex: '0 0 2rem' }} />
+          <Button
+            className='background-gray100'
+            onClick={() => send('retry')}
+            style={{ width: '12rem' }}
+            type='button'
+          >
             Retry
-          </button>
+          </Button>
         </div>
       )}
       {matches({ loading: 'confirmContinue' }) && (
-        <div>
-          <button onClick={() => send('continue')} type='button'>
+        <div className='overlay background-brand100'>
+          <Text className='color-dark'>
+            Do you want to continue making your existing Quiz?
+          </Text>
+          <div style={{ flex: '0 0 2rem' }} />
+          <Button
+            className='background-brand900'
+            onClick={() => send('continue')}
+            style={{ width: '12rem' }}
+            type='button'
+          >
             Continue
-          </button>
-          <button onClick={() => send('createNew')} type='button'>
-            Create new
-          </button>
+          </Button>
+          <div style={{ flex: '0 0 1rem' }} />
+          <Button
+            className='background-gray100'
+            onClick={() => send('startAfresh')}
+            style={{ width: '12rem' }}
+            type='button'
+          >
+            Start afresh
+          </Button>
         </div>
       )}
       {matches('newQuizSet') && <NewQuizSet initialQuizSet={context.quizSet} />}

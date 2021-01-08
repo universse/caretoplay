@@ -407,6 +407,20 @@ export default function NewQuizSet({
           <div className='Spinner' />
         </div>
       )}
+      {matches('finishingQuizSetError') && (
+        <div className='overlay background-brand900'>
+          <Text className='color-dark'>Oh no, something went wrong.</Text>
+          <div style={{ flex: '0 0 2rem' }} />
+          <Button
+            className='background-gray100'
+            onClick={() => send('retry')}
+            style={{ width: '12rem' }}
+            type='button'
+          >
+            Retry
+          </Button>
+        </div>
+      )}
       {matches('outroduction') && (
         <div className='background-brand100'>
           <Congratulations />
