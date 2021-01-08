@@ -4,6 +4,8 @@ TODO:
 guessquizScreen flow - last screen check email + cross and check for right and wrong answer
 gifs alts + srcs
 
+manually build new quiz
+
 offline stuffs screens - continue/create new/error retry
   - search state.matches without ui
   - completingQuizSetError, finishingQuizSetError, [quizSetKey] error
