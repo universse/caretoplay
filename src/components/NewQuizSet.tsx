@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { createMachine, assign, spawn, sendParent } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { get, set, del } from 'idb-keyval'
-import { object, bool, ref, string } from 'yup'
+import { object, bool, string } from 'yup'
 
 import Footer from './Footer'
 import Congratulations from './Congratulations'
@@ -186,19 +186,23 @@ const spawnSubscriptionService = assign({
 })
 
 function persistQuizSet({ quizSet }) {
-  set(PERSISTED_QUIZSET_STORAGE_KEY, {
-    ...quizSet,
-    quizVersion: QUIZ_VERSION,
-  })
+  try {
+    set(PERSISTED_QUIZSET_STORAGE_KEY, {
+      ...quizSet,
+      quizVersion: QUIZ_VERSION,
+    })
+  } catch (e) {}
 }
 
 function finishQuizSet({ quizSet }) {
   async function saveFinishedQuizSet({ quizSetKey, name }) {
-    const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
+    try {
+      const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
 
-    finishedQuizSets[quizSetKey] = { name }
+      finishedQuizSets[quizSetKey] = { name }
 
-    return set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
+      await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
+    } catch {}
   }
 
   return Promise.all([
@@ -241,7 +245,9 @@ function shareQuizSet({ quizSet: { name, quizSetKey } }) {
 }
 
 function clearLocalQuizSet() {
-  del(PERSISTED_QUIZSET_STORAGE_KEY)
+  try {
+    del(PERSISTED_QUIZSET_STORAGE_KEY)
+  } catch {}
 }
 
 export const newQuizSetMachine = createMachine<

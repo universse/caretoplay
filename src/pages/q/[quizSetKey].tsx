@@ -113,7 +113,7 @@ const quizSetMachine = createMachine<
               },
               { target: 'creatingQuizSet' },
             ],
-            onError: { target: '#quizSet.error' },
+            onError: { target: 'creatingQuizSet' },
           },
         },
         confirmContinue: {

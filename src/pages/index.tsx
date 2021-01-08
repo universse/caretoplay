@@ -1,39 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
-// import { get, set } from 'idb-keyval'
 
 import LetsBegin from 'assets/illustrations/LetsBegin'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Hero from 'components/Hero'
 import { Text, Button } from 'components/shared'
-// import { FINISHED_QUIZSETS_STORAGE_KEY } from 'utils/quizUtils'
 
 export default function IndexPage(): JSX.Element {
-  // const [isLoading, setIsLoading] = useState(true)
-  // const [hasFinishedQuizSets, setFinishedQuizSets] = useState(false)
-
-  // useEffect(() => {
-  //   async function getFinishedQuizSets() {
-  //     const finishedQuizSets = await get(FINISHED_QUIZSETS_STORAGE_KEY)
-
-  //     if (finishedQuizSets) {
-  //       for (const key of Object.keys(finishedQuizSets)) {
-  //         if (typeof finishedQuizSets[key] === 'string') {
-  //           finishedQuizSets[key] = { name: finishedQuizSets[key] }
-  //         }
-  //       }
-
-  //       await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
-  //     }
-
-  //     setIsLoading(false)
-  //     setFinishedQuizSets(!!finishedQuizSets)
-  //   }
-
-  //   getFinishedQuizSets()
-  // }, [])
-
   return (
     <div>
       <Header />
@@ -143,12 +117,6 @@ export default function IndexPage(): JSX.Element {
         </div>
       </div>
       <Footer />
-      {/* {isLoading && <div>spinner</div>}
-      {!isLoading && hasFinishedQuizSets && (
-        <Link href='/q'>
-          <a>View finished</a>
-        </Link>
-      )} */}
     </div>
   )
 }

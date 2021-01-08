@@ -91,8 +91,10 @@ function trackQuizSetReview(ctx) {
 }
 
 async function fetchPersistedGuess({ quizSet: { quizSetKey } }) {
-  const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
-  return completedQuizSets?.[quizSetKey]
+  try {
+    const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
+    return completedQuizSets?.[quizSetKey]
+  } catch {}
 }
 
 const assignPersistedGuesses = assign({
@@ -109,11 +111,13 @@ function hasPersistedGuesses(_, e) {
 }
 
 async function completeQuizSet({ quizSet: { quizSetKey }, persistedGuesses }) {
-  const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
+  try {
+    const completedQuizSets = (await get(COMPLETED_QUIZSETS_STORAGE_KEY)) || {}
 
-  completedQuizSets[quizSetKey] = { persistedGuesses }
+    completedQuizSets[quizSetKey] = { persistedGuesses }
 
-  return set(COMPLETED_QUIZSETS_STORAGE_KEY, completedQuizSets)
+    await set(COMPLETED_QUIZSETS_STORAGE_KEY, completedQuizSets)
+  } catch {}
 }
 
 export const existingQuizSetMachine = createMachine<

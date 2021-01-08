@@ -9,10 +9,15 @@ export default function QuizPage(): JSX.Element {
   const [finishedQuizSets, setFinishedQuizSets] = useState([])
 
   useEffect(() => {
-    get(FINISHED_QUIZSETS_STORAGE_KEY).then((finishedQuizSets) => {
-      setIsLoading(false)
-      setFinishedQuizSets(Object.entries(finishedQuizSets || {}))
-    })
+    get(FINISHED_QUIZSETS_STORAGE_KEY)
+      .then((finishedQuizSets) => {
+        setIsLoading(false)
+        setFinishedQuizSets(Object.entries(finishedQuizSets || {}))
+      })
+      .catch(() => {
+        setIsLoading(false)
+        setFinishedQuizSets([])
+      })
   }, [])
 
   return (
