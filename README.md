@@ -1,7 +1,7 @@
 <!--
 TODO:
 
-guessquizScreen flow - last screen check email + cross and check for right and wrong answer
+guessquizScreen flow - last screen check email
 subscription form error
 gifs alts + srcs
 

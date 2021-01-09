@@ -294,7 +294,7 @@ export default function SubscriptionScreen({
             className='color-light serif fw-800 text-center'
             element='p'
           >
-            + Breakfast for 2 at Alley on 25 (worth $880!).
+            + Breakfast for 2 at Alley on 25 (worth $880!)
           </Text>
           <Text as='body2' className='color-light text-center' element='p'>
             Winner will be announced and notified on 19 Feburary 2021.

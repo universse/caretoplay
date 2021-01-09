@@ -6,7 +6,6 @@ import Icon from 'components/Icon'
 import { Text } from 'components/shared'
 import { STAGES } from 'constants/quizzes'
 import { classNames } from 'utils/classNames'
-import { immerAssign } from 'utils/machineUtils'
 import { QuizWithChoice } from 'interfaces/shared'
 
 type QuizGuessMachineContext = {
@@ -148,7 +147,7 @@ export default function QuizGuessScreen({
               <li key={i} className='mb-12'>
                 <button
                   className={classNames(
-                    'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
+                    'flex justify-center items-center text-body2 color-dark break-word text-center px-48 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
                     choice === i ? 'background-brand900' : 'background-light',
                     guessedWrong && 'Wrong',
                     shouldRevealCorrectChoice && 'Right'
@@ -158,6 +157,34 @@ export default function QuizGuessScreen({
                   type='button'
                 >
                   {option}
+                  {guessedWrong && (
+                    <div
+                      className='flex items-center justify-center absolute rounded background-light'
+                      style={{
+                        width: '1.75rem',
+                        height: '1.75rem',
+                        right: '0.75rem',
+                      }}
+                    >
+                      <Icon
+                        fill='var(--danger600)'
+                        icon='cross'
+                        size='medium'
+                      />
+                    </div>
+                  )}
+                  {shouldRevealCorrectChoice && (
+                    <div
+                      className='flex items-center justify-center absolute rounded background-light'
+                      style={{
+                        width: '1.75rem',
+                        height: '1.75rem',
+                        right: '0.75rem',
+                      }}
+                    >
+                      <Icon fill='var(--success)' icon='check' size='medium' />
+                    </div>
+                  )}
                 </button>
               </li>
             )

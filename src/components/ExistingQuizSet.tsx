@@ -138,7 +138,7 @@ export default function ExistingQuizSet({
       context: {
         quizSet: {
           name,
-          personalInfo: { email },
+          // personalInfo: { email },
         },
         currentQuizIndex,
         quizGuessServices,
@@ -160,6 +160,8 @@ export default function ExistingQuizSet({
   const versionedQuizzes = QUIZZES[QUIZ_VERSION]
 
   const nextStep = () => send('next')
+
+  const email = 'aasfa@fsafa.com'
 
   return (
     <>
@@ -187,7 +189,20 @@ export default function ExistingQuizSet({
           <div className='px-16 mS:px-32 py-24'>
             <ACPLocations />
           </div>
-          {email ? `${name} entered giveaway` : ''}
+          {email && (
+            <div className='px-16 mS:px-32 mt-32 mb-16'>
+              <Text
+                as='h6'
+                className='serif fw-800 color-dark text-center'
+                element='p'
+              >
+                Psst!
+                <br />
+                Because you completed guessing, {name} is now in this Lucky
+                Draw!
+              </Text>
+            </div>
+          )}
           <div>
             <a
               className='AspectRatio _16-9 block'
@@ -229,7 +244,7 @@ export default function ExistingQuizSet({
                 className='color-light serif fw-800 text-center'
                 element='p'
               >
-                + Breakfast for 2 at Alley on 25 (worth $880!).
+                + Breakfast for 2 at Alley on 25 (worth $880!)
               </Text>
               <Text as='body2' className='color-light text-center' element='p'>
                 Winner will be announced and notified on 19 Feburary 2021.

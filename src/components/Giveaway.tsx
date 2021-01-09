@@ -45,7 +45,7 @@ export default function Giveaway() {
           className='color-light serif fw-800 text-center'
           element='p'
         >
-          + Breakfast for 2 at Alley on 25 (worth $880!).
+          + Breakfast for 2 at Alley on 25 (worth $880!)
         </Text>
         <Text as='body2' className='color-light text-center' element='p'>
           The lucky draw form can be found at the end of the quiz. Winner will
