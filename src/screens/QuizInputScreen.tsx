@@ -175,7 +175,7 @@ export default function QuizInputScreen({
         STAGES.indexOf(currentQuiz.stage) + 1
       } flex flex-col h-100`}
     >
-      <div className='flex-expand px-16 pt-16 pb-4'>
+      <div className='flex-expand px-16 mS:px-32 pt-16 pb-4'>
         <div className='AspectRatio _16-9'>
           <Image
             alt={currentQuiz.animationAlt}
@@ -292,7 +292,7 @@ export default function QuizInputScreen({
         </ul>
       </div>
       <div
-        className='flex justify-between items-center px-16'
+        className='flex justify-between items-center px-16 mS:px-32'
         style={{ flex: '0 0 5rem' }}
       >
         <button

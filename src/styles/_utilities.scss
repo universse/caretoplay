@@ -5,6 +5,8 @@
 $sides: ('top', 'right', 'bottom', 'left');
 $spacing-values: (4, 8, 12, 16, 24, 32, 48);
 
+$mobileM: px-to-rem(375);
+
 @mixin generate-spacing-utilities($property, $values) {
   @each $value in $values {
     $character: str-slice($property, 1, 1);
@@ -30,6 +32,13 @@ $spacing-values: (4, 8, 12, 16, 24, 32, 48);
 }
 @include generate-spacing-utilities('margin', $spacing-values);
 @include generate-spacing-utilities('padding', $spacing-values);
+
+@media screen and (min-width: $mobileM) {
+  .mS\:px-32 {
+    padding-left: px-to-rem(32);
+    padding-right: px-to-rem(32);
+  }
+}
 
 .mx-auto {
   margin-left: auto;

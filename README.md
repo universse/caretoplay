@@ -1,18 +1,16 @@
 <!--
 TODO:
 
+SEO, favicon
 guessquizScreen flow - last screen check email + cross and check for right and wrong answer
 gifs alts + srcs
-
+preload gifs - render visually hidden Image currentQuizIndex + 1
 subscription form error
 
-SEO, favicon
 proper analytics
 
-
-
-view guessed quiz flow
 aria-label button + input
+
 validation mode
 
 add error boundary
