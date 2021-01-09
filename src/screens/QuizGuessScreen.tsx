@@ -117,22 +117,18 @@ export default function QuizGuessScreen({
         STAGES.indexOf(currentQuiz.stage) + 1
       } flex flex-col h-100`}
     >
-      <div className='flex-expand px-16 mS:px-32 pt-16 pb-4'>
+      <div className='flex-expand px-16 py-16'>
         <div className='AspectRatio _16-9'>
           <Image
             alt={currentQuiz.animationAlt}
             src={`/assets/gifs/${currentQuiz.animationSrc}.webp`}
           />
         </div>
-        <div className='mt-16'>
-          <Text
-            as='h6'
-            className='Question serif fw-800 text-center'
-            element='p'
-          >
-            {currentQuiz.questionToGuess.replaceAll('{{name}}', name)}
-          </Text>
-        </div>
+      </div>
+      <div className='flex-expand px-16 mS:px-32 pb-4'>
+        <Text as='h6' className='Question serif fw-800 text-center' element='p'>
+          {currentQuiz.questionToGuess.replaceAll('{{name}}', name)}
+        </Text>
         <ul className='mt-16'>
           {quiz.options.map((option, i) => {
             const isSelectedChoice = choice === i
