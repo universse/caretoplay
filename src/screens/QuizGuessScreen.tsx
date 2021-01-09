@@ -125,7 +125,6 @@ export default function QuizGuessScreen({
             alt={currentQuiz.animationAlt}
             layout='fill'
             objectFit='cover'
-            // src={`/assets/gifs/quiz-0${currentQuizIndex + 1}.gif`}
             src={`/assets/gifs/${currentQuiz.animationSrc}`}
           />
         </div>
@@ -135,7 +134,7 @@ export default function QuizGuessScreen({
             className='Question serif fw-800 text-center'
             element='p'
           >
-            {currentQuiz.questionToAnswer}
+            {currentQuiz.questionToGuess.replaceAll('{{name}}', name)}
           </Text>
         </div>
         <ul className='mt-16'>

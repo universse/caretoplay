@@ -181,7 +181,6 @@ export default function QuizInputScreen({
             alt={currentQuiz.animationAlt}
             layout='fill'
             objectFit='cover'
-            // src={`/assets/gifs/quiz-0${currentQuizIndex + 1}.gif`}
             src={`/assets/gifs/${currentQuiz.animationSrc}`}
           />
         </div>

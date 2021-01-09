@@ -1,14 +1,13 @@
 <!--
 TODO:
 
-SEO, favicon
 guessquizScreen flow - last screen check email + cross and check for right and wrong answer
-gifs alts + srcs
-preload gifs - render visually hidden Image currentQuizIndex + 1
 subscription form error
 
-proper analytics
+gifs alts + srcs
+preload gifs - render visually hidden Image currentQuizIndex + 1
 
+proper analytics, referral link
 aria-label button + input
 
 validation mode
