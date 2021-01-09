@@ -8,6 +8,7 @@ const ErrorMessages = {
   '00': 'Unknown email verification error.',
   '10': 'Saving email failed',
   '40': 'Sending confirmation email failed',
+  '50': 'Building page failed',
 
   '01': 'Please enter a valid email address.',
   '02': 'We do not support disposable email addresses.',
@@ -108,9 +109,25 @@ const subscribeMachine = createMachine({
             },
           })
         },
-        onDone: { target: 'success' },
+        onDone: { target: 'buildingPage' },
         onError: {
           actions: [assign({ error: { code: '40' } })],
+          target: 'error',
+        },
+      },
+    },
+    buildingPage: {
+      invoke: {
+        id: 'buildPage',
+        src: function ({ quizSetKey }) {
+          return restRequestRetry(
+            `https://${process.env.VERCEL_URL}/api/buildPage`,
+            { body: { quizSetKey } }
+          )
+        },
+        onDone: { target: 'success' },
+        onError: {
+          actions: [assign({ error: { code: '50' } })],
           target: 'error',
         },
       },

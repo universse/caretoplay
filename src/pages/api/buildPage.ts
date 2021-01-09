@@ -6,7 +6,7 @@ export default async function buildPage(
   res: NextApiResponse
 ): Promise<void> {
   try {
-    await got(`${req.headers.origin}/q/${req.body.quizSetKey}`)
+    await got(`https://${process.env.VERCEL_URL}/q/${req.body.quizSetKey}`)
     res.status(200).json({ success: true })
   } catch {
     res.status(500).json({ success: false })

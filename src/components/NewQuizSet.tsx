@@ -137,7 +137,10 @@ const spawnQuizInputService = assign({
 })
 
 const spawnSubscriptionService = assign({
-  subscriptionService: ({ quizSet, subscriptionService }) => {
+  subscriptionService: ({
+    quizSet: { quizSetKey, name },
+    subscriptionService,
+  }) => {
     const FIELD_VALUES = {
       email: '',
       maritalStatus: '',
@@ -161,7 +164,7 @@ const spawnSubscriptionService = assign({
     const handleComplete = sendParent('next')
 
     async function handleSubmit({ fieldValues: { email, ...personalInfo } }) {
-      return apiClient.subscribe(quizSet.quizSetKey, quizSet.name, {
+      return apiClient.subscribe(quizSetKey, name, {
         email: email.trim(),
         ...personalInfo,
       })
