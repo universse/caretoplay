@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    deviceSizes: [320, 375, 425, 768],
+    deviceSizes: [375, 425, 640, 768],
   },
   poweredByHeader: false,
   typescript: {
