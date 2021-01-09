@@ -4,7 +4,7 @@ import { Text } from 'components/shared'
 export default function Hero(): JSX.Element {
   return (
     <div
-      className='px-16 pt-48 pb-24 background-brand200 background-no-repeat background-center'
+      className='px-16 mS:px-32 pt-48 pb-32 background-brand200 background-no-repeat background-center'
       style={{
         backgroundImage: 'url(/assets/svgs/sun.svg)',
       }}

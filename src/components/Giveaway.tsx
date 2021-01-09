@@ -18,7 +18,7 @@ export default function Giveaway() {
           src={`/assets/images/giveaway.jpg`}
         />
       </a>
-      <div className='background-gray900 px-16 py-24'>
+      <div className='background-gray900 px-16 mS:px-32 py-24'>
         <Text
           as='h6'
           className='color-light serif fw-800 uppercase text-center'

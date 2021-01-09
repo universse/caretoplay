@@ -7,7 +7,7 @@ export default function WhatIsACPPage() {
   return (
     <div className='flex flex-col h-100'>
       <Header />
-      <div className='background-brand100 flex-expand px-16 py-24'>
+      <div className='background-brand100 flex-expand px-16 mS:px-32 py-24'>
         <Text
           as='h4'
           className='color-dark serif fw-800 text-center'

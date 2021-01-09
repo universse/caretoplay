@@ -5,7 +5,8 @@ export default function SEO() {
     title: 'Care to Play?',
     description: 'An introduction to Advance Care Planning (ACP)',
     url: 'https://caretoplay.sg/',
-    image: '/assets/logo.png',
+    imageUrl: 'https://caretoplay.sg/assets/logo.png',
+    imageAlt: 'Care to Play? logo',
     type: 'website',
     color: '#ffffff',
   }
@@ -54,7 +55,7 @@ export default function SEO() {
         property='og:description'
       />
       <meta key='og_URL' content={tags.url} property='og:url' />
-      <meta key='og_image' content={tags.image} property='og:image' />
+      <meta key='og_image' content={tags.imageUrl} property='og:image' />
       <meta key='og_site_name' content={tags.title} property='og:site_name' />
       <meta key='twitter_card' content='summary' name='twitter:card' />
       <meta key='twitter_title' content={tags.title} name='twitter:title' />
@@ -63,7 +64,12 @@ export default function SEO() {
         content={tags.description}
         name='twitter:description'
       />
-      <meta key='twitter_img' content={tags.image} name='twitter:image' />
+      <meta key='twitter_image' content={tags.imageUrl} name='twitter:image' />
+      <meta
+        key='twitter_image_alt'
+        content={tags.imageAlt}
+        name='twitter:image:alt'
+      />
       {/* {tags.twitter_site && (
         <meta
           key='twitter_site'

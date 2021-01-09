@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header>
       <nav
-        className='flex items-center justify-between background-gray900 px-16'
+        className='flex items-center justify-between background-gray900 px-16 mS:px-32'
         style={{ height: '2.5rem' }}
       >
         <Link href='/what-is-acp'>

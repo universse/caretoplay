@@ -244,7 +244,7 @@ export default function SubscriptionScreen({
 
   return (
     <div className='flex flex-col h-100'>
-      <div className='background-brand900 px-16 py-16'>
+      <div className='background-brand900 px-16 mS:px-32 py-16'>
         <Text
           as='h5'
           className='color-dark serif fw-800 text-center uppercase'
@@ -267,7 +267,7 @@ export default function SubscriptionScreen({
             src={`/assets/images/giveaway.jpg`}
           />
         </a>
-        <div className='background-gray900 px-16 py-24'>
+        <div className='background-gray900 px-16 mS:px-32 py-24'>
           <Text
             as='h6'
             className='color-light serif fw-800 uppercase text-center'
@@ -309,13 +309,13 @@ export default function SubscriptionScreen({
           send('submit')
         }}
       >
-        <div className='background-brand100 px-16 pt-24'>
+        <div className='background-brand100 px-16 mS:px-32 pt-24'>
           {maritalStatusField}
           {haveChildrenField}
           {emailField}
           {pdpaField}
         </div>
-        <div className='background-brand100 px-16'>
+        <div className='background-brand100 px-16 mS:px-32'>
           <div className='mx-auto' style={{ width: '64%' }}>
             <div className='AspectRatio _1-1'>
               <Image
@@ -334,7 +334,7 @@ export default function SubscriptionScreen({
             P.S. You only qualify when at least a loved one completes your test!
           </Text>
         </div>
-        <div className='background-brand100 px-16 pt-24 pb-48'>
+        <div className='background-brand100 px-16 mS:px-32 pt-24 pb-48'>
           <div className='mb-16'>
             <Button className='background-success w-100' type='submit'>
               Submit lucky draw entry!

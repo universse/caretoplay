@@ -12,7 +12,7 @@ export default function IndexPage(): JSX.Element {
     <div>
       <Header />
       <Hero />
-      <div className='flex background-gray900 pr-16 py-24 items-center'>
+      <div className='flex background-gray900 pr-16 mS:pr-32 py-24 items-center'>
         <div style={{ flex: '0 0 40%' }}>
           <div className='AspectRatio _1-1'>
             <Image
@@ -48,7 +48,7 @@ export default function IndexPage(): JSX.Element {
             src={`/assets/images/giveaway.jpg`}
           />
         </a>
-        <div className='background-gray900 px-16 py-24'>
+        <div className='background-gray900 px-16 mS:px-32 py-24'>
           <Text
             as='h6'
             className='color-light serif fw-800 uppercase text-center'
@@ -75,7 +75,7 @@ export default function IndexPage(): JSX.Element {
             className='color-light serif fw-800 text-center'
             element='p'
           >
-            + Breakfast for 2 at Alley on 25 (worth $880!).
+            + Breakfast for 2 at Alley on 25 (worth $880!)
           </Text>
           <Text as='body2' className='color-light text-center' element='p'>
             The lucky draw form can be found at the end of the quiz. Winner will
@@ -83,7 +83,7 @@ export default function IndexPage(): JSX.Element {
           </Text>
         </div>
       </div>
-      <div className='flex flex-col items-center px-16 pt-32 pb-48 background-brand900 overflow-hidden'>
+      <div className='flex flex-col items-center px-16 mS:px-32 pt-32 pb-64 background-brand900 overflow-hidden'>
         <Text
           as='h5'
           className='serif color-dark fw-800 text-center'
@@ -92,8 +92,10 @@ export default function IndexPage(): JSX.Element {
           Are you ready?
         </Text>
         <Text as='body2' className='color-dark fw-400 text-center' element='p'>
-          Remember, you can customise your answers! (You may even add in some
-          tricks to <strong>really</strong> test your loved ones!)
+          Remember, you can customise your answers!
+          <br />
+          (You may even add in some tricks to <strong>really</strong> test your
+          loved ones!)
         </Text>
         <div style={{ flex: '0 0 1.5rem' }} />
         <Link href='/q/new' passHref>
@@ -110,7 +112,7 @@ export default function IndexPage(): JSX.Element {
           style={{
             width: '12rem',
             left: 'calc(50% + 4.5rem)',
-            bottom: '-3rem',
+            bottom: '-2.5rem',
           }}
         >
           <LetsBegin />

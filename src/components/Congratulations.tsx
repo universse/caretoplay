@@ -6,7 +6,7 @@ import { Text } from 'components/shared'
 export default function Congratulations() {
   return (
     <div>
-      <div className='px-16 pb-24'>
+      <div className='px-16 mS:px-32 pb-24'>
         <div className='mx-auto' style={{ width: '64%' }}>
           <div className='AspectRatio _1-1'>
             <Image
@@ -31,7 +31,7 @@ export default function Congratulations() {
           Planning (ACP)!
         </Text>
       </div>
-      <div className='background-brand900 px-16 py-24'>
+      <div className='background-brand900 px-16 mS:px-32 py-24'>
         <Text className='color-dark text-center serif fw-800' element='p'>
           Life is unpredictable.
           <br />

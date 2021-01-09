@@ -52,7 +52,7 @@ export default function PersonalInfoForm({
           send('submit')
         }}
       >
-        <div className='flex-expand background-brand100 px-16 py-48'>
+        <div className='flex-expand background-brand100 px-16 mS:px-32 py-48'>
           <div className='mb-32'>
             <div className='mb-4'>
               <Text
@@ -161,7 +161,7 @@ export default function PersonalInfoForm({
           </fieldset>
         </div>
         <div
-          className='flex justify-end items-center px-16 background-brand100'
+          className='flex justify-end items-center px-16 mS:px-32 background-brand100'
           style={{ flex: '0 0 5rem' }}
         >
           <button

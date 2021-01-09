@@ -408,7 +408,7 @@ export default function NewQuizSet({
         </div>
       )}
       {matches('finishingQuizSetError') && (
-        <div className='overlay background-brand900 px-16'>
+        <div className='overlay background-brand900 px-16 mS:px-32'>
           <Text className='color-dark text-center'>
             Oh no, something went wrong.
           </Text>
@@ -426,10 +426,10 @@ export default function NewQuizSet({
       {matches('outroduction') && (
         <div className='background-brand100'>
           <Congratulations />
-          <div className='px-16 py-24'>
+          <div className='px-16 mS:px-32 py-24'>
             <ACPLocations />
           </div>
-          <div className='px-16 pb-48'>
+          <div className='px-16 mS:px-32 pb-48'>
             <div className='mb-16'>
               <Button
                 className='background-success w-100'
@@ -457,7 +457,7 @@ export default function NewQuizSet({
       )}
       {matches('askToShare') && (
         <div className='flex flex-col h-100'>
-          <div className='flex flex-col justify-center background-brand900 flex-expand px-16 pb-48'>
+          <div className='flex flex-col justify-center background-brand900 flex-expand px-16 mS:px-32 pb-48'>
             <div className='AspectRatio mx-auto' style={{ width: '64%' }}>
               <HeroImage />
             </div>

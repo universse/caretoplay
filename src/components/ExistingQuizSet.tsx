@@ -184,7 +184,7 @@ export default function ExistingQuizSet({
       {matches('outroduction') && (
         <div className='background-brand100'>
           <Congratulations />
-          <div className='px-16 py-24'>
+          <div className='px-16 mS:px-32 py-24'>
             <ACPLocations />
           </div>
           {email ? `${name} entered giveaway` : ''}
