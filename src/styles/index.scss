@@ -59,3 +59,30 @@ input[type='url'] {
   height: 2rem;
   width: 2rem;
 }
+
+.ImageWrapper {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  inset: 0px;
+  box-sizing: border-box;
+  margin: 0px;
+
+  img {
+    visibility: inherit;
+    position: absolute;
+    inset: 0px;
+    box-sizing: border-box;
+    padding: 0px;
+    border: medium none;
+    margin: auto;
+    display: block;
+    width: 0px;
+    height: 0px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+}

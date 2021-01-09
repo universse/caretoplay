@@ -1,7 +1,13 @@
-import Image from 'next/image'
 import { useActor } from '@xstate/react'
 
-import { Text, TextInput, Checkbox, Radio, Button } from 'components/shared'
+import {
+  Image,
+  Text,
+  TextInput,
+  Checkbox,
+  Radio,
+  Button,
+} from 'components/shared'
 import { FormService } from 'machines/formMachine'
 
 const MARITAL_STATUSES = [
@@ -262,12 +268,7 @@ export default function SubscriptionScreen({
           rel='noopener noreferrer'
           target='_blank'
         >
-          <Image
-            alt='Hyatt website'
-            layout='fill'
-            objectFit='cover'
-            src={`/assets/images/giveaway.jpg`}
-          />
+          <Image alt='Hyatt website' src='/assets/images/giveaway.webp' />
         </a>
         <div className='background-gray900 px-16 mS:px-32 py-24'>
           <Text
@@ -322,9 +323,7 @@ export default function SubscriptionScreen({
             <div className='AspectRatio _1-1'>
               <Image
                 // alt='Hyatt website'
-                layout='fill'
-                objectFit='cover'
-                src={`/assets/gifs/hugging-light.gif`}
+                src={`/assets/gifs/hugging-light.webp`}
               />
             </div>
           </div>

@@ -1,6 +1,14 @@
 import { forwardRef } from 'react'
 import { classNames } from 'utils/classNames'
 
+export function Image(props) {
+  return (
+    <div className='ImageWrapper'>
+      <img decoding='async' {...props} />
+    </div>
+  )
+}
+
 export function TextInput(props) {
   return (
     <input

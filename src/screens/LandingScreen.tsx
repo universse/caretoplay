@@ -1,10 +1,8 @@
-import Image from 'next/image'
-
 import LetsBegin from 'assets/illustrations/LetsBegin'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Hero from 'components/Hero'
-import { Text } from 'components/shared'
+import { Text, Image } from 'components/shared'
 
 export default function LandingScreen({ name, nextStep }: {}): JSX.Element {
   return (
@@ -16,9 +14,7 @@ export default function LandingScreen({ name, nextStep }: {}): JSX.Element {
           <div className='AspectRatio _1-1'>
             <Image
               // alt='Hyatt website'
-              layout='fill'
-              objectFit='cover'
-              src={`/assets/gifs/hugging-dark.gif`}
+              src='/assets/gifs/hugging-dark.webp'
             />
           </div>
         </div>

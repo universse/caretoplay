@@ -1,11 +1,10 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 import LetsBegin from 'assets/illustrations/LetsBegin'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Hero from 'components/Hero'
-import { Text, Button } from 'components/shared'
+import { Image, Text, Button } from 'components/shared'
 
 export default function IndexPage(): JSX.Element {
   return (
@@ -17,9 +16,7 @@ export default function IndexPage(): JSX.Element {
           <div className='AspectRatio _1-1'>
             <Image
               // alt='Hyatt website'
-              layout='fill'
-              objectFit='cover'
-              src={`/assets/gifs/hugging-dark.gif`}
+              src='/assets/gifs/hugging-dark.webp'
             />
           </div>
         </div>
@@ -41,12 +38,7 @@ export default function IndexPage(): JSX.Element {
           rel='noopener noreferrer'
           target='_blank'
         >
-          <Image
-            alt='Hyatt website'
-            layout='fill'
-            objectFit='cover'
-            src={`/assets/images/giveaway.jpg`}
-          />
+          <Image alt='Hyatt website' src='/assets/images/giveaway.webp' />
         </a>
         <div className='background-gray900 px-16 mS:px-32 py-24'>
           <Text

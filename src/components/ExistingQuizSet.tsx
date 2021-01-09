@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
 import { createMachine, assign, spawn } from 'xstate'
-import Image from 'next/image'
 import { useMachine } from '@xstate/react'
 
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
-import { Button, Text } from './shared'
+import { Image, Button, Text } from './shared'
 import LandingScreen from 'screens/LandingScreen'
 import StageScreen from 'screens/StageScreen'
 import QuizGuessScreen, {
@@ -270,12 +269,7 @@ export default function ExistingQuizSet({
               rel='noopener noreferrer'
               target='_blank'
             >
-              <Image
-                alt='Hyatt website'
-                layout='fill'
-                objectFit='cover'
-                src={`/assets/images/giveaway.jpg`}
-              />
+              <Image alt='Hyatt website' src='/assets/images/giveaway.webp' />
             </a>
             <div className='background-gray900 px-16 mS:px-32 py-24'>
               <Text

@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
-import Image from 'next/image'
 import { createMachine, assign, sendParent, ActorRefFrom } from 'xstate'
 import { useActor } from '@xstate/react'
 
 import Icon from 'components/Icon'
-import { Text } from 'components/shared'
+import { Text, Image } from 'components/shared'
 import { STAGES } from 'constants/quizzes'
 import { classNames } from 'utils/classNames'
 import { immerAssign } from 'utils/machineUtils'
@@ -179,9 +178,7 @@ export default function QuizInputScreen({
         <div className='AspectRatio _16-9'>
           <Image
             alt={currentQuiz.animationAlt}
-            layout='fill'
-            objectFit='cover'
-            src={`/assets/gifs/${currentQuiz.animationSrc}.gif`}
+            src={`/assets/gifs/${currentQuiz.animationSrc}.webp`}
           />
         </div>
         <div className='mt-16'>
