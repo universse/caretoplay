@@ -214,7 +214,6 @@ function finishQuizSet({ quizSet }) {
       quizVersion: QUIZ_VERSION,
       status: 'finished',
     }),
-    apiClient.buildPage(quizSet.quizSetKey),
     saveFinishedQuizSet(quizSet),
   ])
 }
