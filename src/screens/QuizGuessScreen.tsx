@@ -124,7 +124,7 @@ export default function QuizGuessScreen({
             alt={currentQuiz.animationAlt}
             layout='fill'
             objectFit='cover'
-            src={`/assets/gifs/${currentQuiz.animationSrc}`}
+            src={`/assets/gifs/${currentQuiz.animationSrc}.gif`}
           />
         </div>
         <div className='mt-16'>

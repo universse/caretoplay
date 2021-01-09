@@ -182,25 +182,9 @@ export default function QuizPage({ quizSet }): JSX.Element {
 
   return (
     <>
-      {matches('loading') && (
+      {matches('loading') && !matches({ loading: 'confirmContinue' }) && (
         <div className='overlay background-brand900'>
           <div className='Spinner' />
-        </div>
-      )}
-      {matches('error') && (
-        <div className='overlay background-brand900 px-16 mS:px-32'>
-          <Text className='color-dark text-center'>
-            Oh no, something went wrong.
-          </Text>
-          <div style={{ flex: '0 0 2rem' }} />
-          <Button
-            className='background-gray100'
-            onClick={() => send('retry')}
-            style={{ width: '12rem' }}
-            type='button'
-          >
-            Retry
-          </Button>
         </div>
       )}
       {matches({ loading: 'confirmContinue' }) && (
@@ -225,6 +209,22 @@ export default function QuizPage({ quizSet }): JSX.Element {
             type='button'
           >
             Start afresh
+          </Button>
+        </div>
+      )}
+      {matches('error') && (
+        <div className='overlay background-brand900 px-16 mS:px-32'>
+          <Text className='color-dark text-center'>
+            Oh no, something went wrong.
+          </Text>
+          <div style={{ flex: '0 0 2rem' }} />
+          <Button
+            className='background-gray100'
+            onClick={() => send('retry')}
+            style={{ width: '12rem' }}
+            type='button'
+          >
+            Retry
           </Button>
         </div>
       )}

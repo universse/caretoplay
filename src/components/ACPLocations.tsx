@@ -83,7 +83,7 @@ export default function ACPLocations() {
           alt=''
           layout='fill'
           objectFit='cover'
-          src={`/assets/gifs/quiz-09.gif`}
+          src={`/assets/gifs/spokesperson-light.gif`}
         />
       </div>
       <br />

@@ -12,6 +12,8 @@ export type Quiz = {
   questionToAnswer: string
   questionToGuess: string
   options: string[]
+  animationAlt: string
+  animationSrc: string
   hint?: string
 }
 

@@ -25,7 +25,7 @@ export default function SubscriptionScreen({
   const [
     {
       matches,
-      context: { fieldValues, fieldErrors },
+      context: { fieldValues, fieldErrors, formError },
       value,
     },
     send,
@@ -38,6 +38,8 @@ export default function SubscriptionScreen({
       send({ type: 'change', field: e.target.name, value: e.target.value })
     }
   }
+
+  const hasError = !!Object.keys(fieldErrors).length || formError
 
   const maritalStatusField = (
     <fieldset className='mb-32'>
@@ -335,9 +337,40 @@ export default function SubscriptionScreen({
           </Text>
         </div>
         <div className='background-brand100 px-16 mS:px-32 pt-24 pb-48'>
+          {hasError && (
+            <div className='mb-8'>
+              <Text
+                as='body2'
+                className='block color-danger500 text-center'
+                id='form-error'
+              >
+                {formError ? (
+                  <>
+                    Oh no, something went wrong.
+                    <br />
+                    Please re-submit.
+                  </>
+                ) : (
+                  <>
+                    Some fields are invalid.
+                    <br />
+                    Please check your entry.
+                  </>
+                )}
+              </Text>
+            </div>
+          )}
           <div className='mb-16'>
-            <Button className='background-success w-100' type='submit'>
-              Submit lucky draw entry!
+            <Button
+              aria-describedby={hasError ? 'form-error' : undefined}
+              className='background-success w-100'
+              type='submit'
+            >
+              {matches('submitting') ? (
+                <div className='Spinner' />
+              ) : (
+                'Submit lucky draw entry!'
+              )}
             </Button>
           </div>
           <Button

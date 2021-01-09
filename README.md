@@ -1,10 +1,6 @@
 <!--
 TODO:
 
-guessquizScreen flow - last screen check email
-subscription form error
-gifs alts + srcs
-
 preload gifs - render visually hidden Image currentQuizIndex + 1
 proper analytics, referral link
 aria-label button + input

@@ -42,6 +42,10 @@ $mobileM: px-to-rem(375);
   .mS\:pr-32 {
     padding-right: px-to-rem(32);
   }
+
+  .mS\:mb-16 {
+    margin-bottom: px-to-rem(16);
+  }
 }
 
 .mx-auto {
@@ -102,7 +106,7 @@ $mobileM: px-to-rem(375);
   }
 
   &._16-9 {
-    padding-top: 62.5%;
+    padding-top: 56.25%;
   }
 }
 

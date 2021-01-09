@@ -11,7 +11,7 @@ export const formMachine = createMachine(
     context: {
       fieldValues: {},
       fieldErrors: {},
-      formError: true,
+      formError: false,
       schema: null,
     },
     states: {
@@ -31,7 +31,7 @@ export const formMachine = createMachine(
         },
       },
       validating: {
-        entry: ['validateFields'],
+        entry: ['validateFields', 'clearSubmissionError'],
         always: [
           { cond: 'hasInvalidFields', target: 'editing' },
           { target: 'submitting' },
@@ -49,7 +49,7 @@ export const formMachine = createMachine(
               target: 'editing',
             },
             {
-              actions: ['setRemoteFieldErrors'],
+              actions: ['clearSubmissionError', 'setRemoteFieldErrors'],
               target: 'editing',
             },
           ],
@@ -90,6 +90,8 @@ export const formMachine = createMachine(
       handleSubmissionError: assign({
         formError: true,
       }),
+
+      clearSubmissionError: assign({ formError: false }),
 
       setRemoteFieldErrors: immerAssign((ctx, e) => {
         Object.entries(e.data.fieldErrors).forEach(([field, errors]) => {

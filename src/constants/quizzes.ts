@@ -17,6 +17,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Accomplishment in work',
         'Keeping an active lifestyle',
       ],
+      animationAlt: '',
+      animationSrc: 'joy-in-life',
     },
     {
       stage: 'casual',
@@ -26,6 +28,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
       questionToGuess:
         'If {{name}} were stuck on a deserted island, which item would {{name}} take?',
       options: ['A knife', 'A flashlight', 'A roasted chicken', 'An umbrella'],
+      animationAlt: '',
+      animationSrc: 'deserted-island',
     },
     {
       stage: 'casual',
@@ -38,6 +42,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Sharing about his/her day',
         'Taking a warm shower',
       ],
+      animationAlt: '',
+      animationSrc: 'after-work',
     },
     {
       stage: 'intimate',
@@ -51,6 +57,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Find a good view and wait...',
         'Say “I love you.” to all his/her loved ones',
       ],
+      animationAlt: '',
+      animationSrc: '24-hours',
     },
     {
       stage: 'intimate',
@@ -60,6 +68,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
       questionToGuess:
         'Would {{name}} rather die in 20 years with no regrets or die in 50 years with many regrets?',
       options: ['20 years with no regrets', '50 years with many regrets'],
+      animationAlt: '',
+      animationSrc: 'regrets-vs-no-regrets',
     },
     {
       stage: 'intimate',
@@ -69,6 +79,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
       questionToGuess:
         'Which is {{name}}’s dream destination to visit before {{name}} dies?',
       options: ['Hawaii', 'Venice', 'Paris', 'London'],
+      animationAlt: '',
+      animationSrc: 'dream-destination',
     },
     {
       stage: 'critical',
@@ -83,6 +95,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Financial concerns',
         'Causing worry to my family',
       ],
+      animationAlt: '',
+      animationSrc: '1-month',
     },
     {
       stage: 'critical',
@@ -97,6 +111,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Being able to talk',
         'Being able to bathe',
       ],
+      animationAlt: '',
+      animationSrc: 'cannot-move',
     },
     {
       stage: 'critical',
@@ -106,6 +122,8 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
       questionToGuess:
         'In the event of hospitalisation, who would {{name}} trust to make important decisions on {{name}}’s behalf?',
       options: ['Name of loved one', 'Name of loved one', 'Name of loved one'],
+      animationAlt: '',
+      animationSrc: 'spokesperson-dark',
       hint:
         'Do take this opportunity to think of 3 loved ones who understand your wishes and values the most.',
     },
