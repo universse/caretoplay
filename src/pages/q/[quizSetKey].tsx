@@ -21,10 +21,12 @@ function Loading() {
 
 const NewQuizSet = dynamic(() => import('components/NewQuizSet'), {
   loading: Loading,
+  ssr: false,
 })
 
 const ExistingQuizSet = dynamic(() => import('components/ExistingQuizSet'), {
   loading: Loading,
+  ssr: false,
 })
 
 type QuizSetMachineContext = {
