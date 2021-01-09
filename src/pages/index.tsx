@@ -104,7 +104,7 @@ export default function IndexPage(): JSX.Element {
             element='a'
             style={{ height: '3rem', width: '10rem' }}
           >
-            Let's Begin
+            Let's Begin!
           </Button>
         </Link>
         <div
