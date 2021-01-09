@@ -124,7 +124,7 @@ const quizSetMachine = createMachine<
               },
               {
                 cond: isAnotherQuizSetPersisted,
-                actions: ['redirectToNewQuizSet', assignQuizSet],
+                actions: [assignQuizSet],
                 target: 'confirmContinue',
               },
               { target: 'creatingQuizSet' },
@@ -148,7 +148,7 @@ const quizSetMachine = createMachine<
             id: 'createQuizSet',
             src: createQuizSet,
             onDone: {
-              actions: ['redirectToNewQuizSet', assignQuizSetKey],
+              actions: [assignQuizSetKey],
               target: '#quizSet.newQuizSet',
             },
             onError: { target: '#quizSet.error' },
