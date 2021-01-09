@@ -36,7 +36,7 @@
     "firebase-admin": "^9.4.2",
     "firebase-auth-lite": "^0.8.8",
     "focus-visible": "^5.2.0",
-    "framer-motion": "^3.1.4",
+    "framer-motion": "^3.2.0",
     "googleapis": "^67.0.0",
     "got": "^11.8.1",
     "idb-keyval": "^3.2.0",

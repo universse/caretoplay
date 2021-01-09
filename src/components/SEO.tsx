@@ -1,11 +1,13 @@
 import Head from 'next/head'
 
 export default function SEO() {
+  const url = `https://${process.env.VERCEL_URL}`
+
   const tags = {
     title: 'Care to Play?',
     description: 'An introduction to Advance Care Planning (ACP)',
-    url: 'https://caretoplay.sg/',
-    imageUrl: 'https://caretoplay.sg/assets/logo.png',
+    url: `${url}/`,
+    imageUrl: `${url}/assets/logo.png`,
     imageAlt: 'Care to Play? logo',
     type: 'website',
     color: '#ffffff',
