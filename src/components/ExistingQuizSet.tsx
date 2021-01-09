@@ -202,7 +202,7 @@ export default function ExistingQuizSet({
                 src={`/assets/images/giveaway.jpg`}
               />
             </a>
-            <div className='background-gray900 px-16 py-24'>
+            <div className='background-gray900 px-16 mS:px-32 py-24'>
               <Text
                 as='h6'
                 className='color-light serif fw-800 uppercase text-center'
@@ -236,7 +236,7 @@ export default function ExistingQuizSet({
               </Text>
             </div>
           </div>
-          <div className='flex justify-center px-16 py-24'>
+          <div className='flex justify-center px-16 mS:px-32 py-24'>
             <Button className='background-brand500' element='a' href='/q/new'>
               Create your own quiz!
             </Button>
