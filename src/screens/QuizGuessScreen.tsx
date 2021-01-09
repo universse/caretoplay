@@ -117,7 +117,7 @@ export default function QuizGuessScreen({
         STAGES.indexOf(currentQuiz.stage) + 1
       } flex flex-col h-100`}
     >
-      <div className='flex-expand px-16 py-16'>
+      <div className='px-16 py-16'>
         <div className='AspectRatio _16-9'>
           <Image
             alt={currentQuiz.animationAlt}
