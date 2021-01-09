@@ -1,6 +1,4 @@
-import Image from 'next/image'
-
-import { Text } from 'components/shared'
+import { Image, Text } from 'components/shared'
 
 export default function ACPLocations() {
   const locations = {
@@ -79,12 +77,7 @@ export default function ACPLocations() {
   return (
     <div>
       <div className='AspectRatio _16-9'>
-        <Image
-          alt=''
-          layout='fill'
-          objectFit='cover'
-          src={`/assets/gifs/spokesperson-light.gif`}
-        />
+        <Image alt='' src='/assets/gifs/spokesperson-light.webp' />
       </div>
       <br />
       <Text className='color-dark text-center' element='p'>
