@@ -18,7 +18,9 @@ export default function Hero(): JSX.Element {
         className='serif color-dark fw-800 text-center'
         element='h1'
       >
-        An introduction to Advance Care Planning (ACP)
+        An introduction to
+        <br />
+        Advance Care Planning (ACP)
       </Text>
     </div>
   )

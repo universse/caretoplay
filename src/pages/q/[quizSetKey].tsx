@@ -188,8 +188,10 @@ export default function QuizPage({ quizSet }): JSX.Element {
         </div>
       )}
       {matches('error') && (
-        <div className='overlay background-brand900'>
-          <Text className='color-dark'>Oh no, something went wrong.</Text>
+        <div className='overlay background-brand900 px-16'>
+          <Text className='color-dark text-center'>
+            Oh no, something went wrong.
+          </Text>
           <div style={{ flex: '0 0 2rem' }} />
           <Button
             className='background-gray100'
@@ -202,8 +204,8 @@ export default function QuizPage({ quizSet }): JSX.Element {
         </div>
       )}
       {matches({ loading: 'confirmContinue' }) && (
-        <div className='overlay background-brand100'>
-          <Text className='color-dark'>
+        <div className='overlay background-brand100 px-16'>
+          <Text className='color-dark text-center'>
             Do you want to continue making your existing Quiz?
           </Text>
           <div style={{ flex: '0 0 2rem' }} />

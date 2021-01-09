@@ -408,8 +408,10 @@ export default function NewQuizSet({
         </div>
       )}
       {matches('finishingQuizSetError') && (
-        <div className='overlay background-brand900'>
-          <Text className='color-dark'>Oh no, something went wrong.</Text>
+        <div className='overlay background-brand900 px-16'>
+          <Text className='color-dark text-center'>
+            Oh no, something went wrong.
+          </Text>
           <div style={{ flex: '0 0 2rem' }} />
           <Button
             className='background-gray100'
