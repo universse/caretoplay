@@ -234,7 +234,7 @@ export default function QuizInputScreen({
               {quiz.canEdit && (
                 <div
                   className='flex justify-between ml-8'
-                  style={{ flex: '0 0 4rem', height: '1.75rem' }}
+                  style={{ flex: '0 0 4rem', height: '2rem' }}
                 >
                   {isEditing && optionIndexToEdit === i ? (
                     <>
