@@ -36,7 +36,7 @@ export default function HowToDoACPPage() {
           Where to do my ACP?
         </Text>
         <br />
-        <ACPLocations />
+        <ACPLocations shouldShowPhoneNumber />
       </div>
       <Footer />
     </div>
