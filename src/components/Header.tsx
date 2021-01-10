@@ -13,7 +13,7 @@ export default function Header() {
           <a className={linkClassName}>What is ACP?</a>
         </Link>
         <Link href='/how-to-do-acp'>
-          <a className={linkClassName}>How to do ACP?</a>
+          <a className={linkClassName}>How to do my ACP?</a>
         </Link>
         <Link href='/about'>
           <a className={linkClassName}>About us</a>

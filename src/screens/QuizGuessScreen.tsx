@@ -126,7 +126,7 @@ export default function QuizGuessScreen({
       </div>
       <div className='flex-expand px-16 mS:px-32 pb-4'>
         <Text as='h6' className='Question serif fw-800 text-center' element='p'>
-          {currentQuiz.questionToGuess.replaceAll('{{name}}', name)}
+          {currentQuiz.question.replaceAll('{{name}}', name)}
         </Text>
         <ul className='mt-16'>
           {quiz.options.map((option, i) => {
@@ -183,8 +183,18 @@ export default function QuizGuessScreen({
           })}
         </ul>
         {isRevealed && (
-          <Text as='body2' className='Message block fw-700 text-center'>
-            {isWrong ? `Oh no, ask ${name} why.` : 'Yay! That is correct!'}
+          <Text
+            as='body2'
+            className={classNames('Message block fw-700 text-center')}
+          >
+            {isWrong ? (
+              <>
+                Oh no, {name} selected a<br />
+                different answer. Ask {name} why.
+              </>
+            ) : (
+              'Yay! That is correct!'
+            )}
           </Text>
         )}
       </div>
@@ -219,7 +229,7 @@ export default function QuizGuessScreen({
         {isRevealed &&
           (currentQuizIndex === versionedQuizzes.length - 1 ? (
             <button
-              className='text-button color-dark lowercase background-gray100 rounded fw-700 px-16 shadow01'
+              className='ColoredButton text-button lowercase rounded fw-700 px-16 shadow01'
               onClick={() => send({ type: 'next' })}
               style={{ height: '3rem' }}
               type='button'
@@ -239,7 +249,7 @@ export default function QuizGuessScreen({
           ))}
         {!isRevealed && choice !== -1 && (
           <button
-            className='text-button color-dark lowercase background-gray100 rounded fw-700 px-16 shadow01'
+            className='ColoredButton text-button lowercase rounded fw-700 px-16 shadow01'
             onClick={() => send({ type: 'confirmGuess' })}
             style={{ height: '3rem' }}
             type='button'

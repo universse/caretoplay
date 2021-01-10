@@ -9,8 +9,7 @@ export type Stage = 'casual' | 'intimate' | 'critical'
 export type Quiz = {
   stage: Stage
   canEdit: boolean
-  questionToAnswer: string
-  questionToGuess: string
+  question: string
   options: string[]
   animationAlt: string
   animationSrc: string

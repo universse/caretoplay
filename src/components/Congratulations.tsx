@@ -10,10 +10,10 @@ export default function Congratulations() {
         <div className='mx-auto' style={{ width: '64%' }}>
           <div className='AspectRatio _1-1'>
             <Image
-              // alt='Hyatt website'
+              alt=''
               layout='fill'
               objectFit='cover'
-              src={`/assets/gifs/congrats.gif`}
+              src='/assets/gifs/congrats.gif'
             />
           </div>
         </div>
@@ -29,6 +29,11 @@ export default function Congratulations() {
         <Text className='color-dark text-center' element='p'>
           What you’ve just went through was a short introduction to Advance Care
           Planning (ACP)!
+          <br />
+          <br />
+          These quiz questions are designed to help you reflect on your values &
+          preferences, which will guide the healthcare team and your loved ones
+          to make better healthcare decisions on your behalf.
         </Text>
       </div>
       <div className='background-brand900 px-16 mS:px-32 py-24'>
@@ -37,8 +42,6 @@ export default function Congratulations() {
           <br />
           If one day you are unable to speak for yourself, who would you appoint
           to represent your wishes?
-          <br />
-          <br />I would nominate ________ to speak up for me.
         </Text>
       </div>
     </div>

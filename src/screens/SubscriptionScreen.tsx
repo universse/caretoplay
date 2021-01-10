@@ -321,10 +321,7 @@ export default function SubscriptionScreen({
         <div className='background-brand100 px-16 mS:px-32'>
           <div className='mx-auto' style={{ width: '64%' }}>
             <div className='AspectRatio _1-1'>
-              <Image
-                // alt='Hyatt website'
-                src={`/assets/gifs/hugging-light.webp`}
-              />
+              <Image alt='' src='/assets/gifs/hugging-light.webp' />
             </div>
           </div>
           <Text
@@ -347,7 +344,7 @@ export default function SubscriptionScreen({
                   <>
                     Oh no, something went wrong.
                     <br />
-                    Please re-submit.
+                    Please retry submitting.
                   </>
                 ) : (
                   <>
@@ -377,7 +374,7 @@ export default function SubscriptionScreen({
             onClick={skipScreen}
             type='button'
           >
-            No thanks.
+            Skip to sharing your quiz.
           </Button>
         </div>
       </form>

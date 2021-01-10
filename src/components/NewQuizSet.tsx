@@ -369,6 +369,7 @@ export default function NewQuizSet({
       matches,
       context: {
         currentQuizIndex,
+        quizSet: { name },
         quizInputServices,
         personalInfoService,
         subscriptionService,
@@ -414,6 +415,7 @@ export default function NewQuizSet({
         <QuizInputScreen
           currentQuizIndex={currentQuizIndex}
           handleBackButton={() => send('back')}
+          name={name}
           quizInputService={quizInputServices[currentQuizIndex]}
           versionedQuizzes={versionedQuizzes}
         />
@@ -460,7 +462,7 @@ export default function NewQuizSet({
               onClick={() => send('skipLuckyDraw')}
               type='button'
             >
-              No thanks.
+              Skip to sharing your quiz.
             </Button>
           </div>
         </div>

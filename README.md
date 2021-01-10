@@ -1,8 +1,9 @@
 <!--
 TODO:
 
-preload gifs - render visually hidden Image currentQuizIndex + 1
 proper analytics, referral link
+email template
+
 aria-label button + input
 
 validation mode

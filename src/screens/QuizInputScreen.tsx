@@ -135,11 +135,13 @@ export const quizInputMachine = createMachine<
 export default function QuizInputScreen({
   currentQuizIndex,
   handleBackButton,
+  name,
   quizInputService,
   versionedQuizzes,
 }: {
   currentQuizIndex: number
   handleBackButton: any
+  name: string
   quizInputService: QuizInputService
   versionedQuizzes: any
 }): JSX.Element {
@@ -181,7 +183,7 @@ export default function QuizInputScreen({
       </div>
       <div className='flex-expand px-16 mS:px-32 pb-4'>
         <Text as='h6' className='Question serif fw-800 text-center' element='p'>
-          {currentQuiz.questionToAnswer}
+          {currentQuiz.question.replaceAll('{{name}}', name)}
         </Text>
         {currentQuiz.hint && (
           <div className='mt-8'>
@@ -256,7 +258,7 @@ export default function QuizInputScreen({
                     </>
                   ) : (
                     <button
-                      className='EditButton flex justify-center items-center background-dark flex-expand rounded h-100 shadow01'
+                      className='ColoredButton flex justify-center items-center background-dark flex-expand rounded h-100 shadow01'
                       disabled={isEditing}
                       onClick={() =>
                         send({
@@ -308,7 +310,7 @@ export default function QuizInputScreen({
         {choice !== -1 &&
           (currentQuizIndex === versionedQuizzes.length - 1 ? (
             <button
-              className='text-button color-dark lowercase background-gray100 rounded fw-700 px-16 shadow01'
+              className='ColoredButton text-button lowercase rounded fw-700 px-16 shadow01'
               disabled={isEditing}
               onClick={() => send({ type: 'answer' })}
               style={{ height: '3rem' }}

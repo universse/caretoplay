@@ -253,10 +253,9 @@ export default function ExistingQuizSet({
                     className='serif fw-800 color-dark text-center'
                     element='p'
                   >
-                    Psst!
+                    Thanks for your participation!
                     <br />
-                    Because you completed guessing, {name} is now in this Lucky
-                    Draw!
+                    {name} is now in this Lucky Draw!
                   </Text>
                 </div>
               </div>
@@ -277,7 +276,7 @@ export default function ExistingQuizSet({
                 className='color-light serif fw-800 uppercase text-center'
                 element='p'
               >
-                Stand a chance to
+                Create your own quiz and stand a chance to
               </Text>
               <Text
                 as='h4'

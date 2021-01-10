@@ -15,7 +15,8 @@ const AGES = [
   '51 - 55',
   '56 - 60',
   '61 - 65',
-  '> 65',
+  '66 - 70',
+  '> 70',
 ]
 
 export default function PersonalInfoForm({

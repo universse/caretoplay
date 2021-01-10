@@ -17,7 +17,7 @@ export default function WhatIsACPPage() {
         </Text>
         <br />
         <Text className='color-dark' element='p'>
-          Advance care planning (ACP) is for everyone, regardless of age or
+          Advance Care Planning (ACP) is for everyone, regardless of age or
           state of health.
           <br />
           <br />

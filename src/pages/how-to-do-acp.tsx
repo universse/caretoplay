@@ -17,11 +17,15 @@ export default function HowToDoACPPage() {
         </Text>
         <br />
         <Text className='color-dark' element='p'>
-          You can call to book a session with ACP facilitators in their ACP
-          nodes at the locations listed below.
+          An Advance Care Planning (ACP) facilitator is a trained healthcare
+          professional that will guide you in your ACP process. You can call to
+          book a session with ACP facilitators in their ACP nodes at the
+          locations listed below.
           <br />
           <br />
-          Each session should last around 45 minutes
+          Your preferences will be documented and your ACP will be tagged to
+          your National Electronic Health Record that can be accessed by the
+          healthcare team when neccessary.
         </Text>
         <br />
         <Text

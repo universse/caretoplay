@@ -12,10 +12,7 @@ export default function LandingScreen({ name, nextStep }: {}): JSX.Element {
       <div className='background-gray900 px-16 mS:px-32 py-24'>
         <div className='mx-auto' style={{ width: '64%' }}>
           <div className='AspectRatio _1-1'>
-            <Image
-              // alt='Hyatt website'
-              src='/assets/gifs/hugging-dark.webp'
-            />
+            <Image alt='' src='/assets/gifs/hugging-dark.webp' />
           </div>
         </div>
         <div>

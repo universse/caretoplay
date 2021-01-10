@@ -14,10 +14,7 @@ export default function IndexPage(): JSX.Element {
       <div className='flex background-gray900 pr-16 mS:pr-32 py-24 items-center'>
         <div style={{ flex: '0 0 40%' }}>
           <div className='AspectRatio _1-1'>
-            <Image
-              // alt='Hyatt website'
-              src='/assets/gifs/hugging-dark.webp'
-            />
+            <Image alt='' src='/assets/gifs/hugging-dark.webp' />
           </div>
         </div>
         <div>
