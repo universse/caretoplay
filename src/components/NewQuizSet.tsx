@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { createMachine, assign, spawn, sendParent } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { get, set, del } from 'idb-keyval'
@@ -316,7 +317,10 @@ export const newQuizSetMachine = createMachine<
       invoke: {
         id: 'finishQuizSet',
         src: finishQuizSet,
-        onDone: { actions: [clearLocalQuizSet], target: 'outroduction' },
+        onDone: {
+          actions: [clearLocalQuizSet, 'redirectToNewQuizSet'],
+          target: 'outroduction',
+        },
         onError: { target: 'finishingQuizSetError' },
       },
     },
@@ -358,6 +362,8 @@ export default function NewQuizSet({
 }: {
   initialQuizSet: any
 }): JSX.Element {
+  const router = useRouter()
+
   const [
     {
       matches,
@@ -372,10 +378,19 @@ export default function NewQuizSet({
     },
     send,
   ] = useMachine(
-    newQuizSetMachine.withContext({
-      ...newQuizSetMachine.context,
-      quizSet: initialQuizSet,
-    })
+    newQuizSetMachine
+      .withContext({
+        ...newQuizSetMachine.context,
+        quizSet: initialQuizSet,
+      })
+      .withConfig({
+        actions: {
+          redirectToNewQuizSet: (ctx) =>
+            router.replace(`/q/${ctx.quizSet.quizSetKey}`, undefined, {
+              shallow: true,
+            }),
+        },
+      })
   )
 
   useEffect(() => {

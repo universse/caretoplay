@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import { createMachine, assign } from 'xstate'
 import { useMachine } from '@xstate/react'
@@ -167,19 +166,8 @@ const quizSetMachine = createMachine<
 })
 
 export default function QuizPage({ quizSet }): JSX.Element {
-  const router = useRouter()
-
   const [{ matches, context, value }, send] = useMachine(
-    quizSetMachine
-      .withContext({ ...quizSetMachine.context, quizSet })
-      .withConfig({
-        actions: {
-          redirectToNewQuizSet: (_, e) =>
-            router.replace(`/q/${e.data.quizSetKey}`, undefined, {
-              shallow: true,
-            }),
-        },
-      })
+    quizSetMachine.withContext({ ...quizSetMachine.context, quizSet })
   )
 
   return (
