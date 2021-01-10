@@ -15,6 +15,7 @@
   --light: #{$light};
   --dark: #{$dark};
   --shadow01: 1px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  --shadow02: 0px 2px 11px 0px rgba(0, 0, 0, 0.28);
   --input-focused: 0 0 0 4px #{rgba($brand500, 0.6)};
   --input-invalid: 0 0 0 4px #{rgba($danger, 0.8)};
 }
