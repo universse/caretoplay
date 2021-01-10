@@ -259,7 +259,7 @@ export const newQuizSetMachine = createMachine<
   NewQuizSetState
 >({
   id: 'newQuizSet',
-  initial: 'askForPersonalInfo',
+  initial: 'askToSubscribe',
   context: {
     quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
