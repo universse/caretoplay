@@ -106,7 +106,7 @@ export default function SubscriptionScreen({
     <fieldset className='mb-32'>
       <div className='mb-4'>
         <Text as='h5' className='serif color-dark fw-800' element='legend'>
-          You have children?
+          Do you have children?
         </Text>
       </div>
       <div
