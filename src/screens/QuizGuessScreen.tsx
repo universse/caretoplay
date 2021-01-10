@@ -103,7 +103,6 @@ export default function QuizGuessScreen({
     {
       matches,
       context: { choice, quiz },
-      value,
     },
     send,
   ] = useActor(quizGuessService)
@@ -140,13 +139,13 @@ export default function QuizGuessScreen({
               <li key={i} className='mb-12'>
                 <button
                   className={classNames(
-                    'flex justify-center items-center text-body2 color-dark break-word text-center px-48 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
+                    'flex justify-center items-center text-body2 color-dark break-word text-center px-48 w-100 h-100 rounded shadow01 py-8 overflow-hidden',
                     choice === i ? 'background-brand900' : 'background-light',
                     guessedWrong && 'Wrong',
                     shouldRevealCorrectChoice && 'Right'
                   )}
                   onClick={() => send({ type: 'guess', choice: i })}
-                  style={{ height: '3rem' }}
+                  style={{ height: '3.5rem' }}
                   type='button'
                 >
                   {option}

@@ -2,7 +2,7 @@ import LetsBegin from 'assets/illustrations/LetsBegin'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Hero from 'components/Hero'
-import { Text, Image } from 'components/shared'
+import { Button, Text, Image } from 'components/shared'
 
 export default function LandingScreen({ name, nextStep }: {}): JSX.Element {
   return (
@@ -44,14 +44,14 @@ export default function LandingScreen({ name, nextStep }: {}): JSX.Element {
           Ready?
         </Text>
         <div style={{ flex: '0 0 0.5rem' }} />
-        <button
-          className='text-body1 color-dark background-gray100 fw-700 rounded shadow01'
+        <Button
+          className='background-gray100'
           onClick={nextStep}
           style={{ height: '3rem', width: '10rem' }}
           type='button'
         >
           Let's Begin!
-        </button>
+        </Button>
         <div
           className='absolute'
           style={{

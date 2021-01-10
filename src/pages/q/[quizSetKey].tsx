@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import { createMachine, assign } from 'xstate'
 import { useMachine } from '@xstate/react'
@@ -74,11 +75,7 @@ function isExistingQuizSet(ctx) {
   return ctx.quizSet.status === 'finished'
 }
 
-function isOwnerOfPersistedQuizSet(ctx, e) {
-  return e.data?.quizSetKey === ctx.quizSet.quizSetKey
-}
-
-function isAnotherQuizSetPersisted(_, e) {
+function hasPersistedQuizSet(_, e) {
   return e.data
 }
 
@@ -108,7 +105,10 @@ const quizSetMachine = createMachine<
               actions: [trackQuizSetVisit],
               target: '#quizSet.existingQuizSet',
             },
-            { target: 'fetchingPersistedQuizSet' },
+            {
+              actions: ['redirectToDefaultNewQuizSetPage'],
+              target: 'fetchingPersistedQuizSet',
+            },
           ],
         },
         fetchingPersistedQuizSet: {
@@ -117,12 +117,7 @@ const quizSetMachine = createMachine<
             src: fetchPersistedQuizSet,
             onDone: [
               {
-                cond: isOwnerOfPersistedQuizSet,
-                actions: [assignQuizSet],
-                target: 'confirmContinue',
-              },
-              {
-                cond: isAnotherQuizSetPersisted,
+                cond: hasPersistedQuizSet,
                 actions: [assignQuizSet],
                 target: 'confirmContinue',
               },
@@ -166,8 +161,19 @@ const quizSetMachine = createMachine<
 })
 
 export default function QuizPage({ quizSet }): JSX.Element {
+  const router = useRouter()
+
   const [{ matches, context, value }, send] = useMachine(
-    quizSetMachine.withContext({ ...quizSetMachine.context, quizSet })
+    quizSetMachine
+      .withContext({ ...quizSetMachine.context, quizSet })
+      .withConfig({
+        actions: {
+          redirectToDefaultNewQuizSetPage: () =>
+            router.replace('/q/new', undefined, {
+              shallow: true,
+            }),
+        },
+      })
   )
 
   return (

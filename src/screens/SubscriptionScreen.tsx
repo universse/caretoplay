@@ -351,7 +351,7 @@ export default function SubscriptionScreen({
                   </>
                 ) : (
                   <>
-                    Some fields are invalid.
+                    Oh no, something wasn't right.
                     <br />
                     Please check your entry.
                   </>

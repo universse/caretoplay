@@ -43,7 +43,6 @@ const setOptionToEdit = assign({
 
 const assignDraftResponse = immerAssign((ctx, e) => {
   ctx.draftResponse = e.value
-  // ctx.rows[ctx.optionIndexToEdit] = e.rows
 })
 
 const saveOption = immerAssign((ctx) => {
@@ -72,7 +71,6 @@ export const quizInputMachine = createMachine<
   id: 'quiz',
   initial: 'idle',
   context: {
-    // rows: [2, 2, 2, 2],
     choice: -1,
     optionIndexToEdit: -1,
     draftResponse: '',
@@ -155,7 +153,6 @@ export default function QuizInputScreen({
     {
       matches,
       context: { choice, optionIndexToEdit, draftResponse, quiz },
-      value,
     },
     send,
   ] = useActor(quizInputService)
@@ -198,14 +195,13 @@ export default function QuizInputScreen({
             <li
               key={i}
               className='flex items-center mb-12'
-              style={{ height: '3rem' }}
-              // style={{ height: `${(Math.max(2, rows[i]) * 24 + 8) / 16}rem` }}
+              style={{ height: '3.5rem' }}
             >
               <div className='flex-auto h-100'>
                 {isEditing && optionIndexToEdit === i ? (
                   <textarea
                     className={classNames(
-                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
+                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-8 overflow-hidden',
                       choice === i && !isEditing
                         ? 'background-brand900'
                         : 'background-light'
@@ -214,18 +210,15 @@ export default function QuizInputScreen({
                       send({
                         type: 'changeResponse',
                         value: e.target.value,
-                        // 8 is y-padding, 20 is lineHeight of body2
-                        // rows: (e.target.scrollHeight - 8) / 20,
                       })
                     }}
                     rows={2}
-                    // rows={Math.max(2, rows[i])}
                     value={draftResponse}
                   />
                 ) : (
                   <button
                     className={classNames(
-                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-4 overflow-hidden',
+                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-8 overflow-hidden',
                       choice === i && !isEditing
                         ? 'background-brand900'
                         : 'background-light'
@@ -246,7 +239,7 @@ export default function QuizInputScreen({
                   {isEditing && optionIndexToEdit === i ? (
                     <>
                       <button
-                        className='flex justify-center items-center background-success flex-auto rounded h-100'
+                        className='flex justify-center items-center background-success flex-auto rounded h-100 shadow01'
                         onClick={() => send({ type: 'confirmResponseChange' })}
                         type='button'
                       >
@@ -254,7 +247,7 @@ export default function QuizInputScreen({
                       </button>
                       <div style={{ flex: '0 0 0.5rem' }} />
                       <button
-                        className='flex justify-center items-center background-light flex-auto rounded h-100'
+                        className='flex justify-center items-center background-light flex-auto rounded h-100 shadow01'
                         onClick={() => send({ type: 'cancelResponseChange' })}
                         type='button'
                       >
@@ -263,7 +256,7 @@ export default function QuizInputScreen({
                     </>
                   ) : (
                     <button
-                      className='EditButton flex justify-center items-center background-dark flex-expand rounded h-100'
+                      className='EditButton flex justify-center items-center background-dark flex-expand rounded h-100 shadow01'
                       disabled={isEditing}
                       onClick={() =>
                         send({

@@ -368,7 +368,6 @@ export default function NewQuizSet({
     {
       matches,
       context: {
-        quizSet,
         currentQuizIndex,
         quizInputServices,
         personalInfoService,

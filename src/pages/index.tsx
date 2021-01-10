@@ -92,7 +92,7 @@ export default function IndexPage(): JSX.Element {
         <div style={{ flex: '0 0 1.5rem' }} />
         <Link href='/q/new' passHref>
           <Button
-            className='background-gray100 overflow-hidden'
+            className='background-gray100'
             element='a'
             style={{ height: '3rem', width: '10rem' }}
           >
