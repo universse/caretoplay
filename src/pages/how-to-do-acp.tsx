@@ -13,7 +13,7 @@ export default function HowToDoACPPage() {
           className='color-dark serif fw-800 text-center'
           element='h1'
         >
-          How to do my ACP?
+          How to do ACP?
         </Text>
         <br />
         <Text className='color-dark' element='p'>
@@ -33,7 +33,7 @@ export default function HowToDoACPPage() {
           className='color-dark serif fw-800 text-center'
           element='h2'
         >
-          Where to do my ACP?
+          Where to do ACP?
         </Text>
         <br />
         <ACPLocations shouldShowPhoneNumber />

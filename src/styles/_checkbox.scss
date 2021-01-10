@@ -5,13 +5,13 @@ input.Checkbox {
   border-radius: 4px;
   height: px-to-rem(18);
   width: px-to-rem(18);
-  margin: 3px;
+  margin: 0.125rem;
 
   &:checked::before {
     content: '';
     position: absolute;
     left: 4px;
-    top: 2px;
+    top: 1px;
     width: 6px;
     height: 10px;
     border: solid var(--dark);

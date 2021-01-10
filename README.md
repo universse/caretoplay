@@ -3,6 +3,7 @@ TODO:
 
 proper analytics, referral link
 email template
+last gif
 
 aria-label button + input
 

@@ -293,7 +293,6 @@ export default function ExistingQuizSet({
                 A 3D2N stay at Andaz Singapore!
               </Text>
               <Text
-                as='body1'
                 className='color-light serif fw-800 text-center'
                 element='p'
               >

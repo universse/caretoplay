@@ -59,11 +59,7 @@ export default function IndexPage(): JSX.Element {
           >
             A 3D2N stay at Andaz Singapore!
           </Text>
-          <Text
-            as='body1'
-            className='color-light serif fw-800 text-center'
-            element='p'
-          >
+          <Text className='color-light serif fw-800 text-center' element='p'>
             + Breakfast for 2 at Alley on 25 (worth $880!)
           </Text>
           <Text as='body2' className='color-light text-center' element='p'>

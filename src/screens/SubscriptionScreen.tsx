@@ -135,12 +135,7 @@ export default function SubscriptionScreen({
                 onChange={handleChange}
                 value={value}
               />
-              <Text
-                as='body1'
-                className='color-dark'
-                element='label'
-                htmlFor={optionId}
-              >
+              <Text className='color-dark' element='label' htmlFor={optionId}>
                 {value}
               </Text>
             </div>
@@ -222,9 +217,9 @@ export default function SubscriptionScreen({
         onChange={handleChange}
         style={{ flex: '0 0 auto' }}
       />
-      <div>
+      <div className='ml-4'>
         <Text
-          as='body1'
+          as='body2'
           className='block color-dark'
           element='label'
           htmlFor={PDPA_FIELD_ID}
@@ -292,11 +287,7 @@ export default function SubscriptionScreen({
           >
             A 3D2N stay at Andaz Singapore!
           </Text>
-          <Text
-            as='body1'
-            className='color-light serif fw-800 text-center'
-            element='p'
-          >
+          <Text className='color-light serif fw-800 text-center' element='p'>
             + Breakfast for 2 at Alley on 25 (worth $880!)
           </Text>
           <Text as='body2' className='color-light text-center' element='p'>
