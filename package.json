@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.1.4",
+    "@next/bundle-analyzer": "^10.0.5",
     "@reach/accordion": "^0.12.1",
     "@reach/alert": "^0.12.1",
     "@reach/alert-dialog": "^0.12.1",

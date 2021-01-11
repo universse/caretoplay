@@ -1,4 +1,8 @@
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.NODE_ENV === 'production' && !process.env.VERCEL,
+})
+
+module.exports = withBundleAnalyzer({
   images: {
     deviceSizes: [375, 425, 640, 768],
   },
@@ -29,4 +33,4 @@ module.exports = {
 
     return config
   },
-}
+})

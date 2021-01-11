@@ -138,7 +138,7 @@ export default function ACPLocations({ shouldShowPhoneNumber = false }) {
                     <>
                       <strong>{name}</strong>
                       <br />
-                      {phone}
+                      <a href={`tel:+65 ${phone}`}>{phone}</a>
                     </>
                   ) : (
                     name
