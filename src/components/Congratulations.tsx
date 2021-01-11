@@ -6,16 +6,14 @@ import { Text } from 'components/shared'
 export default function Congratulations() {
   return (
     <div>
-      <div className='px-16 mS:px-32 pb-24'>
-        <div className='mx-auto' style={{ width: '64%' }}>
-          <div className='AspectRatio _1-1'>
-            <Image
-              alt=''
-              layout='fill'
-              objectFit='cover'
-              src='/assets/gifs/congrats.gif'
-            />
-          </div>
+      <div className='px-16 mS:px-32 pt-16 pb-24'>
+        <div className='AspectRatio _16-9'>
+          <Image
+            alt=''
+            layout='fill'
+            objectFit='cover'
+            src='/assets/gifs/congrats.gif'
+          />
         </div>
         <div className='mb-4'>
           <Text

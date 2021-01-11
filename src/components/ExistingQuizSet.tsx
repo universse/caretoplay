@@ -245,7 +245,7 @@ export default function ExistingQuizSet({
                   </defs>
                 </svg>
                 <div
-                  className='absolute top-0 flex items-center justify-center px-24'
+                  className='absolute top-0 flex items-center justify-center px-24 w-100'
                   style={{ height: '7.5rem' }}
                 >
                   <Text
