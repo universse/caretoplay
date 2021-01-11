@@ -22,7 +22,7 @@ type QuizInputMachineEvent =
   | { type: 'changeResponse'; value: string }
   | { type: 'confirmResponseChange' }
   | { type: 'cancelResponseChange' }
-  | { type: 'answer' }
+  | { type: 'next' }
 
 type QuizInputMachineState = {
   value:
@@ -84,7 +84,7 @@ export const quizInputMachine = createMachine<
           target: 'editing',
         },
         select: { actions: [selectOption] },
-        answer: [
+        next: [
           { cond: (ctx) => ctx.choice === -1, target: 'error' },
           { actions: [answerQuiz] },
         ],
@@ -100,29 +100,26 @@ export const quizInputMachine = createMachine<
       states: {
         inputing: {
           on: {
-            confirmResponseChange: [
-              {
-                cond: ({ draftResponse }) => !!draftResponse.trim(),
-                actions: [saveOption, clearEdit],
-                target: '#quiz.idle',
-              },
-              { target: 'error' },
-            ],
-            changeResponse: {
-              actions: [assignDraftResponse],
+            confirmResponseChange: {
+              actions: [saveOption, clearEdit],
+              target: '#quiz.idle',
             },
           },
         },
-        error: {
-          on: {
-            changeResponse: {
-              actions: [assignDraftResponse],
-              target: 'inputing',
-            },
-          },
-        },
+        error: {},
       },
       on: {
+        changeResponse: [
+          {
+            cond: (_, e) => !!e.value.trim(),
+            actions: [assignDraftResponse],
+            target: '#quiz.editing.inputing',
+          },
+          {
+            actions: [assignDraftResponse],
+            target: '#quiz.editing.error',
+          },
+        ],
         cancelResponseChange: {
           actions: [clearEdit],
           target: 'idle',
@@ -155,6 +152,7 @@ export default function QuizInputScreen({
     {
       matches,
       context: { choice, optionIndexToEdit, draftResponse, quiz },
+      value,
     },
     send,
   ] = useActor(quizInputService)
@@ -166,7 +164,7 @@ export default function QuizInputScreen({
       document.querySelector('textarea')?.focus()
     }
   }, [isEditing])
-
+  console.log(value)
   return (
     <div
       className={`QuizScreen Stage0${
@@ -201,22 +199,38 @@ export default function QuizInputScreen({
             >
               <div className='flex-auto h-100'>
                 {isEditing && optionIndexToEdit === i ? (
-                  <textarea
-                    className={classNames(
-                      'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-8 overflow-hidden',
-                      choice === i && !isEditing
-                        ? 'background-brand900'
-                        : 'background-light'
+                  <div>
+                    <textarea
+                      className={classNames(
+                        'text-body2 color-dark break-word text-center px-16 w-100 h-100 rounded shadow01 py-8 overflow-hidden',
+                        choice === i && !isEditing
+                          ? 'background-brand900'
+                          : 'background-light'
+                      )}
+                      onChange={(e) => {
+                        send({
+                          type: 'changeResponse',
+                          value: e.target.value,
+                        })
+                      }}
+                      rows={2}
+                      value={draftResponse}
+                    />
+                    {draftResponse.length > 55 && (
+                      <div className='mx-auto mt-4'>
+                        <Text
+                          as='body2'
+                          className='Warning block fw-800 text-center'
+                          element='span'
+                        >
+                          {currentQuizIndex === versionedQuizzes.length - 1
+                            ? 'The name'
+                            : 'Your answer'}{' '}
+                          might be too long!
+                        </Text>
+                      </div>
                     )}
-                    onChange={(e) => {
-                      send({
-                        type: 'changeResponse',
-                        value: e.target.value,
-                      })
-                    }}
-                    rows={2}
-                    value={draftResponse}
-                  />
+                  </div>
                 ) : (
                   <button
                     className={classNames(
@@ -242,6 +256,7 @@ export default function QuizInputScreen({
                     <>
                       <button
                         className='flex justify-center items-center background-success flex-auto rounded h-100 shadow01'
+                        disabled={matches({ editing: 'error' })}
                         onClick={() => send({ type: 'confirmResponseChange' })}
                         type='button'
                       >
@@ -312,7 +327,7 @@ export default function QuizInputScreen({
             <button
               className='ColoredButton text-button lowercase rounded fw-700 px-16 shadow01'
               disabled={isEditing}
-              onClick={() => send({ type: 'answer' })}
+              onClick={() => send({ type: 'next' })}
               style={{ height: '3rem' }}
               type='button'
             >
@@ -322,7 +337,7 @@ export default function QuizInputScreen({
             <button
               className='flex items-center text-button NavButton lowercase fw-700'
               disabled={isEditing}
-              onClick={() => send({ type: 'answer' })}
+              onClick={() => send({ type: 'next' })}
               style={{ height: '3rem' }}
               type='button'
             >

@@ -30,10 +30,6 @@ const assignChoice = assign({
 
 const madeGuess = sendParent(({ choice }) => ({ type: 'guess', choice }))
 
-function hasNotGuessed({ choice }) {
-  return choice === -1
-}
-
 function isGuessCorrect({ choice, quiz }: QuizGuessMachineContext) {
   return choice === quiz.choice
 }
@@ -44,19 +40,21 @@ export const quizGuessMachine = createMachine<
   QuizGuessMachineState
 >({
   id: 'quiz',
-  initial: 'unknown',
+  initial: 'unrevealed',
   context: { choice: -1, quiz: null },
   states: {
-    unknown: {
-      always: [
-        { cond: hasNotGuessed, target: 'unrevealed' },
-        { target: 'revealed' },
-      ],
-    },
     unrevealed: {
       on: {
         guess: { actions: [assignChoice] },
-        confirmGuess: { target: 'revealed' },
+        confirmGuess: [
+          { cond: (ctx) => ctx.choice === -1, target: 'error' },
+          { target: 'revealed' },
+        ],
+      },
+    },
+    error: {
+      on: {
+        guess: { actions: [assignChoice], target: 'unrevealed' },
       },
     },
     revealed: {
