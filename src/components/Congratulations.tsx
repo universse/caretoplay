@@ -12,7 +12,7 @@ export default function Congratulations() {
             alt=''
             layout='fill'
             objectFit='cover'
-            src='/assets/gifs/congrats.gif'
+            src='/assets/gifs/congrats.webp'
           />
         </div>
         <div className='mb-4'>
