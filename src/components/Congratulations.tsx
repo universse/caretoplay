@@ -1,7 +1,4 @@
-import Link from 'next/link'
-import Image from 'next/image'
-
-import { Text } from 'components/shared'
+import { Image, Text } from 'components/shared'
 
 export default function Congratulations() {
   return (
