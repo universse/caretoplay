@@ -188,7 +188,7 @@ export default function QuizGuessScreen({
             {isWrong ? (
               <>
                 Oh no, {name} selected a<br />
-                different answer. Ask {name} why.
+                different answer. Ask {name} why!
               </>
             ) : (
               'Yay! That is correct!'

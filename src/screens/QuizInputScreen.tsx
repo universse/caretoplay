@@ -152,7 +152,6 @@ export default function QuizInputScreen({
     {
       matches,
       context: { choice, optionIndexToEdit, draftResponse, quiz },
-      value,
     },
     send,
   ] = useActor(quizInputService)
@@ -164,7 +163,7 @@ export default function QuizInputScreen({
       document.querySelector('textarea')?.focus()
     }
   }, [isEditing])
-  console.log(value)
+
   return (
     <div
       className={`QuizScreen Stage0${
