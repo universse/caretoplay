@@ -2,13 +2,14 @@ import Router from 'next/router'
 import type { AppProps } from 'next/app'
 import 'focus-visible'
 
+import { log } from 'utils/analytics'
 import SEO from 'components/SEO'
 import 'styles/index.scss'
 
 import { apiClient } from 'utils/apiClient'
 
 Router.events.on('routeChangeComplete', (url, { shallow }) => {
-  console.log(url)
+  !shallow && log('view page', { url })
 })
 
 if (typeof window === 'object') {
@@ -16,7 +17,7 @@ if (typeof window === 'object') {
   // inspect({ iframe: false })
 }
 
-export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+export default function _App({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <>
       <SEO />
