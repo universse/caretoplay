@@ -1,13 +1,16 @@
+import Link from 'next/link'
+
+import Icon from 'components/Icon'
 import ACPLocations from 'components/ACPLocations'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
-import { Text } from 'components/shared'
+import { Button, Text } from 'components/shared'
 
 export default function HowToDoACPPage() {
   return (
     <div className='flex flex-col h-100'>
       <Header />
-      <div className='background-brand100 flex-expand px-16 mS:px-32 py-24'>
+      <div className='background-brand100 flex-expand px-16 mS:px-32 pt-32 pb-64'>
         <Text
           as='h4'
           className='color-dark serif fw-800 text-center'
@@ -37,6 +40,18 @@ export default function HowToDoACPPage() {
         </Text>
         <br />
         <ACPLocations shouldShowPhoneNumber />
+        <div className='mt-48 flex justify-center'>
+          <Link href='/' passHref>
+            <Button
+              className='background-gray100 lowercase'
+              element='a'
+              style={{ height: '3.5rem' }}
+            >
+              <Icon icon='arrow-left' size='large' />
+              &nbsp;&nbsp;&nbsp;Back to home
+            </Button>
+          </Link>
+        </div>
       </div>
       <Footer />
     </div>
