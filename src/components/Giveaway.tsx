@@ -40,7 +40,7 @@ export default function Giveaway({ message1, message2 }) {
         >
           + Breakfast for 2 at Alley on 25 (worth $880!)
         </Text>
-        <div className='mt-8'>
+        <div className='mt-4'>
           <Text as='caption' className='color-light text-center' element='p'>
             {message2}
           </Text>
