@@ -179,9 +179,7 @@ export default function QuizPage({ quizSet }): JSX.Element {
   return (
     <>
       {matches('loading') && !matches({ loading: 'confirmContinue' }) && (
-        <div className='overlay background-brand900'>
-          <div className='Spinner' />
-        </div>
+        <Loading />
       )}
       {matches({ loading: 'confirmContinue' }) && (
         <div className='overlay background-brand100 px-16 mS:px-32'>
