@@ -96,14 +96,11 @@ const subscribeMachine = createMachine({
               'api-key': process.env.SENDINBLUE_API_KEY,
             },
             body: {
-              subject: 'Hi',
-              sender: {
-                name: 'Jaycelyn from Care To Play',
-                email: PROJECT_EMAIL,
-              },
               to: [{ email }],
               replyTo: { email: PROJECT_EMAIL },
-              htmlContent: `<html><head></head><body><p>Hello, ${name},</p>Thanks for subscribing</p></body></html>`,
+              params: { FIRSTNAME: name },
+              tags: ['Advance Care Planning'],
+              templateId: 1,
             },
           })
         },
