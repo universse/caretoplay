@@ -5,12 +5,7 @@ export default function Congratulations() {
     <div>
       <div className='px-16 mS:px-32 pt-16 pb-24'>
         <div className='AspectRatio _16-9'>
-          <Image
-            alt=''
-            layout='fill'
-            objectFit='cover'
-            src='/assets/gifs/congrats.webp'
-          />
+          <Image alt='' src='/assets/gifs/congrats.webp' />
         </div>
         <div className='mb-4'>
           <Text

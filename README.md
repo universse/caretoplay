@@ -1,8 +1,6 @@
 <!--
 TODO:
 
-proper analytics, referral link
-
 aria-label button + input
 
 validation mode

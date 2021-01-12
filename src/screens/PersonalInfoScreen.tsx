@@ -53,7 +53,7 @@ export default function PersonalInfoForm({
           send('submit')
         }}
       >
-        <div className='flex-expand background-brand100 px-16 mS:px-32 py-48'>
+        <div className='flex-expand background-brand100 px-16 mS:px-32 pt-64 pb-48'>
           <div className='mb-32'>
             <div className='mb-4'>
               <Text
@@ -62,7 +62,7 @@ export default function PersonalInfoForm({
                 element='label'
                 htmlFor={NAME}
               >
-                Your name?
+                What is your name?
               </Text>
             </div>
             <TextInput
