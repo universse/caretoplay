@@ -2,7 +2,8 @@
 TODO:
 
 proper analytics, referral link
-email template
+back to home buttons
+form submit loading height
 
 aria-label button + input
 

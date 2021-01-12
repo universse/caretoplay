@@ -4,7 +4,8 @@ import { useMachine } from '@xstate/react'
 
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
-import { Image, Button, Text } from './shared'
+import Giveaway from './Giveaway'
+import { Button, Text } from './shared'
 import LandingScreen from 'screens/LandingScreen'
 import StageScreen from 'screens/StageScreen'
 import QuizGuessScreen, {
@@ -261,48 +262,15 @@ export default function ExistingQuizSet({
               </div>
             </div>
           )}
-          <div>
-            <a
-              className='AspectRatio _16-9 block'
-              href='https://www.hyatt.com/en-US/hotel/singapore/andaz-singapore/sinaz/dining'
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <Image alt='Hyatt website' src='/assets/images/giveaway.webp' />
-            </a>
-            <div className='background-gray900 px-16 mS:px-32 py-24'>
-              <Text
-                as='h6'
-                className='color-light serif fw-800 uppercase text-center'
-                element='p'
-              >
-                Create your own quiz and stand a chance to
-              </Text>
-              <Text
-                as='h4'
-                className='color-brand300 serif fw-800 uppercase text-center'
-                element='p'
-              >
-                win our grand prize
-              </Text>
-              <Text
-                as='h6'
-                className='color-light serif fw-800 uppercase text-center'
-                element='p'
-              >
-                A 3D2N stay at Andaz Singapore!
-              </Text>
-              <Text
-                className='color-light serif fw-800 text-center'
-                element='p'
-              >
-                + Breakfast for 2 at Alley on 25 (worth $880!)
-              </Text>
-              <Text as='body2' className='color-light text-center' element='p'>
-                Winner will be announced and notified on 19 Feburary 2021.
-              </Text>
-            </div>
-          </div>
+          <Giveaway
+            message1={
+              <>
+                Create your own quiz
+                <br />& stand a chance to
+              </>
+            }
+            message2='Winner will be announced and notified on 19 Feburary 2021.'
+          />
           <div className='flex justify-center px-16 mS:px-32 py-24'>
             <Button className='background-brand500' element='a' href='/q/new'>
               Create your own quiz!
