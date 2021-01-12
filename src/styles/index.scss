@@ -61,22 +61,17 @@ input[type='url'] {
 }
 
 .ImageWrapper {
-  display: block;
-  overflow: hidden;
-  position: absolute;
-  inset: 0px;
-  box-sizing: border-box;
+  @extend .block, .overflow-hidden, .absolute, .inset-0;
   margin: 0px;
 
   img {
+    @extend .block, .absolute, .inset-0;
+
     visibility: inherit;
-    position: absolute;
-    inset: 0px;
     box-sizing: border-box;
     padding: 0px;
     border: medium none;
     margin: auto;
-    display: block;
     width: 0px;
     height: 0px;
     min-width: 100%;
