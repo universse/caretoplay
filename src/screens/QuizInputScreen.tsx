@@ -179,7 +179,7 @@ export default function QuizInputScreen({
           />
         </div>
       </div>
-      <div className='flex-expand px-16 mS:px-32 pb-4'>
+      <div className='flex-expand px-16 mS:px-32 pb-16'>
         <Text as='h6' className='Question serif fw-800 text-center' element='p'>
           {currentQuiz.question.replaceAll('{{name}}', name)}
         </Text>
@@ -217,7 +217,7 @@ export default function QuizInputScreen({
                       value={draftResponse}
                     />
                     {draftResponse.length > 55 && (
-                      <div className='mx-auto mt-4'>
+                      <div className='mt-4' style={{ zIndex: 5 }}>
                         <Text
                           as='body2'
                           className='Warning block fw-800 text-center'
