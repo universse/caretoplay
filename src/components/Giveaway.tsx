@@ -34,14 +34,18 @@ export default function Giveaway({ message1, message2 }) {
           A 3D2N stay at Andaz Singapore!
         </Text>
         <Text
-          as='body2'
-          className='color-light serif fw-800 text-center'
+          as='body1'
+          className='color-light serif fw-800 text-center opacity-80'
           element='p'
         >
           + Breakfast for 2 at Alley on 25 (worth $880!)
         </Text>
         <div className='mt-4'>
-          <Text as='caption' className='color-light text-center' element='p'>
+          <Text
+            as='body2'
+            className='color-light text-center opacity-80'
+            element='p'
+          >
             {message2}
           </Text>
         </div>
