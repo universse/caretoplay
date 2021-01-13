@@ -61,7 +61,7 @@ input[type='url'] {
 }
 
 .ImageWrapper {
-  @extend .block, .overflow-hidden, .absolute, .inset-0;
+  @extend .block, .overflow-hidden, .inset-0;
   margin: 0px;
 
   img {
