@@ -306,10 +306,6 @@ $mobileM: px-to-rem(375);
   width: 100%;
 }
 
-.inset-0 {
-  inset: 0;
-}
-
 .visually-hidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -323,5 +319,13 @@ $mobileM: px-to-rem(375);
 }
 
 .overlay {
-  @extend .flex, .justify-center, .items-center, .flex-col, .absolute, .inset-0;
+  @extend .flex,
+    .justify-center,
+    .items-center,
+    .flex-col,
+    .absolute,
+    .top-0,
+    .bottom-0,
+    .left-0,
+    .right-0;
 }
