@@ -1,6 +1,13 @@
 const { readdirSync, createWriteStream } = require('fs')
 const { spawn, execFile } = require('child_process')
 const gifsicle = require('gifsicle')
+const sharp = require('sharp')
+
+sharp('./public/assets/images/giveaway.jpg')
+  .resize(768)
+  .toFile('output.jpg', (err, info) => {
+    console.log(err, info)
+  })
 
 readdirSync('./public/assets/gifs/source').forEach((path) => {
   const stream = spawn(gifsicle, [
