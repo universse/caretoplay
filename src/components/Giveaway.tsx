@@ -1,4 +1,5 @@
-import { Image, Text } from 'components/shared'
+import Image from 'next/image'
+import { Text } from 'components/shared'
 
 export default function Giveaway({ message1, message2 }) {
   return (
@@ -9,7 +10,12 @@ export default function Giveaway({ message1, message2 }) {
         rel='noopener noreferrer'
         target='_blank'
       >
-        <Image alt='Hyatt website' src='/assets/images/giveaway.webp' />
+        <Image
+          alt='Hyatt website'
+          layout='fill'
+          objectFit='cover'
+          src='/assets/images/giveaway.jpg'
+        />
       </a>
       <div className='background-gray900 px-16 mS:px-32 py-32'>
         <Text

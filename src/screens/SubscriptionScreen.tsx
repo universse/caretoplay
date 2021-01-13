@@ -278,7 +278,7 @@ export default function SubscriptionScreen({
         <div className='background-brand100 px-16 mS:px-32'>
           <div className='mx-auto' style={{ width: '64%' }}>
             <div className='AspectRatio _1-1'>
-              <Image alt='' src='/assets/gifs/hugging-light.webp' />
+              <Image alt='' src='/assets/gifs/hugging-light.gif' />
             </div>
           </div>
           <Text

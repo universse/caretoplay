@@ -118,7 +118,7 @@ export default function QuizGuessScreen({
         <div className='AspectRatio _16-9'>
           <Image
             alt={currentQuiz.animationAlt}
-            src={`/assets/gifs/${currentQuiz.animationSrc}.webp`}
+            src={`/assets/gifs/${currentQuiz.animationSrc}.gif`}
           />
         </div>
       </div>
