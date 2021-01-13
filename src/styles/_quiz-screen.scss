@@ -1,0 +1,68 @@
+.QuizScreen {
+  &.Stage01 {
+    --stage-background: #f8e3c9;
+    --text-color: var(--dark);
+    --background-color: var(--light);
+    --color-opaque: #{rgba($dark, 0.35)};
+    --warning: var(--danger600);
+  }
+
+  &.Stage02 {
+    --stage-background: #f4ddd4;
+    --text-color: var(--dark);
+    --background-color: var(--light);
+    --color-opaque: #{rgba($dark, 0.35)};
+    --warning: var(--danger600);
+  }
+
+  &.Stage03 {
+    --stage-background: #2c3458;
+    --text-color: var(--light);
+    --background-color: var(--dark);
+    --color-opaque: #{rgba($light, 0.35)};
+    --warning: var(--light);
+  }
+
+  & > div {
+    background-color: var(--stage-background);
+  }
+
+  .Question,
+  .NavButton {
+    color: var(--text-color);
+  }
+
+  .Dots {
+    $width: 80;
+    left: calc(50% - #{px-to-rem($width / 2)});
+  }
+
+  .Dot {
+    background-color: var(--color-opaque);
+
+    &.Active {
+      background-color: var(--text-color);
+    }
+  }
+
+  .ColoredButton {
+    background-color: var(--text-color);
+    color: var(--background-color);
+  }
+
+  .Warning {
+    color: var(--warning);
+  }
+
+  .Message {
+    color: var(--text-color);
+  }
+
+  .Right {
+    @extend .background-success;
+  }
+
+  .Wrong {
+    @extend .background-danger600, .color-light;
+  }
+}

@@ -1,0 +1,15 @@
+input.Radio {
+  & + label {
+    @extend .flex,
+      .items-center,
+      .justify-center,
+      .h-100,
+      .background-gray000,
+      .rounded,
+      .shadow01;
+  }
+
+  &:checked + label {
+    @extend .background-brand500;
+  }
+}

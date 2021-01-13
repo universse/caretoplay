@@ -6,6 +6,10 @@ $base-font-size: 16px;
   box-sizing: border-box;
 }
 
+* {
+  position: relative;
+}
+
 html,
 body,
 div,
@@ -130,24 +134,34 @@ body {
 }
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
   background: transparent;
   outline: 0;
 }
 
 button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
   border-style: none;
   padding: 0;
 }
 
 button:not([disabled]):hover {
   cursor: pointer;
+}
+
+textarea {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  font-family: inherit;
+  outline: none;
+  overflow: hidden;
+  resize: none;
 }
 
 summary {
@@ -187,7 +201,7 @@ blockquote::before,
 blockquote::after,
 q::before,
 q::after {
-  content: "";
+  content: '';
   content: none;
 }
 

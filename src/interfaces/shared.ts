@@ -1,15 +1,18 @@
-export enum Stage {
-  CASUAL = 'casual',
-  INTIMATE = 'intimate',
-  CRITICAL = 'critical',
-}
+// export enum Stage {
+//   CASUAL = 'casual',
+//   INTIMATE = 'intimate',
+//   CRITICAL = 'critical',
+// }
+
+export type Stage = 'casual' | 'intimate' | 'critical'
 
 export type Quiz = {
   stage: Stage
   canEdit: boolean
-  questionToAnswer: string
-  questionToGuess: string
+  question: string
   options: string[]
+  animationAlt: string
+  animationSrc: string
   hint?: string
 }
 
@@ -21,9 +24,14 @@ export enum QuizVersion {
 
 export type QuizSet = {
   quizSetKey: string
+  status: 'new' | 'finished'
   name: string
   quizzes: QuizWithChoice[]
-  email?: string
-  status?: 'new' | 'finished'
+  personalInfo: {
+    email?: string
+    maritalStatus?: string
+    age?: string
+    haveChildren?: boolean
+  }
   quizVersion?: QuizVersion
 }

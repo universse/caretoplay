@@ -5,12 +5,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { restRequestRetry } from '../../../nodeUtils/restRequest'
 
 const ErrorMessages = {
-  '00': 'Unknown email verification error',
-  '01': 'Invalid email address',
-  '02': 'Disposable email address',
-  '03': 'Invalid domain',
+  '00': 'Unknown email verification error.',
   '10': 'Saving email failed',
   '40': 'Sending confirmation email failed',
+  '01': 'Please enter a valid email address.',
+  '02': 'We do not support disposable email addresses.',
+  '03': 'Please enter an email address with a valid domain.',
 }
 
 const initializeDatabase = assign(({ database }) => {
@@ -31,9 +31,9 @@ const subscribeMachine = createMachine({
   id: 'subscribe',
   initial: 'verifyingEmail',
   context: {
-    email: '',
-    name: '',
     quizSetKey: '',
+    name: '',
+    personalInfo: {},
     error: {
       status: 500,
       code: '',
@@ -46,11 +46,11 @@ const subscribeMachine = createMachine({
         id: 'verifyEmail',
         src: function (ctx) {
           return restRequestRetry(
-            `https://verifier.meetchopra.com/verify/${ctx.email}?token=${process.env.EMAIL_VERIFIER_TOKEN}`
+            `https://verifier.meetchopra.com/verify/${ctx.personalInfo.email}?token=${process.env.EMAIL_VERIFIER_TOKEN}`
           )
         },
         onDone: [
-          { cond: (_, e) => e.data.status, target: 'fetchingQuizSet' },
+          { cond: (_, e) => e.data.status, target: 'savingPersonalInfo' },
           {
             actions: [
               assign({
@@ -69,38 +69,14 @@ const subscribeMachine = createMachine({
         },
       },
     },
-    fetchingQuizSet: {
+    savingPersonalInfo: {
       entry: [initializeDatabase],
       invoke: {
-        id: 'fetchQuizSet',
-        src: function ({ database, quizSetKey }) {
+        id: 'savePersonalInfo',
+        src: function ({ database, quizSetKey, personalInfo }) {
           return database
-            .ref(`quizSets/${quizSetKey}`)
-            .once('value')
-            .then((snapshot) => snapshot.val())
-        },
-        onDone: [
-          {
-            cond: function (_, e) {
-              return e.data
-            },
-            actions: [
-              assign({
-                name: (_, e) => e.data.name,
-              }),
-            ],
-            target: 'savingEmailAddress',
-          },
-          { target: 'success' },
-        ],
-        onError: { target: 'error' },
-      },
-    },
-    savingEmailAddress: {
-      invoke: {
-        id: 'saveEmailAddress',
-        src: function ({ database, email, quizSetKey }) {
-          return database.ref(`quizSets/${quizSetKey}`).update({ email })
+            .ref(`quizSets/${quizSetKey}/personalInfo`)
+            .update(personalInfo)
         },
         onDone: { target: 'sendingConfirmationEmail' },
         onError: {
@@ -112,7 +88,7 @@ const subscribeMachine = createMachine({
     sendingConfirmationEmail: {
       invoke: {
         id: 'sendConfirmationEmail',
-        src: function ({ email, name }) {
+        src: function ({ name, personalInfo: { email } }) {
           const PROJECT_EMAIL = 'caretoplay.acp@gmail.com'
 
           return restRequestRetry('https://api.sendinblue.com/v3/smtp/email', {
@@ -120,14 +96,11 @@ const subscribeMachine = createMachine({
               'api-key': process.env.SENDINBLUE_API_KEY,
             },
             body: {
-              subject: 'Hi',
-              sender: {
-                name: 'Jaycelyn from Care To Play',
-                email: PROJECT_EMAIL,
-              },
               to: [{ email }],
               replyTo: { email: PROJECT_EMAIL },
-              htmlContent: `<html><head></head><body><p>Hello, ${name},</p>Thanks for subscribing</p></body></html>`,
+              params: { FIRSTNAME: name },
+              tags: ['Advance Care Planning'],
+              templateId: 1,
             },
           })
         },
@@ -147,14 +120,15 @@ export default function subscribe(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const { email, quizSetKey } = req.body
+  const { quizSetKey, name, personalInfo } = req.body
 
   return new Promise((resolve) => {
     interpret(
       subscribeMachine.withContext({
         ...subscribeMachine.context,
-        email,
         quizSetKey,
+        name,
+        personalInfo,
       })
     )
       .onTransition(({ done, matches, context: { error } }) => {
@@ -163,7 +137,13 @@ export default function subscribe(
         if (matches('success')) {
           res.status(200).json({ success: true })
         } else {
-          res.status(error.status || 500).json({ errorCode: error.code })
+          res.status(error.status || 500).json({
+            status: error.status || 500,
+            errorCode: error.code,
+            fieldErrors: {
+              email: [ErrorMessages[error.code]],
+            },
+          })
         }
         resolve()
       })

@@ -1,20 +1,27 @@
-import { createMachine, assign, spawn, Interpreter } from 'xstate'
-import { useService } from '@xstate/react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { createMachine, assign, spawn, sendParent } from 'xstate'
+import { useMachine } from '@xstate/react'
 import { get, set, del } from 'idb-keyval'
+import { object, bool, string } from 'yup'
 
-import QuizInput, {
+import Footer from './Footer'
+import Congratulations from './Congratulations'
+import ACPLocations from './ACPLocations'
+import { Text, Button } from './shared'
+import HeroImage from 'assets/illustrations/HeroImage'
+import PersonalInfoScreen from 'screens/PersonalInfoScreen'
+import StageScreen from 'screens/StageScreen'
+import SubscriptionScreen from 'screens/SubscriptionScreen'
+import QuizInputScreen, {
   quizInputMachine,
   QuizInputService,
-} from 'components/QuizInput'
-import Share, {
-  shareMachine,
-  // ShareService
-} from 'components/Share'
+} from 'screens/QuizInputScreen'
 import { QUIZZES, QUIZ_VERSION } from 'constants/quizzes'
+import { formMachine, FormService } from 'machines/formMachine'
 import { apiClient } from 'utils/apiClient'
 import { immerAssign } from 'utils/machineUtils'
 import {
-  STAGE_TRANSITION_DURATION,
   PERSISTED_QUIZSET_STORAGE_KEY,
   FINISHED_QUIZSETS_STORAGE_KEY,
   EMPTY_QUIZ_SET,
@@ -30,7 +37,9 @@ import { QuizSet } from 'interfaces/shared'
 type NewQuizSetContext = {
   quizSet: QuizSet
   currentQuizIndex: number
+  personalInfoService: FormService | null
   quizInputServices: QuizInputService[]
+  subscriptionService: FormService | null
 }
 
 type NewQuizSetEvent =
@@ -42,37 +51,65 @@ type NewQuizSetEvent =
       choice: number
       response: string
     }
-  | { type: 'finish' }
   | { type: 'retry' }
+  | { type: 'skipLuckyDraw' }
   | { type: 'share' }
 
 type NewQuizSetState = {
   value:
-    | 'askForName'
-    | { askForName: 'inputting' }
-    | { askForName: 'error' }
+    | 'askForPersonalInfo'
+    | { askForPersonalInfo: 'inputting' }
+    | { askForPersonalInfo: 'error' }
     | 'showingStage'
     | 'showingQuiz'
-    | 'done'
     | 'finishingQuizSet'
     | 'finishingQuizSetError'
+    | 'outroduction'
+    | 'askToSubscribe'
     | 'askToShare'
   context: NewQuizSetContext
 }
 
-export type NewQuizSetService = Interpreter<
-  NewQuizSetContext,
-  any,
-  NewQuizSetEvent,
-  NewQuizSetState
->
-
-const assignName = immerAssign((ctx, e) => {
-  ctx.quizSet.name = e.value
+const assignPersonalInfo = immerAssign((ctx, e) => {
+  ctx.quizSet.name = e.name
+  ctx.quizSet.personalInfo.age = e.age
 })
 
 const assignQuizInput = immerAssign((ctx, { options, choice }) => {
   ctx.quizSet.quizzes[ctx.currentQuizIndex] = { choice, options }
+})
+
+const spawnPersonalInfoService = assign({
+  personalInfoService: ({ quizSet, personalInfoService }) => {
+    const FIELD_VALUES = {
+      name: quizSet.name || '',
+      age: quizSet.personalInfo.age || '',
+    }
+
+    const SCHEMA = object({
+      name: string().trim().required('Please enter your name or nickname.'),
+      age: string().required('Please tell us your age.'),
+    })
+
+    const handleComplete = sendParent(({ fieldValues: { name, age } }) => ({
+      type: 'next',
+      name: name.trim(),
+      age,
+    }))
+
+    return (
+      personalInfoService ||
+      spawn(
+        formMachine
+          .withContext({
+            ...formMachine.context,
+            fieldValues: FIELD_VALUES,
+            schema: SCHEMA,
+          })
+          .withConfig({ actions: { handleComplete } })
+      )
+    )
+  },
 })
 
 const spawnQuizInputService = assign({
@@ -100,34 +137,76 @@ const spawnQuizInputService = assign({
   },
 })
 
-const spawnShareService = assign({
-  shareService: ({ shareService, quizSet }) =>
-    shareService ||
-    spawn(
-      shareMachine.withConfig({
-        services: {
-          handleSubmit(ctx) {
-            return apiClient.subscribe(quizSet.quizSetKey, ctx.data.email)
-          },
-        },
+const spawnSubscriptionService = assign({
+  subscriptionService: ({
+    quizSet: { quizSetKey, name },
+    subscriptionService,
+  }) => {
+    const FIELD_VALUES = {
+      email: '',
+      maritalStatus: '',
+      haveChildren: '',
+      agreedToPDPA: false,
+    }
+
+    const SCHEMA = object({
+      email: string()
+        .trim()
+        .email('Please enter a valid email address.')
+        .required('Please enter your email address.'),
+      maritalStatus: string().required('Please tell us your marital status.'),
+      haveChildren: string().required('Please tell us if you have children.'),
+      agreedToPDPA: bool().oneOf(
+        [true],
+        'Please agree to our request for data usage.'
+      ),
+    })
+
+    const handleComplete = sendParent('next')
+
+    async function handleSubmit({ fieldValues: { email, ...personalInfo } }) {
+      return apiClient.subscribe(quizSetKey, name, {
+        email: email.trim(),
+        ...personalInfo,
       })
-    ),
+    }
+
+    return (
+      subscriptionService ||
+      spawn(
+        formMachine
+          .withContext({
+            ...formMachine.context,
+            fieldValues: FIELD_VALUES,
+            schema: SCHEMA,
+          })
+          .withConfig({
+            actions: { handleComplete },
+            services: { handleSubmit },
+          })
+      )
+    )
+  },
 })
 
 function persistQuizSet({ quizSet }) {
-  set(PERSISTED_QUIZSET_STORAGE_KEY, {
-    ...quizSet,
-    quizVersion: QUIZ_VERSION,
-  })
+  try {
+    set(PERSISTED_QUIZSET_STORAGE_KEY, {
+      ...quizSet,
+      quizVersion: QUIZ_VERSION,
+    })
+  } catch (e) {}
 }
 
 function finishQuizSet({ quizSet }) {
   async function saveFinishedQuizSet({ quizSetKey, name }) {
-    const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
+    try {
+      const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
 
-    finishedQuizSets[quizSetKey] = { name }
+      finishedQuizSets[quizSetKey] = { name }
 
-    return set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
+      await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
+    } catch {}
   }
 
   return Promise.all([
@@ -140,13 +219,13 @@ function finishQuizSet({ quizSet }) {
   ])
 }
 
-function shareQuizSet(ctx) {
+function shareQuizSet({ quizSet: { name, quizSetKey } }) {
   socialShare({
-    text: 'blah blah blah',
+    text: `Click this link to play: How well do you know ${name}?`,
     url: window.location.href,
   })
     .then(() => {
-      apiClient.snap('share', ctx.quizSet.quizSetKey)
+      apiClient.snap('share', quizSetKey)
     })
     .catch((error) => {
       switch (error.name) {
@@ -169,11 +248,9 @@ function shareQuizSet(ctx) {
 }
 
 function clearLocalQuizSet() {
-  del(PERSISTED_QUIZSET_STORAGE_KEY)
-}
-
-function isNameInputFilled(ctx) {
-  return !!ctx.quizSet.name.trim()
+  try {
+    del(PERSISTED_QUIZSET_STORAGE_KEY)
+  } catch {}
 }
 
 export const newQuizSetMachine = createMachine<
@@ -182,45 +259,27 @@ export const newQuizSetMachine = createMachine<
   NewQuizSetState
 >({
   id: 'newQuizSet',
-  initial: 'askForName',
+  initial: 'askForPersonalInfo',
   context: {
     quizSet: { ...EMPTY_QUIZ_SET },
     currentQuizIndex: -1,
     quizInputServices: [],
-    shareService: null,
+    personalInfoService: null,
+    subscriptionService: null,
   },
   states: {
-    askForName: {
-      initial: 'inputting',
-      states: {
-        inputting: {
-          on: {
-            next: [
-              {
-                cond: isNameInputFilled,
-                actions: [persistQuizSet],
-                target: '#newQuizSet.showingStage',
-              },
-              { target: 'error' },
-            ],
-            changeName: {
-              actions: [assignName],
-            },
-          },
-        },
-        error: {
-          on: {
-            changeName: {
-              actions: [assignName],
-              target: 'inputting',
-            },
-          },
+    askForPersonalInfo: {
+      entry: [spawnPersonalInfoService],
+      on: {
+        next: {
+          actions: [assignPersonalInfo, persistQuizSet],
+          target: 'showingStage',
         },
       },
     },
     showingStage: {
-      after: {
-        [STAGE_TRANSITION_DURATION]: {
+      on: {
+        next: {
           actions: [nextQuiz],
           target: 'showingQuiz',
         },
@@ -242,31 +301,26 @@ export const newQuizSetMachine = createMachine<
           },
           {
             actions: [assignQuizInput, persistQuizSet],
-            target: 'done',
+            target: 'finishingQuizSet',
           },
         ],
         back: [
           {
             cond: hasPreviousQuiz,
             actions: [previousQuiz],
-            target: 'showingQuiz',
           },
-          // { actions: [previousQuiz], target: 'askForName' },
+          { actions: [previousQuiz], target: 'askForPersonalInfo' },
         ],
-      },
-    },
-    done: {
-      on: {
-        finish: {
-          target: 'finishingQuizSet',
-        },
       },
     },
     finishingQuizSet: {
       invoke: {
         id: 'finishQuizSet',
         src: finishQuizSet,
-        onDone: { actions: [clearLocalQuizSet], target: 'askToShare' },
+        onDone: {
+          actions: [clearLocalQuizSet, 'redirectToNewQuizSet'],
+          target: 'outroduction',
+        },
         onError: { target: 'finishingQuizSetError' },
       },
     },
@@ -275,12 +329,26 @@ export const newQuizSetMachine = createMachine<
         retry: 'finishingQuizSet',
       },
     },
-    askToShare: {
-      entry: [spawnShareService],
+    outroduction: {
       on: {
-        back: {
-          target: 'showingQuiz',
+        next: {
+          target: 'askToSubscribe',
         },
+        skipLuckyDraw: {
+          target: 'askToShare',
+        },
+      },
+    },
+    askToSubscribe: {
+      entry: [spawnSubscriptionService],
+      on: {
+        next: {
+          target: 'askToShare',
+        },
+      },
+    },
+    askToShare: {
+      on: {
         share: {
           actions: [shareQuizSet],
         },
@@ -289,103 +357,148 @@ export const newQuizSetMachine = createMachine<
   },
 })
 
-function QuizScreen({
-  currentQuizIndex,
-  handleBackButton,
-  quizInputService,
-  versionedQuizzes,
-}) {
-  const currentQuiz = versionedQuizzes[currentQuizIndex]
-
-  const currentStageQuestions = versionedQuizzes.filter(
-    (quiz) => quiz.stage === currentQuiz?.stage
-  )
-  const questionOrder = currentStageQuestions.indexOf(currentQuiz) + 1
-  const questionCountForCurrentStage = currentStageQuestions.length
-
-  return (
-    <div>
-      <button onClick={handleBackButton} type='button'>
-        Back
-      </button>
-      <div>{currentQuiz.questionToAnswer}</div>
-      <QuizInput quizInputService={quizInputService} />
-    </div>
-  )
-}
-
 export default function NewQuizSet({
-  newQuizSetService,
+  initialQuizSet,
 }: {
-  newQuizSetService: NewQuizSetService
+  initialQuizSet: any
 }): JSX.Element {
+  const router = useRouter()
+
   const [
     {
       matches,
       context: {
-        quizSet: { name, quizSetKey },
         currentQuizIndex,
+        quizSet: { name },
         quizInputServices,
-        shareService,
+        personalInfoService,
+        subscriptionService,
       },
       value,
     },
     send,
-  ] = useService(newQuizSetService)
+  ] = useMachine(
+    newQuizSetMachine
+      .withContext({
+        ...newQuizSetMachine.context,
+        quizSet: initialQuizSet,
+      })
+      .withConfig({
+        actions: {
+          redirectToNewQuizSet: (ctx) =>
+            router.replace(`/q/${ctx.quizSet.quizSetKey}`, undefined, {
+              shallow: true,
+            }),
+        },
+      })
+  )
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [value])
 
   const versionedQuizzes = QUIZZES[QUIZ_VERSION]
+  const nextStep = () => send('next')
 
   return (
-    <div>
-      {matches('askForName') && (
-        <div>
-          <p>What's your name?</p>
-          <input
-            onChange={(e) =>
-              send({ type: 'changeName', value: e.target.value })
-            }
-            type='text'
-            value={name}
-          />
-          <button onClick={() => send('next')} type='button'>
-            Next
-          </button>
-        </div>
+    <>
+      {matches('askForPersonalInfo') && (
+        <PersonalInfoScreen personalInfoService={personalInfoService} />
       )}
       {matches('showingStage') && (
-        <div>
-          <div>Stage {versionedQuizzes[currentQuizIndex + 1].stage}</div>
-        </div>
+        <StageScreen
+          handleComplete={nextStep}
+          stage={versionedQuizzes[currentQuizIndex + 1].stage}
+        />
       )}
       {matches('showingQuiz') && (
-        <QuizScreen
+        <QuizInputScreen
           currentQuizIndex={currentQuizIndex}
           handleBackButton={() => send('back')}
+          name={name}
           quizInputService={quizInputServices[currentQuizIndex]}
           versionedQuizzes={versionedQuizzes}
         />
       )}
-      {matches('done') && (
-        <div>
-          <button onClick={() => send('finish')} type='button'>
-            Done
-          </button>
+      {matches('finishingQuizSet') && (
+        <div className='overlay background-brand900'>
+          <div className='Spinner' />
         </div>
       )}
-      {matches('finishingQuizSet') && (
-        <div>
-          <div>Saving...</div>
+      {matches('finishingQuizSetError') && (
+        <div className='overlay background-brand900 px-16 mS:px-32'>
+          <Text className='color-dark text-center'>
+            Oh no, something went wrong.
+          </Text>
+          <div style={{ flex: '0 0 2rem' }} />
+          <Button
+            className='background-gray100'
+            onClick={() => send('retry')}
+            style={{ width: '12rem' }}
+            type='button'
+          >
+            Retry
+          </Button>
         </div>
+      )}
+      {matches('outroduction') && (
+        <div className='background-brand100'>
+          <Congratulations />
+          <div className='px-16 mS:px-32 py-24'>
+            <ACPLocations />
+          </div>
+          <div className='px-16 mS:px-32 pb-48'>
+            <div className='mb-16'>
+              <Button
+                className='background-success w-100'
+                onClick={nextStep}
+                type='button'
+              >
+                Join lucky draw!
+              </Button>
+            </div>
+            <Button
+              className='background-gray100 w-100'
+              onClick={() => send('skipLuckyDraw')}
+              type='button'
+            >
+              Skip to sharing your quiz.
+            </Button>
+          </div>
+        </div>
+      )}
+      {matches('askToSubscribe') && (
+        <SubscriptionScreen
+          skipScreen={nextStep}
+          subscriptionService={subscriptionService}
+        />
       )}
       {matches('askToShare') && (
-        <div>
-          <div>Done. Share with your spouse.</div>
-          <Share shareService={shareService} />
-          <button onClick={() => send('share')} type='button'>
-            Share
-          </button>
+        <div className='flex flex-col h-100'>
+          <div className='flex flex-col justify-center background-brand900 flex-expand px-16 mS:px-32 pb-48'>
+            <div className='AspectRatio mx-auto' style={{ width: '64%' }}>
+              <HeroImage />
+            </div>
+            <div style={{ flex: '0 0 1rem' }} />
+            <Text
+              as='h4'
+              className='color-dark serif fw-800 text-center'
+              element='h2'
+            >
+              You're almost done!
+            </Text>
+            <div style={{ flex: '0 0 1rem' }} />
+            <Button
+              className='background-gray100'
+              onClick={() => send('share')}
+              type='button'
+            >
+              Share this quiz with your loved ones!
+            </Button>
+          </div>
+          <Footer />
         </div>
       )}
-    </div>
+    </>
   )
 }

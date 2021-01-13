@@ -1,0 +1,21 @@
+input.Checkbox {
+  appearance: none;
+  background-color: #fff;
+  border: 2px solid var(--gray600);
+  border-radius: 4px;
+  height: px-to-rem(18);
+  width: px-to-rem(18);
+  margin: 0.0625rem;
+
+  &:checked::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.0625rem;
+    width: 0.375rem;
+    height: 0.625rem;
+    border: solid var(--dark);
+    border-width: 0 0.1875rem 0.1875rem 0;
+    transform: rotate(45deg);
+  }
+}
