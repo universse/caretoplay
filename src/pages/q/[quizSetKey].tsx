@@ -183,8 +183,10 @@ export default function QuizPage({ quizSet }): JSX.Element {
       )}
       {matches({ loading: 'confirmContinue' }) && (
         <div className='overlay background-brand100 px-16 mS:px-32'>
-          <Text className='color-dark text-center'>
-            Do you want to continue with your existing quiz?
+          <Text as='h6' className='color-dark text-center'>
+            Do you want to continue with
+            <br />
+            your existing quiz?
           </Text>
           <div style={{ flex: '0 0 2rem' }} />
           <Button
