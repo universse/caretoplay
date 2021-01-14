@@ -9,7 +9,7 @@ import 'styles/index.scss'
 import { apiClient } from 'utils/apiClient'
 
 Router.events.on('routeChangeComplete', (url, { shallow }) => {
-  !shallow && log('view page', { url })
+  log('view page', { url })
 })
 
 if (typeof window === 'object') {
