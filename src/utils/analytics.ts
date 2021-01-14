@@ -16,7 +16,7 @@ if (typeof window === 'object') {
   events.push({
     type: 'visit',
     timestamp: Date.now(),
-    properties: { url: window.location.pathname },
+    properties: { url: window.location.href },
   })
 
   window.addEventListener('pagehide', endSession, { once: true })
