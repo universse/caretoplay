@@ -6,7 +6,13 @@ const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
 
 function createQuizSet() {
   const quizSetKey = nanoid()
-  return saveQuizSetData({ quizSetKey, status: 'new' }).then(() => ({
+  let ref
+
+  try {
+    ref = window.localStorage.getItem('ccttppref')
+  } catch {}
+  console.log(ref)
+  return saveQuizSetData({ quizSetKey, status: 'new', ref }).then(() => ({
     quizSetKey,
   }))
 }

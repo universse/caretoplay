@@ -14,6 +14,17 @@ Router.events.on('routeChangeComplete', (url, { shallow }) => {
 
 if (typeof window === 'object') {
   apiClient.snap('visit')
+  const ref = new URLSearchParams(window.location.search).get('ref')
+
+  if (ref) {
+    try {
+      window.localStorage.setItem('ccttppref', ref)
+    } catch {}
+  } else {
+    try {
+      window.localStorage.removeItem('ccttppref')
+    } catch {}
+  }
   // inspect({ iframe: false })
 }
 
