@@ -12,7 +12,7 @@ async function main() {
 
     console.log('Number of quiz created', Object.keys(finishedQuizSets).length)
     console.log(
-      'Number of quiz finished',
+      'Number of quiz unfinished',
       Object.keys(unfinishedQuizSets).length
     )
   } catch (error) {

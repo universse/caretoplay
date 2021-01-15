@@ -1,0 +1,2151 @@
+{
+  "-MR3CGf48mnuojb_tOjt": {
+    "_timestamp": 1610683325170,
+    "createdAt": "Fri, 15 Jan 2021 04:02:02 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610683322.743,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.0375000000349246,
+    "pageCount": 0,
+    "pageLoad": 0.38780000002589077,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 04:02:02 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL Build/RP1A.201005.004.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 560dpi; 1440x2712; Google/google; Pixel 2 XL; taimen; taimen; en_SG; 267397348)"
+  },
+  "-MR3CcnWdNQJ6_meyz4a": {
+    "_timestamp": 1610683419917,
+    "createdAt": "Fri, 15 Jan 2021 04:03:22 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610683402.697,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.060400000016670674,
+    "pageCount": 0,
+    "pageLoad": 13.476599999994505,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 04:03:22 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL Build/RP1A.201005.004.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 560dpi; 1440x2712; Google/google; Pixel 2 XL; taimen; taimen; en_SG; 267397348)"
+  },
+  "-MR3DtE4xkbLCf_j94cv": {
+    "_timestamp": 1610683749577,
+    "createdAt": "Fri, 15 Jan 2021 04:07:00 GMT",
+    "duration": 6.308,
+    "eventCount": 3,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610683621,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610683627.305,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610683627.308,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.03599999996367842,
+    "pageCount": 2,
+    "pageLoad": 0.27830000000540167,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 04:07:01 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; VOG-L29 Build/HUAWEIVOG-L29; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (29/10; 480dpi; 1080x2265; HUAWEI; VOG-L29; HWVOG; kirin980; en_SG; 267397344)"
+  },
+  "-MR3GGtBTlEeeDa0bAly": {
+    "_timestamp": 1610684374649,
+    "createdAt": "Fri, 15 Jan 2021 04:19:25 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610684365.479,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.26200000010430813,
+    "pageCount": 0,
+    "pageLoad": 3.4584999999497086,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 04:19:25 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; LYA-L29; HMSCore 5.1.0.309; GMSCore 20.47.14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 HuaweiBrowser/11.0.4.302 Mobile Safari/537.36"
+  },
+  "-MR3GKbbPFdtFrWsaSTX": {
+    "_timestamp": 1610684389910,
+    "createdAt": "Fri, 15 Jan 2021 04:19:34 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610684374.366,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.00989999994635582,
+    "pageCount": 0,
+    "pageLoad": 0.190900000045076,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 04:19:34 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; LYA-L29; HMSCore 5.1.0.309; GMSCore 20.47.14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 HuaweiBrowser/11.0.4.302 Mobile Safari/537.36"
+  },
+  "-MR3Gk3fb5oY7_zxLGlo": {
+    "_timestamp": 1610684498265,
+    "createdAt": "Fri, 15 Jan 2021 04:21:20 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610684480.785,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.0849999999627471,
+    "pageCount": 0,
+    "pageLoad": 0.4665999999269843,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 04:21:20 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; LYA-L29; HMSCore 5.1.0.309; GMSCore 20.47.14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 HuaweiBrowser/11.0.4.302 Mobile Safari/537.36"
+  },
+  "-MR3HRZAKFqJIDZQIyRS": {
+    "_timestamp": 1610684680505,
+    "createdAt": "Fri, 15 Jan 2021 04:17:29 GMT",
+    "duration": 428.702,
+    "eventCount": 5,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Pearlyn" },
+        "timestamp": 1610684249.763,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Pearlyn" },
+        "timestamp": 1610684249.796,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610684253.736,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610684253.743,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/?ref=Pearlyn" },
+        "timestamp": 1610684678.465,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.026599999982863665,
+    "pageCount": 4,
+    "pageLoad": 0.2861000000266358,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 04:17:29 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; VOG-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3H_rJ2iyvFxK_3i8Z": {
+    "_timestamp": 1610684718591,
+    "createdAt": "Fri, 15 Jan 2021 04:25:15 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610684715.625,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.07219999999506399,
+    "pageCount": 0,
+    "pageLoad": 0.7409999999799766,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 04:25:15 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL Build/RP1A.201005.004.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 560dpi; 1440x2712; Google/google; Pixel 2 XL; taimen; taimen; en_SG; 267397348)"
+  },
+  "-MR3HqypgxEUH0YrZVU2": {
+    "_timestamp": 1610684788705,
+    "createdAt": "Fri, 15 Jan 2021 04:24:49 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610684689.22,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.015000000013969839,
+    "pageCount": 0,
+    "pageLoad": 0.35710000002291054,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 04:24:49 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; VOG-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3IPlXIHA99Cv4tROl": {
+    "_timestamp": 1610684935309,
+    "createdAt": "Fri, 15 Jan 2021 04:28:53 GMT",
+    "duration": 0.077,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610684934.027,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610684934.104,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.0781999999890104,
+    "pageCount": 1,
+    "pageLoad": 1.0864000000292435,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 04:28:54 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL Build/RP1A.201005.004.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 560dpi; 1440x2712; Google/google; Pixel 2 XL; taimen; taimen; en_SG; 267397348)"
+  },
+  "-MR3J0kHYRFSdwVEQtFL": {
+    "_timestamp": 1610685094973,
+    "createdAt": "Fri, 15 Jan 2021 04:31:05 GMT",
+    "duration": 1.168,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": {
+          "url": "https://caretoplay.sg/?ref=Jaycelyn&fbclid=IwAR29Qi8awdnjEHdFzKZKuigxHlH4HYOdAMxtGt-jPUo4hWYT1gX8ixB1jFI"
+        },
+        "timestamp": 1610685065.514,
+        "type": "visit"
+      },
+      {
+        "properties": {
+          "url": "/?ref=Jaycelyn&fbclid=IwAR29Qi8awdnjEHdFzKZKuigxHlH4HYOdAMxtGt-jPUo4hWYT1gX8ixB1jFI"
+        },
+        "timestamp": 1610685066.682,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.37148999999044463,
+    "pageCount": 1,
+    "pageLoad": 3.6158699999796227,
+    "ref": "https://www.facebook.com/",
+    "startedAt": "Fri, 15 Jan 2021 04:31:05 GMT",
+    "timezone": "America/Los_Angeles",
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Mobile/15E148 Safari/604.1"
+  },
+  "-MR3Ky4kXGpxLYf5XQx_": {
+    "_timestamp": 1610685604250,
+    "createdAt": "Fri, 15 Jan 2021 04:38:48 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/F47GHYFCAB6R" },
+        "timestamp": 1610685528.277,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.8852000000188127,
+    "pageCount": 0,
+    "pageLoad": 1.5627000000094995,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 04:38:48 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3KyqvGRmLiZvtzn-U": {
+    "_timestamp": 1610685607398,
+    "createdAt": "Fri, 15 Jan 2021 04:40:03 GMT",
+    "duration": 0.039,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/new" },
+        "timestamp": 1610685603.696,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610685603.735,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.04720000002998859,
+    "pageCount": 1,
+    "pageLoad": 0.30790000001434237,
+    "ref": "https://caretoplay.sg/q/F47GHYFCAB6R",
+    "startedAt": "Fri, 15 Jan 2021 04:40:03 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3Lenffgalz53-dJcs": {
+    "_timestamp": 1610685787416,
+    "createdAt": "Fri, 15 Jan 2021 04:39:21 GMT",
+    "duration": 188.89,
+    "eventCount": 13,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Pearlyn" },
+        "timestamp": 1610685561.371,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Pearlyn" },
+        "timestamp": 1610685561.413,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610685570.594,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610685570.596,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/JZO3QQHCHZM1" },
+        "timestamp": 1610685616.495,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/?ref=Pearlyn" },
+        "timestamp": 1610685671.685,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610685682.524,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610685682.527,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/P2CU9SCRHEDF" },
+        "timestamp": 1610685705.361,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/?ref=Pearlyn" },
+        "timestamp": 1610685725.615,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610685728.46,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610685728.465,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/KJWWXELFOX6E" },
+        "timestamp": 1610685750.261,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.062399999995250255,
+    "pageCount": 12,
+    "pageLoad": 0.42869999998947605,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 04:39:21 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; SM-G980F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3MB2ukDtbYFZyIYzg": {
+    "_timestamp": 1610685923619,
+    "createdAt": "Fri, 15 Jan 2021 04:44:33 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JZO3QQHCHZM1" },
+        "timestamp": 1610685873.346,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.045199999993201345,
+    "pageCount": 0,
+    "pageLoad": 0.4384999999892898,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 04:44:33 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; VOG-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3PlCW91C3vsxjqo5U": {
+    "_timestamp": 1610686862230,
+    "createdAt": "Fri, 15 Jan 2021 05:00:06 GMT",
+    "duration": 36.368,
+    "eventCount": 6,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610686806.868,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610686807.039,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/what-is-acp" },
+        "timestamp": 1610686823.019,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610686841.436,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610686843.231,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610686843.236,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.18720000004395843,
+    "pageCount": 5,
+    "pageLoad": 0.728499999968335,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:00:06 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; SAMSUNG SM-N975F) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/13.0 Chrome/83.0.4103.106 Mobile Safari/537.36"
+  },
+  "-MR3QJn5IFLSoPrH5eDo": {
+    "_timestamp": 1610687007986,
+    "createdAt": "Fri, 15 Jan 2021 05:03:24 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/QR3D3TZ7KC2N" },
+        "timestamp": 1610687004.027,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 1.043,
+    "pageCount": 0,
+    "pageLoad": 1.565,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:03:24 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR3RHZbVsgRj6pfMCwn": {
+    "_timestamp": 1610687261011,
+    "createdAt": "Fri, 15 Jan 2021 05:05:59 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610687159.639,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.09270000000833534,
+    "pageCount": 0,
+    "pageLoad": 1.533400000014808,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:05:59 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; CPH1835) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3RcFZqLgZDodtA66i": {
+    "_timestamp": 1610687349839,
+    "createdAt": "Fri, 15 Jan 2021 05:07:40 GMT",
+    "duration": 0.054,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/new" },
+        "timestamp": 1610687260.761,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610687260.815,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.09700000000884756,
+    "pageCount": 1,
+    "pageLoad": 0.43390000000363216,
+    "ref": "https://caretoplay.sg/q/JW5E1CAUPL1V",
+    "startedAt": "Fri, 15 Jan 2021 05:07:40 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; CPH1835) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3RcXw_-n3JcKXSDH-": {
+    "_timestamp": 1610687351015,
+    "createdAt": "Fri, 15 Jan 2021 05:09:09 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610687349.431,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.00810000000637956,
+    "pageCount": 0,
+    "pageLoad": 0.3371000000042841,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:09:09 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; CPH1835) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3TdtTXqHSZt5WMukN": {
+    "_timestamp": 1610687880841,
+    "createdAt": "Fri, 15 Jan 2021 05:01:16 GMT",
+    "duration": 998.019,
+    "eventCount": 9,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610686876.19,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610686876.222,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610686956.834,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610686956.839,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/R3Q43P1XSZNG" },
+        "timestamp": 1610687192.232,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610687867.558,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610687872.173,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610687872.176,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610687874.209,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.12897999999950116,
+    "pageCount": 8,
+    "pageLoad": 0.5191049999993993,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:01:16 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR3TviCn2pDkLYyu3Vh": {
+    "_timestamp": 1610687953848,
+    "createdAt": "Fri, 15 Jan 2021 05:18:00 GMT",
+    "duration": 0.03,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jio" },
+        "timestamp": 1610687880.88,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jio" },
+        "timestamp": 1610687880.91,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.009609999999156571,
+    "pageCount": 1,
+    "pageLoad": 0.3034250000000611,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:18:00 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR3WMr9Ff6QSkLA6N2N": {
+    "_timestamp": 1610688593398,
+    "createdAt": "Fri, 15 Jan 2021 05:29:50 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/R3Q43P1XSZNG" },
+        "timestamp": 1610688590.117,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.915,
+    "pageCount": 0,
+    "pageLoad": 1.262,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:29:50 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR3XQjGyowv5F-_MPu0": {
+    "_timestamp": 1610688871420,
+    "createdAt": "Fri, 15 Jan 2021 05:32:42 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/NXOLVC1MUM7K" },
+        "timestamp": 1610688762.096,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.21909999998752028,
+    "pageCount": 0,
+    "pageLoad": 1.0799000000115484,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:32:42 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36"
+  },
+  "-MR3XpXmxsxQCWhJAdgM": {
+    "_timestamp": 1610688977116,
+    "createdAt": "Fri, 15 Jan 2021 05:35:46 GMT",
+    "duration": 25.722,
+    "eventCount": 4,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610688946.534,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610688948.308,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610688948.312,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/WN2MGONNUOPR" },
+        "timestamp": 1610688972.256,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.0590000000083819,
+    "pageCount": 3,
+    "pageLoad": 0.7742000000434928,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:35:46 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3Zr3Qb-CN5Obj9994": {
+    "_timestamp": 1610689507655,
+    "createdAt": "Fri, 15 Jan 2021 05:41:45 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610689305.824,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.0705999999991036,
+    "pageCount": 0,
+    "pageLoad": 0.9007999999994354,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 05:41:45 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3ZrwYH3UB3b0xW8Qg": {
+    "_timestamp": 1610689511246,
+    "createdAt": "Fri, 15 Jan 2021 05:45:06 GMT",
+    "duration": 0.042,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/new" },
+        "timestamp": 1610689506.774,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610689506.816,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.028000000002066372,
+    "pageCount": 1,
+    "pageLoad": 0.2879000000029919,
+    "ref": "https://caretoplay.sg/q/JW5E1CAUPL1V",
+    "startedAt": "Fri, 15 Jan 2021 05:45:06 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3_7u-FuUaIi-1BcNw": {
+    "_timestamp": 1610689580715,
+    "createdAt": "Fri, 15 Jan 2021 05:45:10 GMT",
+    "duration": 1.658,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610689510.229,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/about" },
+        "timestamp": 1610689511.887,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.010200000000622822,
+    "pageCount": 1,
+    "pageLoad": 0.17920000000231084,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 05:45:10 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 4a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3d8a57-ZaBfMMbtGW": {
+    "_timestamp": 1610690632112,
+    "createdAt": "Fri, 15 Jan 2021 05:39:07 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610689147.716,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.053,
+    "pageCount": 0,
+    "pageLoad": 0.276,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:39:07 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR3kqqtqJAxDStrwVRw": {
+    "_timestamp": 1610692652515,
+    "createdAt": "Fri, 15 Jan 2021 06:36:35 GMT",
+    "duration": 43.075,
+    "eventCount": 5,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610692595.265,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610692595.352,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610692596.931,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610692596.938,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/TBJICAFMC7UI" },
+        "timestamp": 1610692638.34,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.10829999996349216,
+    "pageCount": 4,
+    "pageLoad": 1.1587999999755993,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 06:36:35 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL Build/RP1A.201005.004.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 560dpi; 1440x2712; Google/google; Pixel 2 XL; taimen; taimen; en_SG; 267397348)"
+  },
+  "-MR3ks4VBgad7qMt4eMK": {
+    "_timestamp": 1610692657547,
+    "createdAt": "Fri, 15 Jan 2021 06:37:36 GMT",
+    "duration": 0.087,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610692656.299,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610692656.386,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.04810000001452863,
+    "pageCount": 1,
+    "pageLoad": 1.1156000000191852,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 06:37:36 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL Build/RP1A.201005.004.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 560dpi; 1440x2712; Google/google; Pixel 2 XL; taimen; taimen; en_SG; 267397348)"
+  },
+  "-MR3ktLE_nBgV1d80InL": {
+    "_timestamp": 1610692662713,
+    "createdAt": "Fri, 15 Jan 2021 06:37:41 GMT",
+    "duration": 0.082,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610692661.63,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610692661.712,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.014100000029429793,
+    "pageCount": 1,
+    "pageLoad": 0.5259000000078231,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 06:37:41 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 2 XL Build/RP1A.201005.004.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 560dpi; 1440x2712; Google/google; Pixel 2 XL; taimen; taimen; en_SG; 267397348)"
+  },
+  "-MR3lENraaAGcKEwk756": {
+    "_timestamp": 1610692752994,
+    "createdAt": "Fri, 15 Jan 2021 06:42:13 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610692933.748,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.11040000012144446,
+    "pageCount": 0,
+    "pageLoad": 0.6443000000435859,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 06:42:13 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; LYA-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3la4Y8CbP_-v7hzo4": {
+    "_timestamp": 1610692845965,
+    "createdAt": "Fri, 15 Jan 2021 05:18:09 GMT",
+    "duration": 0.026,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jio" },
+        "timestamp": 1610687889.593,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jio" },
+        "timestamp": 1610687889.619,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.015654999999242136,
+    "pageCount": 1,
+    "pageLoad": 0.355584999999337,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:18:09 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR3oUDYcIL6HxoHda3R": {
+    "_timestamp": 1610693604564,
+    "createdAt": "Fri, 15 Jan 2021 05:19:13 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610687953.768,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.014325000000098953,
+    "pageCount": 0,
+    "pageLoad": 0.19091000000116765,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 05:19:13 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR3qrMqeO-twSX3rtLd": {
+    "_timestamp": 1610694227489,
+    "createdAt": "Fri, 15 Jan 2021 07:01:46 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/6UH24766OCP9" },
+        "timestamp": 1610694106.474,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.9787149999756366,
+    "pageCount": 0,
+    "pageLoad": 1.560535000055097,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 07:01:46 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+  },
+  "-MR3r1X_QOl9EgY38jWq": {
+    "_timestamp": 1610694273237,
+    "createdAt": "Fri, 15 Jan 2021 07:04:30 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay-n2t6skkm6.vercel.app/" },
+        "timestamp": 1610694270.854,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.04661000001942739,
+    "pageCount": 0,
+    "pageLoad": 0.24945000000298023,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 07:04:30 GMT",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4143.7 Safari/537.36 Chrome-Lighthouse"
+  },
+  "-MR3sQ80fQB0GWtD9ImZ": {
+    "_timestamp": 1610694636140,
+    "createdAt": "Fri, 15 Jan 2021 07:05:04 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610694304.34,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.696,
+    "pageCount": 0,
+    "pageLoad": 1.446,
+    "ref": "https://vercel.com/",
+    "startedAt": "Fri, 15 Jan 2021 07:05:04 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR3sQC2n8R2_snAoo5_": {
+    "_timestamp": 1610694636399,
+    "createdAt": "Fri, 15 Jan 2021 07:07:56 GMT",
+    "duration": 1.966,
+    "eventCount": 3,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610694476.786,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610694478.747,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610694478.752,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.103,
+    "pageCount": 2,
+    "pageLoad": 1.148,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 07:07:56 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR3tekZ0g_3_QEXGQYL": {
+    "_timestamp": 1610694962256,
+    "createdAt": "Fri, 15 Jan 2021 05:22:01 GMT",
+    "duration": 6838.535,
+    "eventCount": 6,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610688121.452,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610688121.62,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610688123.909,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610688123.914,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/IYOTI9Q1FWDQ" },
+        "timestamp": 1610688305.261,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610694959.987,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.1096000000834465,
+    "pageCount": 5,
+    "pageLoad": 0.48190000001341105,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 05:22:01 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; SM-N975F Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (29/10; 560dpi; 1440x2874; samsung; SM-N975F; d2s; exynos9825; en_GB; 267397344)"
+  },
+  "-MR3vJ0yu1Klb0KZ9BOs": {
+    "_timestamp": 1610695393452,
+    "createdAt": "Fri, 15 Jan 2021 04:41:34 GMT",
+    "duration": 0.657,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610685694.227,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610685694.884,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.13533499999903142,
+    "pageCount": 1,
+    "pageLoad": 1.03155500000139,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 04:41:34 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR3x1nboSANen0JgOyI": {
+    "_timestamp": 1610695847190,
+    "createdAt": "Fri, 15 Jan 2021 07:30:34 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610695835,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.2972000001464039,
+    "pageCount": 0,
+    "pageLoad": 0.8700000001117587,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 07:30:35 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; CPH1919) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR3x6CM-1YxQeeP1E7g": {
+    "_timestamp": 1610695865222,
+    "createdAt": "Fri, 15 Jan 2021 07:30:57 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610695857.857,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.06639999989420176,
+    "pageCount": 0,
+    "pageLoad": 0.38320000004023314,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 07:30:57 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; CPH1919) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR40u_FcSIcp8oiRdDb": {
+    "_timestamp": 1610697124218,
+    "createdAt": "Fri, 15 Jan 2021 07:52:00 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610697120.853,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.176,
+    "pageCount": 0,
+    "pageLoad": 0.509,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 07:52:00 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR4307WOAMzod6HDKeH": {
+    "_timestamp": 1610697675354,
+    "createdAt": "Fri, 15 Jan 2021 07:58:27 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/MTHNDBME2W7Z" },
+        "timestamp": 1610697507.13,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.2684900000022026,
+    "pageCount": 0,
+    "pageLoad": 2.624884999997448,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 07:58:27 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR44FwF0-UaAhCV7s6Q": {
+    "_timestamp": 1610698002236,
+    "createdAt": "Fri, 15 Jan 2021 08:06:20 GMT",
+    "duration": 19.147,
+    "eventCount": 3,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610697980.161,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/about" },
+        "timestamp": 1610697989.227,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610697999.308,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.11419999999634456,
+    "pageCount": 2,
+    "pageLoad": 0.9085000000050059,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 08:06:20 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 4 Build/RQ1A.210105.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 440dpi; 1080x2236; Google/google; Pixel 4; flame; flame; en_GB; 267397344)"
+  },
+  "-MR49ytDt4jDsriY7fO0": {
+    "_timestamp": 1610699501884,
+    "createdAt": "Fri, 15 Jan 2021 08:23:20 GMT",
+    "duration": 0.04,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": {
+          "url": "https://caretoplay.sg/?ref=Jaycelyn&fbclid=IwAR0edULp3lbfDA0n0buEhrY6TFw3r1OinDc1XMQ0P6_mSonmyEZj-_ohPLM"
+        },
+        "timestamp": 1610699000.458,
+        "type": "visit"
+      },
+      {
+        "properties": {
+          "url": "/?ref=Jaycelyn&fbclid=IwAR0edULp3lbfDA0n0buEhrY6TFw3r1OinDc1XMQ0P6_mSonmyEZj-_ohPLM"
+        },
+        "timestamp": 1610699000.498,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.08368499999983214,
+    "pageCount": 1,
+    "pageLoad": 0.5450449999998455,
+    "ref": "https://l.facebook.com/",
+    "startedAt": "Fri, 15 Jan 2021 08:23:20 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR4C5G3LzGVLrhBhnRf": {
+    "_timestamp": 1610700055663,
+    "createdAt": "Fri, 15 Jan 2021 08:39:14 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/PW7FWEK79F9B" },
+        "timestamp": 1610699954.569,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.017899999977089465,
+    "pageCount": 0,
+    "pageLoad": 0.8608999999705702,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 08:39:14 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; SM-G960F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4E333_2IS6FUKQuxA": {
+    "_timestamp": 1610700570927,
+    "createdAt": "Fri, 15 Jan 2021 08:49:30 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610700570.743,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.134,
+    "pageCount": 0,
+    "pageLoad": 0,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 08:49:30 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR4EbXbUaVvWwHSIzKI": {
+    "_timestamp": 1610700716242,
+    "createdAt": "Fri, 15 Jan 2021 08:40:54 GMT",
+    "duration": 544.104,
+    "eventCount": 3,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/new" },
+        "timestamp": 1610700054.008,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610700054.059,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/QWR61Y5FJ75P" },
+        "timestamp": 1610700598.112,
+        "type": "view page"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.04709999996703118,
+    "pageCount": 2,
+    "pageLoad": 0.25189999997382984,
+    "ref": "https://caretoplay.sg/q/PW7FWEK79F9B",
+    "startedAt": "Fri, 15 Jan 2021 08:40:54 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; SM-G960F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4GD00Pb9SiDtRsz2B": {
+    "_timestamp": 1610701135980,
+    "createdAt": "Fri, 15 Jan 2021 08:57:36 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610701056.502,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.021800000016810372,
+    "pageCount": 0,
+    "pageLoad": 0.38779999999678694,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 08:57:36 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; SM-G980F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4GD8z2gnH91GctJrN": {
+    "_timestamp": 1610701136554,
+    "createdAt": "Fri, 15 Jan 2021 08:58:54 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/JW5E1CAUPL1V" },
+        "timestamp": 1610701134.858,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.026599999982863665,
+    "pageCount": 0,
+    "pageLoad": 0.24919999999110587,
+    "ref": "android-app://org.telegram.messenger/",
+    "startedAt": "Fri, 15 Jan 2021 08:58:54 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; SM-G980F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4GaqgsEIXlnt_15A-": {
+    "_timestamp": 1610701237718,
+    "createdAt": "Fri, 15 Jan 2021 08:59:02 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/QWR61Y5FJ75P" },
+        "timestamp": 1610701142.241,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.021000000007916242,
+    "pageCount": 0,
+    "pageLoad": 0.38930000000982545,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 08:59:02 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; SM-G980F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4GboiraxMdJxOJi_t": {
+    "_timestamp": 1610701241689,
+    "createdAt": "Fri, 15 Jan 2021 09:00:36 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/QWR61Y5FJ75P" },
+        "timestamp": 1610701236.584,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.03179999999701977,
+    "pageCount": 0,
+    "pageLoad": 0.2051999999966938,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:00:36 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; SM-G980F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4GcZ9MP1U5monXP_-": {
+    "_timestamp": 1610701244724,
+    "createdAt": "Fri, 15 Jan 2021 09:00:40 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/QWR61Y5FJ75P" },
+        "timestamp": 1610701240.494,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.018299999996088445,
+    "pageCount": 0,
+    "pageLoad": 0.12810000000172295,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:00:40 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; SM-G980F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4Hpep-qCDU8g6KaO6": {
+    "_timestamp": 1610701560543,
+    "createdAt": "Fri, 15 Jan 2021 09:05:55 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610701555.431,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.1220199999952456,
+    "pageCount": 0,
+    "pageLoad": 1.177349999998114,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:05:55 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR4INDPP5aDJAHVEmjo": {
+    "_timestamp": 1610701702084,
+    "createdAt": "Fri, 15 Jan 2021 09:08:04 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610701684.563,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.2838000000047032,
+    "pageCount": 0,
+    "pageLoad": 1.185700000001816,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:08:04 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; SM-G960F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4IR1ju5g8kFryC9-l": {
+    "_timestamp": 1610701717722,
+    "createdAt": "Fri, 15 Jan 2021 09:01:50 GMT",
+    "duration": 362.635,
+    "eventCount": 4,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610701310.379,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610701501.182,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610701501.205,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/EXWHLM35SPZC" },
+        "timestamp": 1610701673.014,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.09558000000106404,
+    "pageCount": 3,
+    "pageLoad": 1.4121249999989232,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:01:50 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR4JH6Euk9C71i-HDSK": {
+    "_timestamp": 1610701939194,
+    "createdAt": "Fri, 15 Jan 2021 09:07:19 GMT",
+    "duration": 174.122,
+    "eventCount": 4,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610701639.418,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610701653.223,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610701653.225,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/2AZVWSJX9KBW" },
+        "timestamp": 1610701813.54,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.08184000001347158,
+    "pageCount": 3,
+    "pageLoad": 0.6522550000081537,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:07:19 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR4LT5txpJq2EqdzCiC": {
+    "_timestamp": 1610702512612,
+    "createdAt": "Fri, 15 Jan 2021 09:13:46 GMT",
+    "duration": 451.762,
+    "eventCount": 5,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Pearlyn" },
+        "timestamp": 1610702026.763,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Pearlyn" },
+        "timestamp": 1610702029.058,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610702323.285,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610702323.289,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/KU1W0HGKAZW9" },
+        "timestamp": 1610702478.525,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 1.151849999994738,
+    "pageCount": 4,
+    "pageLoad": 4.155994999993709,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:13:46 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR4NWMU7s3Cy7-BwUfq": {
+    "_timestamp": 1610703050249,
+    "createdAt": "Fri, 15 Jan 2021 09:30:32 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/PW7FWEK79F9B" },
+        "timestamp": 1610703032.808,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.14799999981187284,
+    "pageCount": 0,
+    "pageLoad": 1.4015999999828637,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:30:32 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; LYA-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36"
+  },
+  "-MR4OXf1BhvJq7Yhsc4r": {
+    "_timestamp": 1610703317743,
+    "createdAt": "Fri, 15 Jan 2021 09:34:50 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610703290.768,
+        "type": "visit"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 22.14719999999943,
+    "pageCount": 0,
+    "pageLoad": -1.1673999999984517,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:34:50 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36"
+  },
+  "-MR4S4keyt8Mc4GIX_B7": {
+    "_timestamp": 1610704247892,
+    "createdAt": "Fri, 15 Jan 2021 09:43:30 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/TUNP11NDALMX" },
+        "timestamp": 1610703810.233,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.97289999993518,
+    "pageCount": 0,
+    "pageLoad": 2.243199999909848,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:43:30 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; SM-N960F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4TFJzosZCEZZwsBl3": {
+    "_timestamp": 1610704553612,
+    "createdAt": "Fri, 15 Jan 2021 09:35:17 GMT",
+    "duration": 413.949,
+    "eventCount": 6,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/what-is-acp" },
+        "timestamp": 1610703317.718,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/how-to-do-acp" },
+        "timestamp": 1610703383.855,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/what-is-acp" },
+        "timestamp": 1610703399.957,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610703721.886,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610703731.664,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610703731.667,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 3.6604999999981374,
+    "pageCount": 5,
+    "pageLoad": 4.8738999999986845,
+    "ref": "https://caretoplay.sg/",
+    "startedAt": "Fri, 15 Jan 2021 09:35:17 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36"
+  },
+  "-MR4TIKoU89NY8jijPnI": {
+    "_timestamp": 1610704565673,
+    "createdAt": "Fri, 15 Jan 2021 09:55:52 GMT",
+    "duration": 8.391,
+    "eventCount": 4,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/new" },
+        "timestamp": 1610704552.382,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610704552.404,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610704557.418,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/what-is-acp" },
+        "timestamp": 1610704560.773,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.21929999999701977,
+    "pageCount": 3,
+    "pageLoad": 0.395699999997305,
+    "ref": "https://caretoplay.sg/q/new",
+    "startedAt": "Fri, 15 Jan 2021 09:55:52 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36"
+  },
+  "-MR4Uc9i_WsEAwYLw01D": {
+    "_timestamp": 1610704913116,
+    "createdAt": "Fri, 15 Jan 2021 10:01:48 GMT",
+    "duration": 0.028,
+    "eventCount": 2,
+    "events": [
+      {
+        "properties": {
+          "url": "https://caretoplay.sg/?ref=Jaycelyn&fbclid=IwAR0edULp3lbfDA0n0buEhrY6TFw3r1OinDc1XMQ0P6_mSonmyEZj-_ohPLM"
+        },
+        "timestamp": 1610704908.332,
+        "type": "visit"
+      },
+      {
+        "properties": {
+          "url": "/?ref=Jaycelyn&fbclid=IwAR0edULp3lbfDA0n0buEhrY6TFw3r1OinDc1XMQ0P6_mSonmyEZj-_ohPLM"
+        },
+        "timestamp": 1610704908.36,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.257,
+    "pageCount": 1,
+    "pageLoad": 0.398,
+    "ref": "https://l.facebook.com/",
+    "startedAt": "Fri, 15 Jan 2021 10:01:48 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR4V4dyWW-vO31SBkcK": {
+    "_timestamp": 1610705033897,
+    "createdAt": "Fri, 15 Jan 2021 09:43:04 GMT",
+    "duration": 218.278,
+    "eventCount": 4,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610703784.388,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610703790.371,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610703790.379,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/2UI5T9U9OG90" },
+        "timestamp": 1610704002.666,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.08070000000000732,
+    "pageCount": 3,
+    "pageLoad": 0.5497000000000014,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:43:04 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; LYA-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4VA51dlIBdNW_mRsl": {
+    "_timestamp": 1610705056175,
+    "createdAt": "Fri, 15 Jan 2021 09:04:17 GMT",
+    "duration": 20.752,
+    "eventCount": 3,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/QBPZGMQHM9DC" },
+        "timestamp": 1610701457.326,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/how-to-do-acp" },
+        "timestamp": 1610701463.98,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/QBPZGMQHM9DC" },
+        "timestamp": 1610701478.078,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.15720499982126057,
+    "pageCount": 2,
+    "pageLoad": 0.39548999979160726,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 09:04:17 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR4Vv23i_uICz1CrrAY": {
+    "_timestamp": 1610705252594,
+    "createdAt": "Fri, 15 Jan 2021 10:03:30 GMT",
+    "duration": 26.637,
+    "eventCount": 12,
+    "events": [
+      {
+        "properties": {
+          "url": "https://caretoplay.sg/?ref=Jaycelyn&fbclid=IwAR0edULp3lbfDA0n0buEhrY6TFw3r1OinDc1XMQ0P6_mSonmyEZj-_ohPLM"
+        },
+        "timestamp": 1610705010.205,
+        "type": "visit"
+      },
+      {
+        "properties": {
+          "url": "/?ref=Jaycelyn&fbclid=IwAR0edULp3lbfDA0n0buEhrY6TFw3r1OinDc1XMQ0P6_mSonmyEZj-_ohPLM"
+        },
+        "timestamp": 1610705010.233,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/about" },
+        "timestamp": 1610705020.199,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610705022.597,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/what-is-acp" },
+        "timestamp": 1610705023.983,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610705025.638,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/how-to-do-acp" },
+        "timestamp": 1610705026.812,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610705030.184,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/what-is-acp" },
+        "timestamp": 1610705030.786,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610705032.186,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/about" },
+        "timestamp": 1610705034.482,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610705036.842,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.048,
+    "pageCount": 11,
+    "pageLoad": 0.172,
+    "ref": "https://l.facebook.com/",
+    "startedAt": "Fri, 15 Jan 2021 10:03:30 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR4W19qeAz8ymcNwpqq": {
+    "_timestamp": 1610705281764,
+    "createdAt": "Fri, 15 Jan 2021 09:45:46 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610703946.824,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.025,
+    "pageCount": 0,
+    "pageLoad": 0.213,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 09:45:46 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0) Gecko/20100101 Firefox/84.0"
+  },
+  "-MR4WR3sPoY4wT628nVf": {
+    "_timestamp": 1610705387877,
+    "createdAt": "Fri, 15 Jan 2021 10:09:42 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/6UH24766OCP9" },
+        "timestamp": 1610705382.237,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.23619999999937136,
+    "pageCount": 0,
+    "pageLoad": 1.1823999999978696,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 10:09:42 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 9; SM-G955F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  },
+  "-MR4XSxcgMrc99TcPnMQ": {
+    "_timestamp": 1610705657747,
+    "createdAt": "Fri, 15 Jan 2021 10:05:44 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/q/6UH24766OCP9" },
+        "timestamp": 1610705144.15,
+        "type": "visit"
+      }
+    ],
+    "language": "en-GB",
+    "latency": 0.49921000000904314,
+    "pageCount": 0,
+    "pageLoad": 0.9097450000117533,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 10:05:44 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+  },
+  "-MR4Y2Qrnl84IRodlOfG": {
+    "_timestamp": 1610705811239,
+    "createdAt": "Fri, 15 Jan 2021 10:16:48 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay-lfy8rbk9t.vercel.app/" },
+        "timestamp": 1610705808.729,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.08241999999154359,
+    "pageCount": 0,
+    "pageLoad": 0.8585450000246055,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 10:16:48 GMT",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4143.7 Safari/537.36 Chrome-Lighthouse"
+  },
+  "-MR4YDt6GbbQs137vE3o": {
+    "_timestamp": 1610705858178,
+    "createdAt": "Fri, 15 Jan 2021 10:17:35 GMT",
+    "duration": 0,
+    "eventCount": 1,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay-erk912l1n.vercel.app/" },
+        "timestamp": 1610705855.359,
+        "type": "visit"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.061344999994616956,
+    "pageCount": 0,
+    "pageLoad": 0.35518499999307096,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 10:17:35 GMT",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4143.7 Safari/537.36 Chrome-Lighthouse"
+  },
+  "-MR4ZHlh3w1nQk2gNJ5V": {
+    "_timestamp": 1610706136218,
+    "createdAt": "Fri, 15 Jan 2021 10:04:37 GMT",
+    "duration": 950.422,
+    "eventCount": 4,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/" },
+        "timestamp": 1610705077.631,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610705089.909,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/new" },
+        "timestamp": 1610705089.916,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/q/3CX2FVZ4SXFM" },
+        "timestamp": 1610706028.053,
+        "type": "view page"
+      }
+    ],
+    "language": "en-SG",
+    "latency": 0.11929999999847496,
+    "pageCount": 3,
+    "pageLoad": 0.602100000000064,
+    "ref": "https://l.instagram.com/",
+    "startedAt": "Fri, 15 Jan 2021 10:04:37 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 11; Pixel 4a Build/RQ1A.201205.008; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 Instagram 170.0.0.30.474 Android (30/11; 440dpi; 1080x2072; Google/google; Pixel 4a; sunfish; sunfish; en_SG; 267397344)"
+  },
+  "-MR4ZYKVQsbtNgqp2eA4": {
+    "_timestamp": 1610706204045,
+    "createdAt": "Fri, 15 Jan 2021 10:21:42 GMT",
+    "duration": 99.921,
+    "eventCount": 10,
+    "events": [
+      {
+        "properties": { "url": "https://caretoplay.sg/?ref=Jaycelyn" },
+        "timestamp": 1610706102.205,
+        "type": "visit"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610706102.681,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/what-is-acp" },
+        "timestamp": 1610706122.645,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/how-to-do-acp" },
+        "timestamp": 1610706155.381,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/about" },
+        "timestamp": 1610706174.696,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/" },
+        "timestamp": 1610706196.06,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/about" },
+        "timestamp": 1610706200.591,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/how-to-do-acp" },
+        "timestamp": 1610706201.213,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/what-is-acp" },
+        "timestamp": 1610706201.712,
+        "type": "view page"
+      },
+      {
+        "properties": { "url": "/?ref=Jaycelyn" },
+        "timestamp": 1610706202.126,
+        "type": "view page"
+      }
+    ],
+    "language": "en-US",
+    "latency": 0.2268000000003667,
+    "pageCount": 9,
+    "pageLoad": 0.9951999999975669,
+    "ref": "",
+    "startedAt": "Fri, 15 Jan 2021 10:21:42 GMT",
+    "timezone": "Asia/Singapore",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; M2007J3SG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36"
+  }
+}

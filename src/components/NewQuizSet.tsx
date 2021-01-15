@@ -7,6 +7,7 @@ import { object, bool, string } from 'yup'
 import Footer from './Footer'
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
+import ErrorBoundary from './ErrorBoundary'
 import { Text, Button } from './shared'
 import HeroImage from 'assets/illustrations/HeroImage'
 import PersonalInfoScreen from 'screens/PersonalInfoScreen'
@@ -391,7 +392,7 @@ export default function NewQuizSet({
   const nextStep = () => send('next')
 
   return (
-    <>
+    <ErrorBoundary>
       {matches('askForPersonalInfo') && (
         <PersonalInfoScreen personalInfoService={personalInfoService} />
       )}
@@ -499,6 +500,6 @@ export default function NewQuizSet({
           <Footer />
         </div>
       )}
-    </>
+    </ErrorBoundary>
   )
 }
