@@ -5,6 +5,7 @@ import { useMachine } from '@xstate/react'
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
 import Giveaway from './Giveaway'
+import ErrorBoundary from './ErrorBoundary'
 import { Button, Text } from './shared'
 import LandingScreen from 'screens/LandingScreen'
 import StageScreen from 'screens/StageScreen'
@@ -162,7 +163,7 @@ export default function ExistingQuizSet({
   const nextStep = () => send('next')
 
   return (
-    <>
+    <ErrorBoundary>
       {matches('introduction') && (
         <LandingScreen name={name} nextStep={nextStep} />
       )}
@@ -278,6 +279,6 @@ export default function ExistingQuizSet({
           </div>
         </div>
       )}
-    </>
+    </ErrorBoundary>
   )
 }

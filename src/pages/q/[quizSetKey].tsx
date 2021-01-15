@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
 
+import ErrorBoundary from 'components/ErrorBoundary'
 import { Button, Text } from 'components/shared'
 import { apiClient } from 'utils/apiClient'
 import { apiServer } from 'utils/apiServer'
@@ -136,7 +137,7 @@ export default function QuizPage({ quizSet }): JSX.Element {
   )
 
   return (
-    <>
+    <ErrorBoundary>
       {matches('loading') && <Loading />}
       {matches('error') && (
         <div className='overlay background-brand900 px-16 mS:px-32'>
@@ -158,7 +159,7 @@ export default function QuizPage({ quizSet }): JSX.Element {
       {matches('existingQuizSet') && (
         <ExistingQuizSet initialQuizSet={context.quizSet} />
       )}
-    </>
+    </ErrorBoundary>
   )
 }
 
