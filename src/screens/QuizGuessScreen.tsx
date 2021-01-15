@@ -124,7 +124,7 @@ export default function QuizGuessScreen({
       </div>
       <div className='flex-expand px-16 mS:px-32 pb-4'>
         <Text as='h6' className='Question serif fw-800 text-center' element='p'>
-          {currentQuiz.question.replaceAll('{{name}}', name)}
+          {currentQuiz.question.replace(/{{name}}/gi, name)}
         </Text>
         <ul className='mt-16'>
           {quiz.options.map((option, i) => {

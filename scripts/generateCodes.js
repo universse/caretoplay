@@ -2,44 +2,26 @@ const { resolve } = require('path')
 const firebase = require('firebase-admin')
 const { nanoid } = require('nanoid')
 require('dotenv').config({ path: resolve(__dirname, '../.env.local') })
-
-function generateCode(codeLength = 8) {
-  // https://wiki.openmrs.org/display/docs/Check+Digit+Algorithm
-
-  return nanoid(codeLength)
-}
-
-function generateVouchers(count = 10000) {
-  let generatedCount = 0
-
-  const codesObj = {}
-
-  while (generatedCount < count) {
-    const code = generateCode()
-
-    if (!codesObj[code]) {
-      codesObj[code] = { code }
-      generatedCount++
-    }
-  }
-
-  return codesObj
-}
-
+const fs = require('fs')
+const sessions = require('./sessions.json')
 ;(async function main() {
-  const vouchers = generateVouchers(5)
   try {
-    !firebase.apps.length &&
-      firebase.initializeApp({
-        credential: firebase.credential.cert(
-          JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-        ),
-        databaseURL: process.env.FIREBASE_DATABASE_URL,
-      })
+    // !firebase.apps.length &&
+    //   firebase.initializeApp({
+    //     credential: firebase.credential.cert(
+    //       JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_PROD)
+    //     ),
+    //     databaseURL: process.env.FIREBASE_DATABASE_URL_PROD,
+    //   })
 
-    const database = firebase.database()
-    await database.ref('vouchers').set(vouchers)
-
+    // const database = firebase.database()
+    // const sessions = await database.ref('stats/sessions').get()
+    console.log(Object.values(sessions).length)
+    console.log(
+      Object.values(sessions).filter(({ events }) => {
+        return events[0].properties.url === 'https://caretoplay.sg/?ref=Pearlyn'
+      }).length
+    )
     process.exit(0)
   } catch (e) {
     console.log(e)

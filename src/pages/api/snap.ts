@@ -46,6 +46,19 @@ export default async function complete(
     } catch {
       res.status(500).json({ success: false })
     }
+  } else if (req.body.type === 'error') {
+    const { error, componentStack } = req.body
+
+    try {
+      await firebase
+        .database()
+        .ref('stats/errors')
+        .push({ error, componentStack })
+
+      res.status(200).json({ success: true })
+    } catch {
+      res.status(500).json({ success: false })
+    }
   } else {
     const { quizSetKey, type } = req.body
 

@@ -37,9 +37,16 @@ function snap(
   })
 }
 
+function logError(error, componentStack) {
+  return restRequest('/api/snap', {
+    body: { error, componentStack, type: 'error' },
+  })
+}
+
 export const apiClient = {
   createQuizSet,
   saveQuizSetData,
   subscribe,
   snap,
+  logError,
 }

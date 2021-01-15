@@ -180,7 +180,7 @@ export default function QuizInputScreen({
       </div>
       <div className='flex-expand px-16 mS:px-32 pb-16'>
         <Text as='h6' className='Question serif fw-800 text-center' element='p'>
-          {currentQuiz.question.replaceAll('{{name}}', name)}
+          {currentQuiz.question.replace(/{{name}}/gi, name)}
         </Text>
         {currentQuiz.hint && (
           <div className='mt-8'>
