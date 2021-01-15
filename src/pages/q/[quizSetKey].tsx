@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
-import { createMachine, assign } from 'xstate'
+import { createMachine } from 'xstate'
 import { useMachine } from '@xstate/react'
-import { get } from 'idb-keyval'
 
 import { Button, Text } from 'components/shared'
 import { apiClient } from 'utils/apiClient'
 import { apiServer } from 'utils/apiServer'
 import { immerAssign } from 'utils/machineUtils'
-import { EMPTY_QUIZ_SET, PERSISTED_QUIZSET_STORAGE_KEY } from 'utils/quizUtils'
+import { EMPTY_QUIZ_SET } from 'utils/quizUtils'
 import { QuizSet } from 'interfaces/shared'
 
 function Loading() {
@@ -53,18 +52,8 @@ const assignQuizSetKey = immerAssign((ctx, e) => {
   ctx.quizSet.quizSetKey = e.data.quizSetKey
 })
 
-const assignQuizSet = assign<QuizSetMachineContext>({
-  quizSet: ({ quizSet }, e) => ({ ...quizSet, ...e.data }),
-})
-
-const assignEmptyQuizSet = assign({ quizSet: { ...EMPTY_QUIZ_SET } })
-
 function trackQuizSetVisit(ctx) {
   apiClient.snap('visit', ctx.quizSet.quizSetKey)
-}
-
-function fetchPersistedQuizSet() {
-  return get(PERSISTED_QUIZSET_STORAGE_KEY)
 }
 
 function createQuizSet() {
@@ -73,10 +62,6 @@ function createQuizSet() {
 
 function isExistingQuizSet(ctx) {
   return ctx.quizSet.status === 'finished'
-}
-
-function hasPersistedQuizSet(_, e) {
-  return e.data
 }
 
 const quizSetMachine = createMachine<
@@ -107,35 +92,9 @@ const quizSetMachine = createMachine<
             },
             {
               actions: ['redirectToDefaultNewQuizSetPage'],
-              target: 'fetchingPersistedQuizSet',
-            },
-          ],
-        },
-        fetchingPersistedQuizSet: {
-          invoke: {
-            id: 'fetchPersistedQuizSet',
-            src: fetchPersistedQuizSet,
-            onDone: [
-              {
-                cond: hasPersistedQuizSet,
-                actions: [assignQuizSet],
-                target: 'confirmContinue',
-              },
-              { target: 'creatingQuizSet' },
-            ],
-            onError: { target: 'creatingQuizSet' },
-          },
-        },
-        confirmContinue: {
-          on: {
-            continue: {
-              target: '#quizSet.newQuizSet',
-            },
-            startAfresh: {
-              actions: [assignEmptyQuizSet],
               target: 'creatingQuizSet',
             },
-          },
+          ],
         },
         creatingQuizSet: {
           invoke: {
@@ -178,36 +137,7 @@ export default function QuizPage({ quizSet }): JSX.Element {
 
   return (
     <>
-      {matches('loading') && !matches({ loading: 'confirmContinue' }) && (
-        <Loading />
-      )}
-      {matches({ loading: 'confirmContinue' }) && (
-        <div className='overlay background-brand100 px-16 mS:px-32'>
-          <Text as='h6' className='color-dark text-center'>
-            Do you want to continue with
-            <br />
-            your existing quiz?
-          </Text>
-          <div style={{ flex: '0 0 2rem' }} />
-          <Button
-            className='background-brand900'
-            onClick={() => send('continue')}
-            style={{ width: '12rem' }}
-            type='button'
-          >
-            Continue
-          </Button>
-          <div style={{ flex: '0 0 1rem' }} />
-          <Button
-            className='background-gray100'
-            onClick={() => send('startAfresh')}
-            style={{ width: '12rem' }}
-            type='button'
-          >
-            Start afresh
-          </Button>
-        </div>
-      )}
+      {matches('loading') && <Loading />}
       {matches('error') && (
         <div className='overlay background-brand900 px-16 mS:px-32'>
           <Text className='color-dark text-center'>

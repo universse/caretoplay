@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { createMachine, assign, spawn, sendParent } from 'xstate'
 import { useMachine } from '@xstate/react'
-import { get, set, del } from 'idb-keyval'
 import { object, bool, string } from 'yup'
 
 import Footer from './Footer'
@@ -189,34 +188,12 @@ const spawnSubscriptionService = assign({
   },
 })
 
-function persistQuizSet({ quizSet }) {
-  try {
-    set(PERSISTED_QUIZSET_STORAGE_KEY, {
-      ...quizSet,
-      quizVersion: QUIZ_VERSION,
-    })
-  } catch (e) {}
-}
-
 function finishQuizSet({ quizSet }) {
-  async function saveFinishedQuizSet({ quizSetKey, name }) {
-    try {
-      const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
-
-      finishedQuizSets[quizSetKey] = { name }
-
-      await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
-    } catch {}
-  }
-
-  return Promise.all([
-    apiClient.saveQuizSetData({
-      ...quizSet,
-      quizVersion: QUIZ_VERSION,
-      status: 'finished',
-    }),
-    saveFinishedQuizSet(quizSet),
-  ])
+  return apiClient.saveQuizSetData({
+    ...quizSet,
+    quizVersion: QUIZ_VERSION,
+    status: 'finished',
+  })
 }
 
 function shareQuizSet({ quizSet: { name, quizSetKey } }) {
@@ -251,12 +228,6 @@ function copyQuizSetUrl({ quizSet: { name, quizSetKey } }) {
   apiClient.snap('copy', quizSetKey)
 }
 
-function clearLocalQuizSet() {
-  try {
-    del(PERSISTED_QUIZSET_STORAGE_KEY)
-  } catch {}
-}
-
 export const newQuizSetMachine = createMachine<
   NewQuizSetContext,
   NewQuizSetEvent,
@@ -276,7 +247,7 @@ export const newQuizSetMachine = createMachine<
       entry: [spawnPersonalInfoService],
       on: {
         next: {
-          actions: [assignPersonalInfo, persistQuizSet],
+          actions: [assignPersonalInfo],
           target: 'showingStage',
         },
       },
@@ -295,16 +266,16 @@ export const newQuizSetMachine = createMachine<
         answer: [
           {
             cond: shouldShowStage,
-            actions: [assignQuizInput, persistQuizSet],
+            actions: [assignQuizInput],
             target: 'showingStage',
           },
           {
             cond: hasNextQuiz,
-            actions: [assignQuizInput, persistQuizSet, nextQuiz],
+            actions: [assignQuizInput, nextQuiz],
             target: 'showingQuiz',
           },
           {
-            actions: [assignQuizInput, persistQuizSet],
+            actions: [assignQuizInput],
             target: 'finishingQuizSet',
           },
         ],
@@ -322,7 +293,7 @@ export const newQuizSetMachine = createMachine<
         id: 'finishQuizSet',
         src: finishQuizSet,
         onDone: {
-          actions: [clearLocalQuizSet, 'redirectToNewQuizSet'],
+          actions: ['redirectToNewQuizSet'],
           target: 'outroduction',
         },
         onError: { target: 'finishingQuizSetError' },
