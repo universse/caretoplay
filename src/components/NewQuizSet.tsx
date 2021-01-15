@@ -31,7 +31,7 @@ import {
   hasPreviousQuiz,
   shouldShowStage,
 } from 'utils/quizUtils'
-import { socialShare } from 'utils/share'
+import { socialShare, copyToClipboard } from 'utils/share'
 import { QuizSet } from 'interfaces/shared'
 
 type NewQuizSetContext = {
@@ -220,31 +220,35 @@ function finishQuizSet({ quizSet }) {
 }
 
 function shareQuizSet({ quizSet: { name, quizSetKey } }) {
-  socialShare({
+  return socialShare({
     text: `Click this link to play: How well do you know ${name}?`,
     url: window.location.href,
+  }).then(() => {
+    apiClient.snap('share', quizSetKey)
   })
-    .then(() => {
-      apiClient.snap('share', quizSetKey)
-    })
-    .catch((error) => {
-      switch (error.name) {
-        case 'Unsupported':
-          // open share modal
-          break
+  // .catch((error) => {
+  //   switch (error.name) {
+  //     case 'Unsupported':
+  //       // open share modal
+  //       break
 
-        case 'InternalError':
-          // log
-          break
+  //     case 'InternalError':
+  //       // log
+  //       break
 
-        case 'ShareTimeout':
-          // log
-          break
+  //     case 'ShareTimeout':
+  //       // log
+  //       break
 
-        default:
-          break
-      }
-    })
+  //     default:
+  //       break
+  //   }
+  // })
+}
+
+function copyQuizSetUrl({ quizSet: { name, quizSetKey } }) {
+  copyToClipboard(window.location.href)
+  apiClient.snap('copy', quizSetKey)
 }
 
 function clearLocalQuizSet() {
@@ -348,10 +352,25 @@ export const newQuizSetMachine = createMachine<
       },
     },
     askToShare: {
-      on: {
-        share: {
-          actions: [shareQuizSet],
+      initial: 'idle',
+      states: {
+        idle: {
+          on: {
+            share: {
+              target: 'sharing',
+            },
+          },
         },
+        sharing: {
+          invoke: {
+            id: 'shareQuizSet',
+            src: shareQuizSet,
+            onDone: { target: 'shared' },
+            onError: { actions: [copyQuizSetUrl], target: 'error' },
+          },
+        },
+        shared: {},
+        error: {},
       },
     },
   },
@@ -495,6 +514,15 @@ export default function NewQuizSet({
             >
               Share this quiz with your loved ones!
             </Button>
+            {matches({ askToShare: 'error' }) && (
+              <>
+                <div style={{ flex: '0 0 1rem' }} />
+                <Text className='color-dark text-center' element='p'>
+                  The link to the quiz has been copied. Share the link with your
+                  loved one!
+                </Text>
+              </>
+            )}
           </div>
           <Footer />
         </div>
