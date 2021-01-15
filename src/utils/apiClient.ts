@@ -11,7 +11,6 @@ function createQuizSet() {
   try {
     ref = window.localStorage.getItem('ccttppref')
   } catch {}
-  console.log(ref)
   return saveQuizSetData({ quizSetKey, status: 'new', ref }).then(() => ({
     quizSetKey,
   }))
