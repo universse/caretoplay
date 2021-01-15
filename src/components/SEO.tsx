@@ -1,9 +1,7 @@
 import Head from 'next/head'
 
 export default function SEO() {
-  const url = `https://${
-    process.env.VERCEL_URL || process.env.NEXT_PUBLIC_VERCEL_URL
-  }`
+  const url = `https://caretoplay.sg`
 
   const tags = {
     title: 'Care to Play?',
