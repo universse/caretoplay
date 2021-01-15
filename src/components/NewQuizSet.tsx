@@ -489,8 +489,9 @@ export default function NewQuizSet({
               <>
                 <div style={{ flex: '0 0 1rem' }} />
                 <Text className='color-dark text-center' element='p'>
-                  The link to the quiz has been copied. Share the link with your
-                  loved one!
+                  The link to the quiz has been copied.
+                  <br />
+                  Share the link with your loved one!
                 </Text>
               </>
             )}
