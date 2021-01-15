@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { createMachine, assign, spawn, sendParent } from 'xstate'
 import { useMachine } from '@xstate/react'
-import { get, set, del } from 'idb-keyval'
 import { object, bool, string } from 'yup'
 
 import Footer from './Footer'
@@ -31,7 +30,7 @@ import {
   hasPreviousQuiz,
   shouldShowStage,
 } from 'utils/quizUtils'
-import { socialShare } from 'utils/share'
+import { socialShare, copyToClipboard } from 'utils/share'
 import { QuizSet } from 'interfaces/shared'
 
 type NewQuizSetContext = {
@@ -189,68 +188,44 @@ const spawnSubscriptionService = assign({
   },
 })
 
-function persistQuizSet({ quizSet }) {
-  try {
-    set(PERSISTED_QUIZSET_STORAGE_KEY, {
-      ...quizSet,
-      quizVersion: QUIZ_VERSION,
-    })
-  } catch (e) {}
-}
-
 function finishQuizSet({ quizSet }) {
-  async function saveFinishedQuizSet({ quizSetKey, name }) {
-    try {
-      const finishedQuizSets = (await get(FINISHED_QUIZSETS_STORAGE_KEY)) || {}
-
-      finishedQuizSets[quizSetKey] = { name }
-
-      await set(FINISHED_QUIZSETS_STORAGE_KEY, finishedQuizSets)
-    } catch {}
-  }
-
-  return Promise.all([
-    apiClient.saveQuizSetData({
-      ...quizSet,
-      quizVersion: QUIZ_VERSION,
-      status: 'finished',
-    }),
-    saveFinishedQuizSet(quizSet),
-  ])
+  return apiClient.saveQuizSetData({
+    ...quizSet,
+    quizVersion: QUIZ_VERSION,
+    status: 'finished',
+  })
 }
 
 function shareQuizSet({ quizSet: { name, quizSetKey } }) {
-  socialShare({
+  return socialShare({
     text: `Click this link to play: How well do you know ${name}?`,
     url: window.location.href,
+  }).then(() => {
+    apiClient.snap('share', quizSetKey)
   })
-    .then(() => {
-      apiClient.snap('share', quizSetKey)
-    })
-    .catch((error) => {
-      switch (error.name) {
-        case 'Unsupported':
-          // open share modal
-          break
+  // .catch((error) => {
+  //   switch (error.name) {
+  //     case 'Unsupported':
+  //       // open share modal
+  //       break
 
-        case 'InternalError':
-          // log
-          break
+  //     case 'InternalError':
+  //       // log
+  //       break
 
-        case 'ShareTimeout':
-          // log
-          break
+  //     case 'ShareTimeout':
+  //       // log
+  //       break
 
-        default:
-          break
-      }
-    })
+  //     default:
+  //       break
+  //   }
+  // })
 }
 
-function clearLocalQuizSet() {
-  try {
-    del(PERSISTED_QUIZSET_STORAGE_KEY)
-  } catch {}
+function copyQuizSetUrl({ quizSet: { name, quizSetKey } }) {
+  copyToClipboard(window.location.href)
+  apiClient.snap('copy', quizSetKey)
 }
 
 export const newQuizSetMachine = createMachine<
@@ -272,7 +247,7 @@ export const newQuizSetMachine = createMachine<
       entry: [spawnPersonalInfoService],
       on: {
         next: {
-          actions: [assignPersonalInfo, persistQuizSet],
+          actions: [assignPersonalInfo],
           target: 'showingStage',
         },
       },
@@ -291,16 +266,16 @@ export const newQuizSetMachine = createMachine<
         answer: [
           {
             cond: shouldShowStage,
-            actions: [assignQuizInput, persistQuizSet],
+            actions: [assignQuizInput],
             target: 'showingStage',
           },
           {
             cond: hasNextQuiz,
-            actions: [assignQuizInput, persistQuizSet, nextQuiz],
+            actions: [assignQuizInput, nextQuiz],
             target: 'showingQuiz',
           },
           {
-            actions: [assignQuizInput, persistQuizSet],
+            actions: [assignQuizInput],
             target: 'finishingQuizSet',
           },
         ],
@@ -318,7 +293,7 @@ export const newQuizSetMachine = createMachine<
         id: 'finishQuizSet',
         src: finishQuizSet,
         onDone: {
-          actions: [clearLocalQuizSet, 'redirectToNewQuizSet'],
+          actions: ['redirectToNewQuizSet'],
           target: 'outroduction',
         },
         onError: { target: 'finishingQuizSetError' },
@@ -348,10 +323,25 @@ export const newQuizSetMachine = createMachine<
       },
     },
     askToShare: {
-      on: {
-        share: {
-          actions: [shareQuizSet],
+      initial: 'idle',
+      states: {
+        idle: {
+          on: {
+            share: {
+              target: 'sharing',
+            },
+          },
         },
+        sharing: {
+          invoke: {
+            id: 'shareQuizSet',
+            src: shareQuizSet,
+            onDone: { target: 'shared' },
+            onError: { actions: [copyQuizSetUrl], target: 'error' },
+          },
+        },
+        shared: {},
+        error: {},
       },
     },
   },
@@ -495,6 +485,15 @@ export default function NewQuizSet({
             >
               Share this quiz with your loved ones!
             </Button>
+            {matches({ askToShare: 'error' }) && (
+              <>
+                <div style={{ flex: '0 0 1rem' }} />
+                <Text className='color-dark text-center' element='p'>
+                  The link to the quiz has been copied. Share the link with your
+                  loved one!
+                </Text>
+              </>
+            )}
           </div>
           <Footer />
         </div>
