@@ -190,10 +190,17 @@ const spawnSubscriptionService = assign({
 })
 
 function finishQuizSet({ quizSet }) {
+  let ref
+
+  try {
+    ref = window.localStorage.getItem('ccttppref')
+  } catch {}
+
   return apiClient.saveQuizSetData({
     ...quizSet,
     quizVersion: QUIZ_VERSION,
     status: 'finished',
+    ref,
   })
 }
 
