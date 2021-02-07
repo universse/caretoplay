@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import lottie from 'lottie-web'
 
+import { Text } from 'components/shared'
 import { Stage } from 'interfaces/shared'
 
 export default function StageScreen({
@@ -42,6 +43,13 @@ export default function StageScreen({
           flex: '1 1 auto',
         }}
       />
+      <div className='absolute' style={{ bottom: '1rem' }}>
+        <Text as='body2' className='color-dark fw-700 text-center' element='p'>
+          ACP related content was co-developed
+          <br />
+          with AIC, ACP National Office.
+        </Text>
+      </div>
     </div>
   )
 }
