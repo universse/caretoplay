@@ -163,15 +163,12 @@ export default function QuizPage({ quizSet }): JSX.Element {
   )
 }
 
-export function getStaticPaths() {
-  return {
-    paths: [{ params: { quizSetKey: 'new' } }],
-    fallback: 'blocking',
-  }
-}
-
-export async function getStaticProps({ params: { quizSetKey } }) {
+export async function getServerSideProps({ params: { quizSetKey }, res }) {
   const quizSet = await apiServer.fetchQuizSet(quizSetKey)
+
+  if (quizSetKey === 'new' || quizSet.status === 'finished') {
+    res.setHeader('Cache-Control', 'max-age=31536000, immutable')
+  }
 
   return {
     props: { quizSet: { ...EMPTY_QUIZ_SET, ...quizSet } },
