@@ -166,12 +166,11 @@ export default function QuizPage({ quizSet }): JSX.Element {
 export async function getServerSideProps({ params: { quizSetKey }, res }) {
   const quizSet = await apiServer.fetchQuizSet(quizSetKey)
 
-  if (quizSetKey === 'new' || quizSet.status === 'finished') {
+  if (quizSetKey === 'new' || quizSet?.status === 'finished') {
     res.setHeader('Cache-Control', 'max-age=31536000, immutable')
   }
 
   return {
     props: { quizSet: { ...EMPTY_QUIZ_SET, ...quizSet } },
-    revalidate: 1,
   }
 }
