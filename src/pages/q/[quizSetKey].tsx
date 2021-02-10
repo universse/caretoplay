@@ -167,7 +167,7 @@ export async function getServerSideProps({ params: { quizSetKey }, res }) {
   const quizSet = await apiServer.fetchQuizSet(quizSetKey)
 
   if (quizSetKey === 'new' || quizSet?.status === 'finished') {
-    res.setHeader('Cache-Control', 'public, s-maxage=31536000, immutable')
+    res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate')
   }
 
   return {
