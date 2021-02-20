@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
 import LetsBegin from 'assets/illustrations/LetsBegin'
-import Giveaway from 'components/Giveaway'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import Hero from 'components/Hero'
@@ -15,7 +14,7 @@ export default function IndexPage(): JSX.Element {
       <div className='flex background-gray900 pr-16 mS:pr-32 py-24 items-center'>
         <div style={{ flex: '0 0 40%' }}>
           <div className='AspectRatio _1-1'>
-            <Image alt='' src='/assets/gifs/hugging-dark.gif' />
+            <Image alt='' src={require('assets/gifs/hugging-dark.gif')} />
           </div>
         </div>
         <div>
@@ -29,16 +28,6 @@ export default function IndexPage(): JSX.Element {
           </Text>
         </div>
       </div>
-      <Giveaway
-        message1={
-          <>
-            Complete the quiz
-            <br />& stand a chance to
-          </>
-        }
-        message2='The lucky draw form can be found at the end of the quiz. Winner will
-            be announced and notified on 19 Feburary 2021.'
-      />
       <div className='flex flex-col items-center px-16 mS:px-32 pt-32 pb-64 background-brand900 overflow-hidden'>
         <Text
           as='h5'

@@ -9,7 +9,10 @@ export default function Giveaway({ message1, message2 }) {
         rel='noopener noreferrer'
         target='_blank'
       >
-        <Image alt='Hyatt website' src='/assets/images/giveaway.jpg' />
+        <Image
+          alt='Hyatt website'
+          src={require('assets/images/giveaway.jpg')}
+        />
       </a>
       <div className='background-gray900 px-16 mS:px-32 py-32'>
         <Text

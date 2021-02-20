@@ -17,7 +17,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Keeping an active lifestyle',
       ],
       animationAlt: '',
-      animationSrc: 'joy-in-life',
+      animationSrc: require('assets/gifs/joy-in-life.gif'),
     },
     {
       stage: 'casual',
@@ -26,7 +26,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'If {{name}} were stuck on a deserted island, which item would {{name}} take?',
       options: ['Knife', 'Flashlight', 'Roasted chicken', 'Umbrella'],
       animationAlt: '',
-      animationSrc: 'deserted-island',
+      animationSrc: require('assets/gifs/deserted-island.gif'),
     },
     {
       stage: 'casual',
@@ -39,7 +39,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Take a warm shower',
       ],
       animationAlt: '',
-      animationSrc: 'after-work',
+      animationSrc: require('assets/gifs/after-work.gif'),
     },
     {
       stage: 'intimate',
@@ -53,7 +53,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Say “I love you.” to all his/her loved ones',
       ],
       animationAlt: '',
-      animationSrc: '24-hours',
+      animationSrc: require('assets/gifs/24-hours.gif'),
     },
     {
       stage: 'intimate',
@@ -62,7 +62,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Would {{name}} rather die in 20 years with no regrets or die in 50 years with many regrets?',
       options: ['20 years with no regrets', '50 years with many regrets'],
       animationAlt: '',
-      animationSrc: 'regrets-vs-no-regrets',
+      animationSrc: require('assets/gifs/regrets-vs-no-regrets.gif'),
     },
     {
       stage: 'intimate',
@@ -71,7 +71,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'What is the dream destination {{name}} wants to visit before he/she dies?',
       options: ['Hawaii', 'Venice', 'Paris', 'London'],
       animationAlt: '',
-      animationSrc: 'dream-destination',
+      animationSrc: require('assets/gifs/dream-destination.gif'),
     },
     {
       stage: 'critical',
@@ -85,7 +85,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Causing worry to his/her family',
       ],
       animationAlt: '',
-      animationSrc: '1-month',
+      animationSrc: require('assets/gifs/1-month.gif'),
     },
     {
       stage: 'critical',
@@ -99,7 +99,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'Being able to bathe independently',
       ],
       animationAlt: '',
-      animationSrc: 'cannot-move',
+      animationSrc: require('assets/gifs/cannot-move.gif'),
     },
     {
       stage: 'critical',
@@ -108,7 +108,7 @@ export const QUIZZES: Record<QuizVersion, Quiz[]> = {
         'In the event of hospitalisation, who would {{name}} entrust to make important decisions on {{name}}’s behalf?',
       options: ['Name of loved one', 'Name of loved one', 'Name of loved one'],
       animationAlt: '',
-      animationSrc: 'spokesperson-dark',
+      animationSrc: require('assets/gifs/spokesperson-dark.gif'),
       hint:
         'Do take this opportunity to think of 3 loved ones who understand your wishes and values the most.',
     },

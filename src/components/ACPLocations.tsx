@@ -124,7 +124,7 @@ export default function ACPLocations({ shouldShowPhoneNumber = false }) {
   return (
     <div>
       <div className='AspectRatio _16-9'>
-        <Image alt='' src='/assets/gifs/spokesperson-light.gif' />
+        <Image alt='' src={require('assets/gifs/spokesperson-light.gif')} />
       </div>
       <br />
       <Text className='color-dark text-center' element='p'>

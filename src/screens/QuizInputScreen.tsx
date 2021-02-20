@@ -174,7 +174,7 @@ export default function QuizInputScreen({
         <div className='AspectRatio _16-9'>
           <Image
             alt={currentQuiz.animationAlt}
-            src={`/assets/gifs/${currentQuiz.animationSrc}.gif`}
+            src={currentQuiz.animationSrc}
           />
         </div>
       </div>

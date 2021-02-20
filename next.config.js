@@ -2,35 +2,39 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.NODE_ENV === 'production' && !process.env.VERCEL,
 })
 
-module.exports = withBundleAnalyzer({
-  images: {
-    deviceSizes: [375, 425, 640, 768],
-  },
-  poweredByHeader: false,
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  webpack(config, { dev }) {
-    const options = {
-      publicPath: '/_next/',
-    }
+const withImages = require('next-images')
 
-    if (dev) {
-      options.name = 'static/[hash]'
-    } else {
-      config.optimization.moduleIds = 'total-size'
+module.exports = withImages(
+  withBundleAnalyzer({
+    images: {
+      deviceSizes: [375, 425, 640, 768],
+    },
+    poweredByHeader: false,
+    typescript: {
+      ignoreBuildErrors: true,
+    },
+    webpack(config, { dev }) {
+      const options = {
+        publicPath: '/_next/',
+      }
 
-      options.name = 'static/built-[1].[hash:6]'
-      options.regExp = '(\\w+).worker.(js|ts)$'
-    }
+      if (dev) {
+        options.name = 'static/[hash]'
+      } else {
+        config.optimization.moduleIds = 'total-size'
 
-    config.module.rules.push({
-      test: /\.worker\.(js|ts)$/,
-      use: { loader: 'workerize-loader', options },
-    })
+        options.name = 'static/built-[1].[hash:6]'
+        options.regExp = '(\\w+).worker.(js|ts)$'
+      }
 
-    config.output.globalObject = 'self'
+      config.module.rules.push({
+        test: /\.worker\.(js|ts)$/,
+        use: { loader: 'workerize-loader', options },
+      })
 
-    return config
-  },
-})
+      config.output.globalObject = 'self'
+
+      return config
+    },
+  })
+)

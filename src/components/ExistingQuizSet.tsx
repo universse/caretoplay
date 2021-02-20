@@ -4,9 +4,8 @@ import { useMachine } from '@xstate/react'
 
 import Congratulations from './Congratulations'
 import ACPLocations from './ACPLocations'
-import Giveaway from './Giveaway'
 import ErrorBoundary from './ErrorBoundary'
-import { Button, Text } from './shared'
+import { Button } from './shared'
 import LandingScreen from 'screens/LandingScreen'
 import StageScreen from 'screens/StageScreen'
 import QuizGuessScreen, {
@@ -137,10 +136,7 @@ export default function ExistingQuizSet({
     {
       matches,
       context: {
-        quizSet: {
-          name,
-          personalInfo: { email },
-        },
+        quizSet: { name },
         currentQuizIndex,
         quizGuessServices,
       },
@@ -188,91 +184,7 @@ export default function ExistingQuizSet({
           <div className='px-16 mS:px-32 py-24'>
             <ACPLocations />
           </div>
-          {email && (
-            <div className='px-16 mS:px-32 mt-24 mb-8 mS:mb-16'>
-              <div className='mx-auto' style={{ maxWidth: '21.875rem' }}>
-                <svg
-                  fill='none'
-                  height='162'
-                  preserveAspectRatio='none'
-                  viewBox='0 0 358 162'
-                  width='100%'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <g filter='url(#filter0_d)'>
-                    <path
-                      d='M20 0C11.1634 0 4 7.16344 4 16V104C4 112.837 11.1634 120 20 120H166.721L180 154L193.279 120H338C346.837 120 354 112.837 354 104V16C354 7.16344 346.837 0 338 0H20Z'
-                      fill='#FACB6B'
-                    />
-                    <path
-                      d='M169.05 119.091L168.428 117.5H166.721H20C12.5441 117.5 6.5 111.456 6.5 104V16C6.5 8.54416 12.5442 2.5 20 2.5H338C345.456 2.5 351.5 8.54415 351.5 16V104C351.5 111.456 345.456 117.5 338 117.5H193.279H191.572L190.95 119.09L180 147.128L169.05 119.091Z'
-                      stroke='white'
-                      strokeWidth='5'
-                    />
-                  </g>
-                  <defs>
-                    <filter
-                      colorInterpolationFilters='sRGB'
-                      filterUnits='userSpaceOnUse'
-                      height='162'
-                      id='filter0_d'
-                      width='358'
-                      x='0'
-                      y='0'
-                    >
-                      <feFlood floodOpacity='0' result='BackgroundImageFix' />
-                      <feColorMatrix
-                        in='SourceAlpha'
-                        type='matrix'
-                        values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-                      />
-                      <feOffset dy='4' />
-                      <feGaussianBlur stdDeviation='2' />
-                      <feColorMatrix
-                        type='matrix'
-                        values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'
-                      />
-                      <feBlend
-                        in2='BackgroundImageFix'
-                        mode='normal'
-                        result='effect1_dropShadow'
-                      />
-                      <feBlend
-                        in='SourceGraphic'
-                        in2='effect1_dropShadow'
-                        mode='normal'
-                        result='shape'
-                      />
-                    </filter>
-                  </defs>
-                </svg>
-                <div
-                  className='absolute top-0 flex items-center justify-center px-24 w-100'
-                  style={{ height: '7.5rem' }}
-                >
-                  <Text
-                    as='h6'
-                    className='serif fw-800 color-dark text-center'
-                    element='p'
-                  >
-                    Thanks for your participation!
-                    <br />
-                    {name} is now in this Lucky Draw!
-                  </Text>
-                </div>
-              </div>
-            </div>
-          )}
-          <Giveaway
-            message1={
-              <>
-                Create your own quiz
-                <br />& stand a chance to
-              </>
-            }
-            message2='Winner will be announced and notified on 19 Feburary 2021.'
-          />
-          <div className='flex justify-center px-16 mS:px-32 py-24'>
+          <div className='flex justify-center px-16 mS:px-32 pb-48'>
             <Button className='background-brand500' element='a' href='/q/new'>
               Create your own quiz!
             </Button>

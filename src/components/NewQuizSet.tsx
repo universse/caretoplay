@@ -52,7 +52,6 @@ type NewQuizSetEvent =
       response: string
     }
   | { type: 'retry' }
-  | { type: 'skipLuckyDraw' }
   | { type: 'share' }
 
 type NewQuizSetState = {
@@ -317,9 +316,6 @@ export const newQuizSetMachine = createMachine<
         next: {
           target: 'askToSubscribe',
         },
-        skipLuckyDraw: {
-          target: 'askToShare',
-        },
       },
     },
     askToSubscribe: {
@@ -445,22 +441,14 @@ export default function NewQuizSet({
           <div className='px-16 mS:px-32 py-24'>
             <ACPLocations />
           </div>
-          <div className='px-16 mS:px-32 pb-48'>
-            <div className='mb-16'>
-              <Button
-                className='background-success w-100'
-                onClick={nextStep}
-                type='button'
-              >
-                Join lucky draw!
-              </Button>
-            </div>
+          <div className='flex justify-end px-16 mS:px-32 pb-48'>
             <Button
-              className='background-gray100 w-100'
-              onClick={() => send('skipLuckyDraw')}
+              className='background-gray100'
+              onClick={nextStep}
+              style={{ width: '7.5rem' }}
               type='button'
             >
-              Skip to sharing your quiz.
+              Next
             </Button>
           </div>
         </div>

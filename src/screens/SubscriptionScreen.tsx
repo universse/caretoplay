@@ -1,6 +1,5 @@
 import { useActor } from '@xstate/react'
 
-import Giveaway from 'components/Giveaway'
 import {
   Image,
   Text,
@@ -169,7 +168,7 @@ export default function SubscriptionScreen({
           element='label'
           htmlFor={EMAIL_FIELD_ID}
         >
-          To contact you if you win!
+          For more ACP info...
         </Text>
       </div>
       <TextInput
@@ -225,10 +224,10 @@ export default function SubscriptionScreen({
           element='label'
           htmlFor={PDPA_FIELD_ID}
         >
-          By submitting this lucky draw entry form, you agree with the
-          collection and processing of your personal information by Care to
-          Play?, in accordance with the Personal Data Protection Act. You will
-          be subscribed to our marketing mailing list.
+          By submitting this form, you agree with the collection and processing
+          of your personal information by Care to Play?, in accordance with the
+          Personal Data Protection Act. You will be subscribed to our marketing
+          mailing list.
         </Text>
         <div className='mt-4'>
           {fieldErrors.agreedToPDPA?.map((error, i) => (
@@ -251,16 +250,12 @@ export default function SubscriptionScreen({
       <div className='background-brand900 px-16 mS:px-32 py-16'>
         <Text
           as='h5'
-          className='color-dark serif fw-800 text-center uppercase'
+          className='color-dark serif fw-800 text-center'
           element='h1'
         >
-          Lucky Draw Entry Form
+          Tell us a bit about you!
         </Text>
       </div>
-      <Giveaway
-        message1='Stand a chance to'
-        message2='Winner will be announced and notified on 19 Feburary 2021.'
-      />
       <form
         className='contents'
         noValidate
@@ -278,7 +273,7 @@ export default function SubscriptionScreen({
         <div className='background-brand100 px-16 mS:px-32'>
           <div className='mx-auto' style={{ width: '64%' }}>
             <div className='AspectRatio _1-1'>
-              <Image alt='' src='/assets/gifs/hugging-light.gif' />
+              <Image alt='' src={require('assets/gifs/hugging-light.gif')} />
             </div>
           </div>
           <Text
@@ -322,7 +317,7 @@ export default function SubscriptionScreen({
               {matches('submitting') ? (
                 <div className='Spinner' />
               ) : (
-                'Submit lucky draw entry!'
+                'Submit & share'
               )}
             </Button>
           </div>
@@ -331,7 +326,7 @@ export default function SubscriptionScreen({
             onClick={skipScreen}
             type='button'
           >
-            Skip to sharing your quiz.
+            Skip to sharing your quiz
           </Button>
         </div>
       </form>
