@@ -281,7 +281,7 @@ export default function SubscriptionScreen({
             className='color-dark serif fw-800 text-center'
             element='h1'
           >
-            P.S. You only qualify when at least a loved one completes your test!
+            You only qualify when at least a loved one completes your test!
           </Text>
         </div>
         <div className='background-brand100 px-16 mS:px-32 pt-24 pb-48'>
